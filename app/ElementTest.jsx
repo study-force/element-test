@@ -704,9 +704,16 @@ export default function TQPhase1() {
   // normative: 프레임별 { [stmtKey]: 1~6 } 리커트 응답
   const total = FRAMES.length;
   const makeEmptyRating = (frame) => Object.fromEntries(frame.stmts.map(s => [s.key, null]));
-  const [frameRating, setFrameRating] = useState(() => makeEmptyRating(FRAMES[0]));
+  // 프레임별 선지 순서를 랜덤으로 섞기
+  const [shuffledFrames] = useState(() => {
+    return FRAMES.map(frame => ({
+      ...frame,
+      stmts: [...frame.stmts].sort(() => Math.random() - 0.5),
+    }));
+  });
+  const [frameRating, setFrameRating] = useState(() => makeEmptyRating(shuffledFrames[0]));
   const [stmtIndex, setStmtIndex] = useState(0); // 현재 프레임 내 몇 번째 문항
-  const currentFrame = FRAMES[current];
+  const currentFrame = shuffledFrames[current];
 
   // 뒤로가기
   const handleFramePrev = () => {
@@ -722,7 +729,7 @@ export default function TQPhase1() {
       });
       setStmtIndex(prevIndex);
     } else if (current > 0) {
-      const prevFrame = FRAMES[current - 1];
+      const prevFrame = shuffledFrames[current - 1];
       const prevRating = answers[prevFrame.id] || makeEmptyRating(prevFrame);
       // 마지막 문항은 재답변 위해 null 처리
       const lastKey = prevFrame.stmts[prevFrame.stmts.length - 1].key;
@@ -889,7 +896,7 @@ export default function TQPhase1() {
     setCurrent(0);
     setAnswers({});
     setResult(null);
-    setFrameRating(makeEmptyRating(FRAMES[0]));
+    setFrameRating(makeEmptyRating(shuffledFrames[0]));
     setStmtIndex(0);
     setNickname("");
     setGrade("");
@@ -1308,7 +1315,7 @@ export default function TQPhase1() {
             setAnimating(true);
             setTimeout(() => {
               setCurrent(c => c + 1);
-              setFrameRating(makeEmptyRating(FRAMES[current + 1]));
+              setFrameRating(makeEmptyRating(shuffledFrames[current + 1]));
               setStmtIndex(0);
               setAnimating(false);
             }, 300);
