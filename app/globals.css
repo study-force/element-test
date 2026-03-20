@@ -11,7 +11,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 모바일: 카드 배경 제거, 배경 흰색 */
+/* 모바일: 카드 배경 제거, 배경 흰색, 좌우 여백 확보 */
 @media (max-width: 767px) {
   .el-root {
     background: #FFFFFF !important;
@@ -20,6 +20,6 @@ html, body {
   .el-card {
     border-radius: 0 !important;
     box-shadow: none !important;
-    padding: 36px 20px !important;
+    padding: 36px 24px !important;
   }
 }

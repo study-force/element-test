@@ -1522,7 +1522,7 @@ export default function TQPhase1() {
           margin: "-36px -32px 0",
           borderRadius: "16px 16px 0 0",
           padding: "24px 32px 28px",
-          ...(isMobile ? { margin: "-36px -20px 0", padding: "24px 20px 28px" } : {})
+          ...(isMobile ? { margin: "-36px -24px 0", padding: "24px 24px 28px" } : {})
         }}>
           {/* 돌아가기 */}
           <button onClick={() => setPhase("result")} style={{
@@ -1600,7 +1600,7 @@ export default function TQPhase1() {
             position: "relative", overflow: "hidden",
             borderTop: "1px solid rgba(212,175,55,0.2)",
             borderBottom: "1px solid rgba(212,175,55,0.2)",
-            ...(isMobile ? { margin: "0 -20px" } : {})
+            ...(isMobile ? { margin: "0 -24px" } : {})
           }}>
             {/* 배경 광택 */}
             <div style={{
@@ -1774,7 +1774,7 @@ export default function TQPhase1() {
                 padding: "24px 24px 58px",
                 borderBottom: "1px solid rgba(212,175,55,0.2)",
                 cursor: "pointer",
-                ...(isMobile ? { margin: "-36px -20px 0" } : {})
+                ...(isMobile ? { margin: "-36px -24px 0" } : {})
               }}>
 
               {/* 한 줄 3등분: 타이틀 | 캐릭터 | 버튼 */}
@@ -1832,7 +1832,7 @@ export default function TQPhase1() {
           margin: "-36px -32px 0",
           borderRadius: "16px 16px 0 0",
           padding: "26px 32px 50px",
-          ...(isMobile ? { margin: "-36px -20px 0" } : {})
+          ...(isMobile ? { margin: "-36px -24px 0" } : {})
         }}>
           {/* 상단 바: 왼쪽 닉네임+학년 / 오른쪽 배지+코드 */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -1990,8 +1990,8 @@ export default function TQPhase1() {
 
           {/* ── 1단계 완료 + CTA (세그먼트 분기) ── */}
           <div style={{
-            margin: isMobile ? "0 -20px" : "0 -32px",
-            padding: isMobile ? "28px 20px 32px" : "28px 32px 32px",
+            margin: isMobile ? "0 -24px" : "0 -32px",
+            padding: isMobile ? "28px 24px 32px" : "28px 32px 32px",
             background: "#0D0D0D",
           }}>
             {/* 완료 배지 */}
