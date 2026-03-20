@@ -1271,11 +1271,12 @@ export default function TQPhase1() {
 
       // 모바일 터치 이벤트 중복 방지 후 다음 문항 또는 다음 프레임
       setTimeout(() => {
-        setRateBlocked(false);
         const nextStmtIndex = stmtIndex + 1;
         if (nextStmtIndex < frame.stmts.length) {
           // 같은 프레임 내 다음 문항
           setStmtIndex(nextStmtIndex);
+          // 다음 문항 렌더링 후 차단 해제
+          setTimeout(() => setRateBlocked(false), 300);
         } else {
           // 프레임 완료 → 저장 후 다음 프레임
           const newAnswers = { ...answers, [frame.id]: newRating };
@@ -1309,7 +1310,7 @@ export default function TQPhase1() {
               else console.log("결과 저장 성공!");
             }).catch((err) => console.error("결과 저장 실패:", err));
             setAnimating(true);
-            setTimeout(() => { setPhase("result"); setAnimating(false); }, 400);
+            setTimeout(() => { setPhase("result"); setAnimating(false); setRateBlocked(false); }, 400);
           } else {
             setAnimating(true);
             setTimeout(() => {
@@ -1317,6 +1318,7 @@ export default function TQPhase1() {
               setFrameRating(makeEmptyRating(shuffledFrames[current + 1]));
               setStmtIndex(0);
               setAnimating(false);
+              setTimeout(() => setRateBlocked(false), 300);
             }, 300);
           }
         }
