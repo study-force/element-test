@@ -854,7 +854,11 @@ export default function TQPhase1() {
         const overlays = document.querySelectorAll('[data-capture-hide]');
         overlays.forEach(o => o.style.display = 'none');
         const full = document.getElementById('capture-full');
+        // 캡처용 임시 패딩 추가
+        const origPadding = full.style.padding;
+        full.style.padding = '36px 32px';
         const canvas = await h2c(full, { backgroundColor: '#FFFFFF', scale: 2, useCORS: true, logging: false });
+        full.style.padding = origPadding;
         overlays.forEach(o => o.style.display = '');
         el = canvas;
       }
