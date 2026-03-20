@@ -805,7 +805,7 @@ export default function TQPhase1() {
       ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}`
       : "";
     copyToClipboard(
-      `나의 학습성향 유형은 ${t.emoji} ${t.name}!\n강점: ${t.strengths.join(", ")}\n주의: ${t.weaknesses.join(", ")}${userCode ? "\n검사코드: "+userCode : ""}\n\n${shareUrl}\n#엘리멘트학습성향검사 #${t.name}`
+      `나의 학습성향 유형은 ${t.emoji} ${t.name}!\n강점: ${t.strengths.join(", ")}\n주의: ${t.weaknesses.join(", ")}${userCode ? "\n검사코드: "+userCode : ""}\n\n${shareUrl}\n#엘리먼트학습성향검사 #${t.name}`
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -850,13 +850,13 @@ export default function TQPhase1() {
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [] })) {
         // 모바일 - 파일 공유
         const blob = await (await fetch(dataUrl)).blob();
-        const file = new File([blob], '엘리멘트학습성향결과.png', { type: 'image/png' });
-        await navigator.share({ title: '엘리멘트 학습성향 당신의 엘리멘트 유형 결과', files: [file] });
+        const file = new File([blob], '엘리먼트학습성향결과.png', { type: 'image/png' });
+        await navigator.share({ title: '엘리먼트 학습성향 당신의 엘리먼트 유형 결과', files: [file] });
       } else {
         // PC - 다운로드
         const a = document.createElement('a');
         a.href = dataUrl;
-        a.download = '엘리멘트학습성향결과.png';
+        a.download = '엘리먼트학습성향결과.png';
         a.click();
       }
     } catch(e) {
@@ -917,7 +917,7 @@ export default function TQPhase1() {
       }}>
         {/* 뱃지 + 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <div style={styles.badge}>엘리멘트 학습성향 검사</div>
+          <div style={styles.badge}>엘리먼트 학습성향 검사</div>
           <h1 style={styles.title}>나의 공부 스타일은<br />어떤 유형일까?</h1>
         </div>
 
@@ -1201,7 +1201,7 @@ export default function TQPhase1() {
           fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#999",
           background: "#F0F0EC", borderRadius: 999, padding: "5px 16px", marginBottom: 40
         }}>
-          엘리멘트 학습성향 검사
+          엘리먼트 학습성향 검사
         </div>
 
         {/* 위 라인 — 다이아 — */}
@@ -1835,7 +1835,7 @@ export default function TQPhase1() {
             </div>
             <div style={{ textAlign: "right" }}>
               <span style={{ fontSize: 11, color: "#ccc", background: "#1A1A1A", padding: "5px 12px", borderRadius: 20, display: "inline-block", letterSpacing: "0.04em" }}>
-                당신의 엘리멘트 유형 결과
+                당신의 엘리먼트 유형 결과
               </span>
             </div>
           </div>
@@ -2368,7 +2368,7 @@ export default function TQPhase1() {
             const shareUrl = typeof window !== "undefined"
               ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}`
               : "https://studyforce.co.kr/tq";
-            const shareText = `나는 ${t2?.emoji} ${t2?.name}이 나왔어!\n너도 엘리멘트 학습성향 검사 해봐 👇\n${shareUrl}`;
+            const shareText = `나는 ${t2?.emoji} ${t2?.name}이 나왔어!\n너도 엘리먼트 학습성향 검사 해봐 👇\n${shareUrl}`;
 
             const handleCopyLink = () => {
               const doCopy = (text) => {
@@ -2409,7 +2409,7 @@ export default function TQPhase1() {
             const handleNativeShare = () => {
               if (navigator.share) {
                 navigator.share({
-                  title: "엘리멘트 학습성향 검사",
+                  title: "엘리먼트 학습성향 검사",
                   text: shareText,
                   url: shareUrl,
                 });
