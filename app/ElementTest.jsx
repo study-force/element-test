@@ -700,6 +700,7 @@ export default function TQPhase1() {
   const [userCode, setUserCode] = useState('');
   const [nameError, setNameError] = useState(false);
   const [bodyAns, setBodyAns] = useState(null); // null | true | false
+  const [rateBlocked, setRateBlocked] = useState(false); // 모바일 터치 중복 방지
 
   // normative: 프레임별 { [stmtKey]: 1~6 } 리커트 응답
   const total = FRAMES.length;
@@ -1266,7 +1267,6 @@ export default function TQPhase1() {
 
     const currentStmt = frame.stmts[stmtIndex];
 
-    const [rateBlocked, setRateBlocked] = useState(false);
     const handleRate = (val) => {
       if (animating || rateBlocked) return;
       setRateBlocked(true);
