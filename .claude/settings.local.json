@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(du -sh /c/Users/이영재/Desktop/CLAUDE/Biz-manager/*)",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const d=require\\(''''fs''''\\).readFileSync\\(0,''''utf8''''\\);const j=JSON.parse\\(d\\);console.log\\(''''homepage:'''',j.homepage||''''없음''''\\)\")",
+      "Read(//c/Users/이영재/.claude/**)",
+      "Bash(grep -l \"분납\" ~/.claude/projects/C--Users-----tq-result/*.jsonl)",
+      "Read(//c/Users/이영재/Desktop/CLAUDE/Biz-manager/**)",
+      "Bash(npx -y acorn --ecma2020 --module --jsx src/components/PaymentSystem.jsx)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx react-scripts:*)",
+      "Bash(npm install:*)",
+      "Bash(pandoc \"F:/download/TQ_spec_final \\(3\\).docx\" -o /tmp/tq_spec.md)",
+      "Bash(pip install:*)",
+      "Bash(python -c \":*)",
+      "Bash(find C:/Users/이영재/tq_result -type f -name *.json -o -name *.html -o -name *.js -o -name *.tsx -o -name *.jsx)",
+      "Bash(npx create-next-app@latest . --typescript --no --tailwind --no --eslint --no --app --src-dir --no --import-alias \"@/*\" --use-npm)",
+      "Bash(npx create-next-app@latest . --js --no-tailwind --no-eslint --app --no-src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(yes \"\")"
+    ]
+  }
+}

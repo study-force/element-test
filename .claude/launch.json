@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "biz-manager",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["start-biz.js"],
+      "port": 3000
+    }
+  ]
+}
