@@ -1266,13 +1266,16 @@ export default function TQPhase1() {
 
     const currentStmt = frame.stmts[stmtIndex];
 
+    const [rateBlocked, setRateBlocked] = useState(false);
     const handleRate = (val) => {
-      if (animating) return;
+      if (animating || rateBlocked) return;
+      setRateBlocked(true);
       const newRating = { ...frameRating, [currentStmt.key]: val };
       setFrameRating(newRating);
 
-      // 잠깐 딤 효과 후 다음 문항 또는 다음 프레임
+      // 모바일 터치 이벤트 중복 방지 후 다음 문항 또는 다음 프레임
       setTimeout(() => {
+        setRateBlocked(false);
         const nextStmtIndex = stmtIndex + 1;
         if (nextStmtIndex < frame.stmts.length) {
           // 같은 프레임 내 다음 문항
