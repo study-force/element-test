@@ -927,8 +927,8 @@ export default function TQPhase1() {
 
   // ─── INTRO ───────────────────────────────────────────────
   if (phase === "intro") return (
-    <div className="el-root" style={styles.root}>
-      <div className="el-card" style={styles.card}>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
+      <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
         {/* 뱃지 + 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={styles.badge}>엘리먼트 학습성향 검사</div>
@@ -1142,9 +1142,10 @@ export default function TQPhase1() {
 
   // ─── QUIZ ────────────────────────────────────────────────
   if (phase === "bridge") return (
-    <div className="el-root" style={styles.root}>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
       <div className="el-card" style={{
         ...styles.card,
+        ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}),
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         minHeight: "60vh", textAlign: "center"
       }}>
@@ -1342,10 +1343,11 @@ export default function TQPhase1() {
     };
 
     return (
-      <div className="el-root" style={styles.root}>
+      <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
         <div className="el-card" style={{
           ...styles.card,
-          minHeight: 680,
+          ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "28px 24px" } : {}),
+          minHeight: isMobile ? "100vh" : 680,
         }}>
 
           {/* 진행바 — 퍼센트만, 중복 문항 카운터 삭제 */}
@@ -1510,7 +1512,7 @@ export default function TQPhase1() {
 
   // ─── TQ INTRO (2단계 안내) ─────────────────────────────────────────
   if (phase === "tq_intro") return (
-    <div className="el-root" style={styles.root}>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
       <style>{`
         @keyframes stepPulse {
           0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.6); }
@@ -1518,7 +1520,7 @@ export default function TQPhase1() {
           100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
         }
       `}</style>
-      <div className="el-card" style={styles.card}>
+      <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
 
         {/* ── 검정 헤더: 스텝 인디케이터 + 돌아가기 ── */}
         <div style={{
@@ -1761,8 +1763,8 @@ export default function TQPhase1() {
   // ─── RESULT ──────────────────────────────────────────────
 
   if (phase === "result" && t && result) return (
-    <div className="el-root" style={styles.root}>
-      <div className="el-card el-card-result" style={styles.card}>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
+      <div className="el-card el-card-result" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "0 24px 36px" } : {}) }}>
         <div id="capture-full">
 
         {/* ── 비교 배너: compareType이 있을 때 자동 노출 ── */}
