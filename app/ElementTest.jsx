@@ -1758,7 +1758,7 @@ export default function TQPhase1() {
 
   if (phase === "result" && t && result) return (
     <div className="el-root" style={styles.root}>
-      <div className="el-card" style={styles.card}>
+      <div className="el-card el-card-result" style={styles.card}>
         <div id="capture-full">
 
         {/* ── 비교 배너: compareType이 있을 때 자동 노출 ── */}
@@ -1832,7 +1832,7 @@ export default function TQPhase1() {
           margin: "-36px -32px 0",
           borderRadius: "16px 16px 0 0",
           padding: "26px 32px 50px",
-          ...(isMobile ? { margin: "-36px -24px 0" } : {})
+          ...(isMobile ? { margin: "0 -24px 0", borderRadius: 0 } : {})
         }}>
           {/* 상단 바: 왼쪽 닉네임+학년 / 오른쪽 배지+코드 */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>

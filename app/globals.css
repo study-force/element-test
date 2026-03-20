@@ -22,4 +22,8 @@ html, body {
     box-shadow: none !important;
     padding: 36px 24px !important;
   }
+  /* 결과 페이지: 검정 헤더가 맨 위에 오도록 상단 패딩 제거 */
+  .el-card.el-card-result {
+    padding-top: 0 !important;
+  }
 }
