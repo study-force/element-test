@@ -842,8 +842,12 @@ export default function TQPhase1() {
         document.body.removeChild(wrap);
         el = canvas;
       } else {
+        // 캡처 전 모달/오버레이 임시 숨김
+        const overlays = document.querySelectorAll('[data-capture-hide]');
+        overlays.forEach(o => o.style.display = 'none');
         const full = document.getElementById('capture-full');
-        const canvas = await h2c(full, { backgroundColor: '#F5F5F0', scale: 2, useCORS: true, logging: false });
+        const canvas = await h2c(full, { backgroundColor: '#FFFFFF', scale: 2, useCORS: true, logging: false });
+        overlays.forEach(o => o.style.display = '');
         el = canvas;
       }
       const dataUrl = el.toDataURL('image/png');
@@ -2121,7 +2125,7 @@ export default function TQPhase1() {
             if (compareType && myType && !["성인","N수생","일반","학부모"].includes(result?.grade)) {
               const cd = getCompareData(compareType, myType);
               return (
-                <div style={{
+                <div data-capture-hide style={{
                   position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   zIndex: 100, padding: 20
@@ -2294,7 +2298,7 @@ export default function TQPhase1() {
 
             // 친구가 없는 경우 → 내 유형 담아서 공유 유도
             return (
-              <div style={{
+              <div data-capture-hide style={{
                 position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 zIndex: 100, padding: 20
@@ -2442,6 +2446,7 @@ export default function TQPhase1() {
 
             return (
               <div
+                data-capture-hide
                 style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 1100 }}
                 onClick={() => setFriendModal(false)}
               >
@@ -2532,7 +2537,7 @@ export default function TQPhase1() {
 
           {/* 공유 모달 */}
           {shareModal && (
-            <div style={{
+            <div data-capture-hide style={{
               position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)",
               display: "flex", alignItems: "flex-end", justifyContent: "center",
               zIndex: 1000, padding: "0 0 0 0"
