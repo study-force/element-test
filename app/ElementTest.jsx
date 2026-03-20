@@ -831,14 +831,22 @@ export default function TQPhase1() {
         const header = document.getElementById('capture-header');
         const strengths = document.getElementById('capture-strengths');
         const wrap = document.createElement('div');
-        wrap.style.cssText = 'background:#000;padding:0;display:inline-block;width:' + header.offsetWidth + 'px';
+        const w = Math.max(header.offsetWidth, 400);
+        wrap.style.cssText = 'background:#fff;padding:0;display:inline-block;width:' + w + 'px';
         const hClone = header.cloneNode(true);
+        hClone.style.margin = '0';
+        hClone.style.borderRadius = '16px 16px 0 0';
         const sClone = strengths.cloneNode(true);
-        sClone.style.cssText = 'padding:20px 24px 24px;background:#fff';
+        sClone.style.cssText = 'padding:20px 24px 24px;background:#fff;display:flex;flex-direction:row;gap:12px';
+        // 강점/약점 자식을 가로 배열로 강제
+        Array.from(sClone.children).forEach(child => {
+          child.style.flex = '1';
+          child.style.minWidth = '0';
+        });
         wrap.appendChild(hClone);
         wrap.appendChild(sClone);
         document.body.appendChild(wrap);
-        const canvas = await h2c(wrap, { backgroundColor: null, scale: 2, useCORS: true, logging: false });
+        const canvas = await h2c(wrap, { backgroundColor: '#fff', scale: 2, useCORS: true, logging: false });
         document.body.removeChild(wrap);
         el = canvas;
       } else {
@@ -1749,8 +1757,9 @@ export default function TQPhase1() {
   // ─── RESULT ──────────────────────────────────────────────
 
   if (phase === "result" && t && result) return (
-    <div id="capture-full" className="el-root" style={styles.root}>
+    <div className="el-root" style={styles.root}>
       <div className="el-card" style={styles.card}>
+        <div id="capture-full">
 
         {/* ── 비교 배너: compareType이 있을 때 자동 노출 ── */}
         {compareType && !["성인","N수생","일반","학부모"].includes(result?.grade) && (() => {
@@ -1976,6 +1985,8 @@ export default function TQPhase1() {
               <p style={{ fontSize: 13, color: "#444", lineHeight: 1.9, margin: 0 }}>{t.caution}</p>
             </div>
           )}
+
+        </div>{/* capture-full 끝 */}
 
           {/* ── 1단계 완료 + CTA (세그먼트 분기) ── */}
           <div style={{
