@@ -680,11 +680,10 @@ export default function TQPhase1() {
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(initial.result);
   const [animating, setAnimating] = useState(false);
-  const [isMobile, setIsMobile] = React.useState(
-    typeof window !== "undefined" && window.innerWidth < 768
-  );
+  const [isMobile, setIsMobile] = React.useState(false);
   React.useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth < 768);
+    handler();
     window.addEventListener("resize", handler);
     return () => window.removeEventListener("resize", handler);
   }, []);
