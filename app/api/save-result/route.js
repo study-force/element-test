@@ -3,43 +3,48 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json({ error: "Supabase 환경변수 누락" }, { status: 500 });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
     const body = await request.json();
+
+    // 데이터 정제 - 숫자 필드가 NaN이면 null로 변환
+    const safeNum = (v) => (v === undefined || v === null || isNaN(v)) ? null : Number(v);
+    const safeStr = (v) => (v === undefined || v === null) ? null : String(v);
+
+    const insertData = {
+      nickname: safeStr(body.nickname),
+      grade: safeStr(body.grade),
+      user_code: safeStr(body.userCode),
+      result_type: safeStr(body.resultType) || "unknown",
+      top_prob: safeNum(body.topProb),
+      theory_pct: safeNum(body.theoryPct),
+      experience_pct: safeNum(body.experiencePct),
+      action_pct: safeNum(body.actionPct),
+      thinking_pct: safeNum(body.thinkingPct),
+      confidence: safeNum(body.confidence),
+      confidence_label: safeStr(body.confidenceLabel),
+      special_match: body.specialMatch === true,
+      answers: body.answers || null,
+      compare_type: safeStr(body.compareType),
+      raw_scores: body.rawScores || null,
+    };
 
     const { data, error } = await supabase
       .from("element_results")
-      .insert([
-        {
-          nickname: body.nickname,
-          grade: body.grade,
-          user_code: body.userCode,
-          result_type: body.resultType,
-          top_prob: body.topProb,
-          theory_pct: body.theoryPct,
-          experience_pct: body.experiencePct,
-          action_pct: body.actionPct,
-          thinking_pct: body.thinkingPct,
-          confidence: body.confidence,
-          confidence_label: body.confidenceLabel,
-          special_match: body.specialMatch,
-          answers: body.answers,
-          compare_type: body.compareType || null,
-          raw_scores: body.rawScores || null,
-        },
-      ]);
+      .insert([insertData]);
 
     if (error) {
-      console.error("Supabase insert error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error.message, detail: error }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("API error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

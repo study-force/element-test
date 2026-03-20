@@ -1298,6 +1298,9 @@ export default function TQPhase1() {
                 compareType: compareType || null,
                 rawScores: r.raw || null,
               }),
+            }).then(res => res.json()).then(data => {
+              if (data.error) console.error("결과 저장 에러:", data.error, data.detail);
+              else console.log("결과 저장 성공!");
             }).catch((err) => console.error("결과 저장 실패:", err));
             setAnimating(true);
             setTimeout(() => { setPhase("result"); setAnimating(false); }, 400);
