@@ -17,7 +17,10 @@
       "Bash(find C:/Users/이영재/tq_result -type f -name *.json -o -name *.html -o -name *.js -o -name *.tsx -o -name *.jsx)",
       "Bash(npx create-next-app@latest . --typescript --no --tailwind --no --eslint --no --app --src-dir --no --import-alias \"@/*\" --use-npm)",
       "Bash(npx create-next-app@latest . --js --no-tailwind --no-eslint --app --no-src-dir --import-alias \"@/*\" --use-npm)",
-      "Bash(yes \"\")"
+      "Bash(yes \"\")",
+      "Bash(npx next:*)",
+      "Read(//c/Users/이영재/**)",
+      "Bash(mv \"/c/Users/이영재/tq_result\" \"/c/Users/이영재/Desktop/CLAUDE/element-test\")"
     ]
   }
 }
