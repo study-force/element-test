@@ -964,14 +964,17 @@ export default function TQPhase1() {
         {/* 소개 텍스트 — 두 단락, 볼드 없음 */}
         <div style={{ margin: "0 0 28px" }}>
           <p style={{ fontSize: 14, color: "#555", lineHeight: 1.95, margin: "0 0 12px", fontWeight: 400 }}>
-            학습자 모두 성격이 다르듯, 공부 성향도 저마다 다릅니다.
-            자신의 학습 성향을 알면 자신의 특성을 이해해 공부방법을 선택할 수 있고,
+            학습자마다 성격이 다르듯, 학습 성향도 저마다 다릅니다.
+            자신의 학습 성향을 알면 그에 맞는 공부 방법을 찾을 수 있고,
             그것만으로도 공부에 대한 막연함이 크게 줄어듭니다.
           </p>
-          <p style={{ fontSize: 14, color: "#555", lineHeight: 1.95, margin: 0, fontWeight: 400 }}>
-            이 검사는 정보를 받아들이는 방식과 처리하는 방식의 특성으로 학습 성향을 측정합니다.
-            설문 과정에서 자신의 학습습관을 객관적으로 성찰할 기회를 가지며,
-            결과는 4가지 원소 캐릭터로 표현되어 자신의 성향을 쉽고 재미있게 기억할 수 있습니다.
+          <p style={{ fontSize: 14, color: "#555", lineHeight: 1.95, margin: "0 0 16px", fontWeight: 400 }}>
+            이 검사는 정보를 수용하는 방식과 처리하는 방식을 기반으로 학습 성향을 측정합니다.
+            설문 과정에서 자신의 학습 습관을 객관적으로 성찰하는 기회를 얻을 수 있으며,
+            결과는 4가지 원소 캐릭터로 표현되어 자신의 성향을 쉽고 재미있게 확인할 수 있습니다.
+          </p>
+          <p style={{ fontSize: 12, color: "#aaa", margin: 0, fontWeight: 400, textAlign: "right" }}>
+            — Kolb 경험학습이론 기반
           </p>
         </div>
 
@@ -1151,7 +1154,7 @@ export default function TQPhase1() {
 
         </div>
 
-        <p style={styles.footer}>StudyForce Language Research Institute</p>
+        <p style={{ ...styles.footer, fontFamily: "'Nanum Myeongjo', serif" }}>© 2025 스터디포스 언어학연구소</p>
       </div>
     </div>
   );
@@ -2634,7 +2637,7 @@ export default function TQPhase1() {
 
           {/* 하단 출처 */}
           <div data-capture-hide style={{ textAlign: "center", marginTop: 20 }}>
-            <span style={{ fontSize: 11, color: "#BBBBBB" }}>StudyForce Language Research Institute</span>
+            <span style={{ fontSize: 11, color: "#BBBBBB", fontFamily: "'Nanum Myeongjo', serif" }}>© 2025 스터디포스 언어학연구소</span>
           </div>
 
         </div>
