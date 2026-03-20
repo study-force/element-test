@@ -10,3 +10,16 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+/* 모바일: 카드 배경 제거, 배경 흰색 */
+@media (max-width: 767px) {
+  .el-root {
+    background: #FFFFFF !important;
+    padding: 0 !important;
+  }
+  .el-card {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 36px 20px !important;
+  }
+}

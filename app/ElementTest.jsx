@@ -911,11 +911,8 @@ export default function TQPhase1() {
 
   // ─── INTRO ───────────────────────────────────────────────
   if (phase === "intro") return (
-    <div style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
-      <div style={{
-        ...styles.card,
-        ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "36px 20px" } : {})
-      }}>
+    <div className="el-root" style={styles.root}>
+      <div className="el-card" style={styles.card}>
         {/* 뱃지 + 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={styles.badge}>엘리먼트 학습성향 검사</div>
@@ -1129,10 +1126,9 @@ export default function TQPhase1() {
 
   // ─── QUIZ ────────────────────────────────────────────────
   if (phase === "bridge") return (
-    <div style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
-      <div style={{
+    <div className="el-root" style={styles.root}>
+      <div className="el-card" style={{
         ...styles.card,
-        ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "36px 20px" } : {}),
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         minHeight: "60vh", textAlign: "center"
       }}>
@@ -1328,11 +1324,10 @@ export default function TQPhase1() {
     };
 
     return (
-      <div style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
-        <div style={{
+      <div className="el-root" style={styles.root}>
+        <div className="el-card" style={{
           ...styles.card,
           minHeight: 680,
-          ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "28px 20px", minHeight: "100vh" } : {})
         }}>
 
           {/* 진행바 — 퍼센트만, 중복 문항 카운터 삭제 */}
@@ -1497,7 +1492,7 @@ export default function TQPhase1() {
 
   // ─── TQ INTRO (2단계 안내) ─────────────────────────────────────────
   if (phase === "tq_intro") return (
-    <div style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
+    <div className="el-root" style={styles.root}>
       <style>{`
         @keyframes stepPulse {
           0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.6); }
@@ -1505,7 +1500,7 @@ export default function TQPhase1() {
           100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
         }
       `}</style>
-      <div style={{ ...styles.card, ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "36px 20px" } : {}) }}>
+      <div className="el-card" style={styles.card}>
 
         {/* ── 검정 헤더: 스텝 인디케이터 + 돌아가기 ── */}
         <div style={{
@@ -1748,11 +1743,8 @@ export default function TQPhase1() {
   // ─── RESULT ──────────────────────────────────────────────
 
   if (phase === "result" && t && result) return (
-    <div id="capture-full" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
-      <div style={{
-        ...styles.card,
-        ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "36px 20px" } : {})
-      }}>
+    <div id="capture-full" className="el-root" style={styles.root}>
+      <div className="el-card" style={styles.card}>
 
         {/* ── 비교 배너: compareType이 있을 때 자동 노출 ── */}
         {compareType && !["성인","N수생","일반","학부모"].includes(result?.grade) && (() => {
