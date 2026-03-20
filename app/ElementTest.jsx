@@ -854,11 +854,33 @@ export default function TQPhase1() {
         const overlays = document.querySelectorAll('[data-capture-hide]');
         overlays.forEach(o => o.style.display = 'none');
         const full = document.getElementById('capture-full');
-        // 캡처용 임시 패딩 추가
-        const origPadding = full.style.padding;
-        full.style.padding = '36px 32px';
-        const canvas = await h2c(full, { backgroundColor: '#FFFFFF', scale: 2, useCORS: true, logging: false });
-        full.style.padding = origPadding;
+        const header = document.getElementById('capture-header');
+        const card = full.parentElement;
+        // 원본 스타일 백업
+        const origCardPadding = card.style.padding;
+        const origFullStyle = full.style.cssText;
+        const origHeaderMargin = header.style.margin;
+        const origHeaderRadius = header.style.borderRadius;
+        // 흰 배경 본문 영역 (헤더 다음 sibling)
+        const body = header.nextElementSibling;
+        const origBodyStyle = body.style.cssText;
+        // 부모 카드 패딩 제거 → 흰 테두리 방지 (!important 우회)
+        card.style.setProperty('padding', '0', 'important');
+        // capture-full: 흰 배경 + 하단 패딩
+        full.style.background = '#FFFFFF';
+        full.style.paddingBottom = '36px';
+        // 헤더: negative margin 제거 (카드 패딩 0이므로 불필요)
+        header.style.margin = '0';
+        header.style.borderRadius = '0';
+        // 흰 배경 본문: 좌우 패딩 추가 (카드 패딩 0이므로 직접 적용)
+        body.style.padding = '28px 24px 0';
+        const canvas = await h2c(full, { backgroundColor: null, scale: 2, useCORS: true, logging: false });
+        // 원복
+        full.style.cssText = origFullStyle;
+        card.style.setProperty('padding', origCardPadding || '');
+        header.style.margin = origHeaderMargin;
+        header.style.borderRadius = origHeaderRadius;
+        body.style.cssText = origBodyStyle;
         overlays.forEach(o => o.style.display = '');
         el = canvas;
       }
@@ -1995,7 +2017,7 @@ export default function TQPhase1() {
         </div>{/* capture-full 끝 */}
 
           {/* ── 1단계 완료 + CTA (세그먼트 분기) ── */}
-          <div style={{
+          <div data-capture-hide style={{
             margin: isMobile ? "0 -24px" : "0 -32px",
             padding: isMobile ? "28px 24px 32px" : "28px 32px 32px",
             background: "#0D0D0D",
@@ -2115,7 +2137,7 @@ export default function TQPhase1() {
           </div>
 
           {/* 결과 공유 버튼 */}
-          <div style={{ display: "flex", gap: 10, marginTop: 16, marginBottom: 12 }}>
+          <div data-capture-hide style={{ display: "flex", gap: 10, marginTop: 16, marginBottom: 12 }}>
             <button
               style={{ flex: 1, padding: "14px 0", background: "#F5F5F0", border: "1.5px solid #E8E8E8", borderRadius: 12, fontSize: 13, fontWeight: 700, color: "#1A1A1A", cursor: "pointer" }}
               onClick={() => setShareModal('choose')}
@@ -2125,7 +2147,7 @@ export default function TQPhase1() {
           </div>
 
           {/* 다시하기 */}
-          <div style={{ borderTop: "1px dashed #E8E8E8", paddingTop: 12, textAlign: "center" }}>
+          <div data-capture-hide style={{ borderTop: "1px dashed #E8E8E8", paddingTop: 12, textAlign: "center" }}>
             <button style={{ fontSize: 12, color: "#BBBBBB", background: "none", border: "none", cursor: "pointer" }} onClick={restart}>
               ↺ 다시하기 (테스트용)
             </button>
@@ -2617,7 +2639,7 @@ export default function TQPhase1() {
           )}
 
           {/* 하단 출처 */}
-          <div style={{ textAlign: "center", marginTop: 20 }}>
+          <div data-capture-hide style={{ textAlign: "center", marginTop: 20 }}>
             <span style={{ fontSize: 11, color: "#BBBBBB" }}>StudyForce Language Research Institute</span>
           </div>
 
