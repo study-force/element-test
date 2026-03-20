@@ -64,7 +64,7 @@ const FRAMES = [
       { key: "이론실행", text: "원리가 이해되는 순간 쾌감이 생기면서 집중력이 높아진다" },
       { key: "경험실행", text: "새로운 것을 배우거나 변화가 있을 때 집중력이 강해진다" },
       { key: "이론사고", text: "하나를 오래 깊이 파고들수록 점점 더 집중된다" },
-      { key: "경험사고", text: "배우는 내용이 나와 관련 있다는 느낌이 들면 흥미가 생긴다" },
+      { key: "경험사고", text: "혼자 천천히 되짚어볼 때 오히려 더 많은 것이 보인다" },
     ],
   },
   {
@@ -80,7 +80,7 @@ const FRAMES = [
   },
   {
     id: 5,
-    theme: "사람들이 나를 볼 때",
+    theme: "모둠 활동을 할 때 나는",
     dimension: "외면·타인(긍정)",
     stmts: [
       { key: "이론실행", text: "모둠 활동을 할 때, 전체 방향을 제시하고 이끄는 편이다" },
@@ -91,7 +91,7 @@ const FRAMES = [
   },
   {
     id: 6,
-    theme: "가끔 이런 말도 듣는다",
+    theme: "공부할 때 나는",
     dimension: "외면·타인(부정)",
     stmts: [
       { key: "이론실행", text: "공부할 때, 큰 줄기만 이해되면 넘어간다" },
@@ -704,13 +704,8 @@ export default function TQPhase1() {
   // normative: 프레임별 { [stmtKey]: 1~6 } 리커트 응답
   const total = FRAMES.length;
   const makeEmptyRating = (frame) => Object.fromEntries(frame.stmts.map(s => [s.key, null]));
-  // 프레임별 선지 순서를 랜덤으로 섞기
-  const [shuffledFrames] = useState(() => {
-    return FRAMES.map(frame => ({
-      ...frame,
-      stmts: [...frame.stmts].sort(() => Math.random() - 0.5),
-    }));
-  });
+  // 프레임별 선지 순서 고정 (랜덤 셔플 제거)
+  const shuffledFrames = FRAMES;
   const [frameRating, setFrameRating] = useState(() => makeEmptyRating(shuffledFrames[0]));
   const [stmtIndex, setStmtIndex] = useState(0); // 현재 프레임 내 몇 번째 문항
   const currentFrame = shuffledFrames[current];
