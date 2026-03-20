@@ -16,14 +16,15 @@ html, body {
   .el-root {
     background: #FFFFFF !important;
     padding: 0 !important;
+    align-items: stretch !important;
   }
   .el-card {
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 36px 24px !important;
     max-width: 100% !important;
+    width: 100% !important;
   }
-  /* 결과 페이지: 검정 헤더가 맨 위에 오도록 상단 패딩 제거 */
   .el-card.el-card-result {
     padding-top: 0 !important;
   }
