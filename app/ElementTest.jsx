@@ -1128,7 +1128,7 @@ export default function TQPhase1() {
 
   // ─── QUIZ ────────────────────────────────────────────────
   if (phase === "bridge") return (
-    <div style={{ ...styles.root }}>
+    <div style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
       <div style={{
         ...styles.card,
         ...(isMobile ? { borderRadius: 0, boxShadow: "none", padding: "36px 20px" } : {}),
