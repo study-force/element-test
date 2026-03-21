@@ -197,14 +197,14 @@ export default function TQResultPreview({ grade }) {
     <div style={{ margin: "32px 0 0" }}>
       {/* 헤더 문구 — 카드 밖 */}
       <div style={{ textAlign: "center", padding: "24px 16px 20px", marginBottom: 0 }}>
-        <p style={{ color: "#7c3aed", fontSize: 11, margin: "0 0 8px", letterSpacing: "2px", fontWeight: 600 }}>TQ TEST</p>
+        <p style={{ color: "#bbb", fontSize: 11, margin: "0 0 8px", letterSpacing: "2px", fontWeight: 600 }}>TQ TEST</p>
         <p style={{ color: "#1a1a1a", fontSize: 20, fontWeight: 800, margin: "0 0 6px", lineHeight: 1.5 }}>
           이번에는 진짜 공부역량,<br />독해력을 확인해보세요!
         </p>
-        <p style={{ color: "#888", fontSize: 16, margin: 0, fontWeight: 500 }}>
-          <span style={{ color: "#d4d0e0", fontSize: 28, fontWeight: 300, verticalAlign: "middle", marginRight: 2 }}>&lsquo;</span>
-          {grade === "학부모" ? "우리 아이는 어떤 유형에 속할까?" : "나는 어떤 유형에 속할까?"}
-          <span style={{ color: "#d4d0e0", fontSize: 28, fontWeight: 300, verticalAlign: "middle", marginLeft: 2 }}>&rsquo;</span>
+        <p style={{ fontSize: 20, margin: 0, fontWeight: 800, background: "linear-gradient(135deg, #7c3aed, #c026d3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ fontSize: 30, fontWeight: 300, verticalAlign: "middle", marginRight: 2 }}>&lsquo;</span>
+          {grade === "학부모" ? "우리 아이는 어떤 유형일까?" : "나는 어떤 유형일까?"}
+          <span style={{ fontSize: 30, fontWeight: 300, verticalAlign: "middle", marginLeft: 2 }}>&rsquo;</span>
         </p>
       </div>
       <div style={{ background: "linear-gradient(180deg, #0f172a 0%, #1e1b3a 100%)", borderRadius: 16, padding: "0 16px 24px" }}>
