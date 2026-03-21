@@ -2079,10 +2079,6 @@ export default function TQPhase1() {
                       <span style={{ fontSize: 20 }}>👥</span>
                       <BtnLabel main="나의 공부 친구 찾기" sub="나와 잘 맞는 유형의 친구는?" />
                     </button>
-                    <button style={blueBtn} onClick={() => setPhase("tq_intro")}>
-                      <span style={{ fontSize: 20 }}>📊</span>
-                      <BtnLabel main="나의 학습 역량 측정" sub="독해력 정밀 진단 및 분석" />
-                    </button>
                   </div>
                 );
 
@@ -2098,10 +2094,6 @@ export default function TQPhase1() {
                         <BtnLabel main="부모님께 추천" sub="부모님도 해보세요!" />
                       </button>
                     </div>
-                    <button style={{ ...blueBtn, flex: "none", width: "100%" }} onClick={() => setPhase("tq_intro")}>
-                      <span style={{ fontSize: 20 }}>📊</span>
-                      <BtnLabel main="나의 학습 역량 측정" sub="독해력 정밀 진단 및 분석" />
-                    </button>
                   </>
                 );
 
@@ -2117,32 +2109,22 @@ export default function TQPhase1() {
                         <BtnLabel main="다른 학부모 추천" sub="부모님도 해보세요!" />
                       </button>
                     </div>
-                    <button style={{ ...blueBtn, flex: "none", width: "100%" }} onClick={() => setPhase("tq_intro")}>
-                      <span style={{ fontSize: 20 }}>📊</span>
-                      <BtnLabel main="우리 아이 역량 측정" sub="독해력 정밀 진단 및 분석" />
-                    </button>
                   </>
                 );
 
                 // 기본 (학년 미선택 등)
-                return (
-                  <button style={{ ...blueBtn, flex: "none", width: "85%", margin: "0 auto" }} onClick={() => setPhase("tq_intro")}>
-                    <span style={{ fontSize: 20 }}>📊</span>
-                    <BtnLabel main="2단계 역량 검사로 넘어가기" sub="TQ테스트 · 독해력 정밀 진단" />
-                  </button>
-                );
+                return null;
               })()}
             </div>
-          </div>
-
-          {/* 결과 공유 버튼 */}
-          <div data-capture-hide style={{ display: "flex", gap: 10, marginTop: 16, marginBottom: 12 }}>
-            <button
-              style={{ flex: 1, padding: "14px 0", background: "#F5F5F0", border: "1.5px solid #E8E8E8", borderRadius: 12, fontSize: 13, fontWeight: 700, color: "#1A1A1A", cursor: "pointer" }}
-              onClick={() => setShareModal('choose')}
-            >
-              📤 결과 공유·저장
-            </button>
+            {/* 결과 공유·저장 — 검정 영역 안 */}
+            <div style={{ marginTop: 16 }}>
+              <button
+                style={{ width: "100%", padding: "14px 0", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 12, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer" }}
+                onClick={() => setShareModal('choose')}
+              >
+                📤 결과 공유·저장
+              </button>
+            </div>
           </div>
 
           {/* 다시하기 */}
@@ -2639,7 +2621,7 @@ export default function TQPhase1() {
 
           {/* TQ테스트 결과 예시 */}
           <div data-capture-hide>
-            <TQResultPreview />
+            <TQResultPreview grade={result?.grade} />
           </div>
 
           {/* 하단 출처 */}

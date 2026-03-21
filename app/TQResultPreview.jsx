@@ -1,11 +1,36 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-// ── 5개 Case 데이터 ──
+// ── 5개 유형 데이터 (순서: 최상위→상위→중위→하위→최하위) ──
 const CASES = [
   {
     id: 1,
-    title: "성실한 암기형",
+    tab: "#1",
+    title: "최상위권형",
+    badge: "특목·자사 권장",
+    subtitle: "고난도 역량 습득 시 입시 절대 상위권 예상",
+    accuracy: 90,
+    speed: 1039,
+    radar: { 어휘능력: 90, 워킹메모리: 60, 추론능력: 80, 독해습관: 100, 독해효율성: 90 },
+    insight:
+      "압도적인 정보 수용량과 처리 속도를 보유한 영재급 지표입니다. 올바른 비문학 전략과 고급 인지 습관을 장착한다면 특목고나 자사고 진학 시 최상위권을 유지할 핵심 엔진을 갖춘 상태입니다.",
+  },
+  {
+    id: 2,
+    tab: "#2",
+    title: "상위권형",
+    badge: "이공계 유망",
+    subtitle: "수리·과학 분야의 높은 적응성 예상",
+    accuracy: 80,
+    speed: 792,
+    radar: { 어휘능력: 50, 워킹메모리: 70, 추론능력: 90, 독해습관: 80, 독해효율성: 70 },
+    insight:
+      "문자 정보의 구조적 이해도가 높고 추론 능력이 우수합니다. 방대한 양의 복합 정보를 효율적으로 분류하고 처리하는 데 강점을 보이며, 이공계 심화 학습 시 두각을 나타낼 것으로 분석됩니다.",
+  },
+  {
+    id: 3,
+    tab: "#3",
+    title: "중위권형",
     badge: "전형적 중상위권",
     subtitle: "암기 중심 인지 관성 교정 필요",
     accuracy: 60,
@@ -15,30 +40,21 @@ const CASES = [
       "전형적인 중상위권 학생들에게 나타나는 유형으로, 성실한 태도를 갖췄으나 정보의 '이해'보다 '기억'에 의존합니다. 고난도 비문학 추론 과제에서 점수 정체가 발생할 확률이 높습니다.",
   },
   {
-    id: 2,
-    title: "논리 분석 특화형",
-    badge: "이공계 유망",
-    subtitle: "수리·과학 분야의 높은 적응성 예상",
-    accuracy: 80,
-    speed: 792,
-    radar: { 어휘능력: 50, 워킹메모리: 70, 추론능력: 90, 독해습관: 80, 독해효율성: 80 },
-    insight:
-      "문자 정보의 구조적 이해도가 높고 추론 능력이 우수합니다. 방대한 양의 복합 정보를 효율적으로 분류하고 처리하는 데 강점을 보이며, 이공계 심화 학습 시 두각을 나타낼 것으로 분석됩니다.",
-  },
-  {
-    id: 3,
-    title: "논리적 사고 결함형",
+    id: 4,
+    tab: "#4",
+    title: "하위권형",
     badge: "수리 약점",
     subtitle: "논리 사고 결함으로 수리 학습 고전 예상",
-    accuracy: 50,
+    accuracy: 40,
     speed: 1048,
-    radar: { 어휘능력: 60, 워킹메모리: 40, 추론능력: 10, 독해습관: 40, 독해효율성: 50 },
+    radar: { 어휘능력: 35, 워킹메모리: 40, 추론능력: 10, 독해습관: 40, 독해효율성: 50 },
     insight:
       "정보들 사이의 인과관계를 찾는 결합 능력이 부족합니다. 수학에서 활용 문제나 서술형 문제해결에 큰 어려움이 예상되며, 논리적 사고에 취약하여 학년이 높아질수록 암기식 공부를 하게 됩니다.",
   },
   {
-    id: 4,
-    title: "심각한 학습력 결핍형",
+    id: 5,
+    tab: "#5",
+    title: "최하위권형",
     badge: "학습 불가",
     subtitle: "학습역량 한계로 인한 기초 역량 구축 시급",
     accuracy: 20,
@@ -46,17 +62,6 @@ const CASES = [
     radar: { 어휘능력: 20, 워킹메모리: 30, 추론능력: 40, 독해습관: 20, 독해효율성: 10 },
     insight:
       "눈은 글을 읽고 있으나 뇌로 전달되는 과정에서 심각한 누수가 발생합니다. 현재 상태로는 어떤 지식을 넣어도 성과가 나지 않습니다. 독해 관성을 바로잡는 역량 강화 훈련이 최우선입니다.",
-  },
-  {
-    id: 5,
-    title: "최상위 잠재 역량형",
-    badge: "특목·자사 권장",
-    subtitle: "고난도 역량 습득 시 입시 절대 상위권 예상",
-    accuracy: 90,
-    speed: 1039,
-    radar: { 어휘능력: 90, 워킹메모리: 60, 추론능력: 80, 독해습관: 100, 독해효율성: 90 },
-    insight:
-      "압도적인 정보 수용량과 처리 속도를 보유한 영재급 지표입니다. 올바른 비문학 전략과 고급 인지 습관을 장착한다면 특목고나 자사고 진학 시 최상위권을 유지할 핵심 엔진을 갖춘 상태입니다.",
   },
 ];
 
@@ -68,9 +73,9 @@ const ANGLE_OFFSET = -Math.PI / 5; // 36도 반시계 회전 → 어휘능력이
 const SECTOR_COLORS = [
   "#8b5cf673",  // 어휘능력 - 보라
   "#0ea5e973",  // 워킹메모리 - 청록
-  "#64748b73",  // 추론능력 - 슬레이트
-  "#84cc1673",  // 독해습관 - 라임
-  "#22c55e73",  // 독해효율성 - 에메랄드
+  "#84cc1673",  // 추론능력 - 라임
+  "#22c55e73",  // 독해습관 - 에메랄드
+  "#64748b73",  // 독해효율성 - 슬레이트
 ];
 // 점수 구간 배경 (20~40, 60~80 구간에 옅은 회색 띠)
 const BAND_RINGS = [
@@ -79,11 +84,11 @@ const BAND_RINGS = [
 ];
 // 수치 라벨 색상 (부채꼴 색상의 불투명 버전)
 const LABEL_COLORS = [
-  "#a78bfa",  // 보라
-  "#38bdf8",  // 청록
-  "#94a3b8",  // 슬레이트
-  "#a3e635",  // 라임
-  "#4ade80",  // 에메랄드
+  "#a78bfa",  // 어휘능력 - 보라
+  "#38bdf8",  // 워킹메모리 - 청록
+  "#a3e635",  // 추론능력 - 라임
+  "#4ade80",  // 독해습관 - 에메랄드
+  "#94a3b8",  // 독해효율성 - 슬레이트
 ];
 
 function sectorPathData(index, value) {
@@ -149,7 +154,10 @@ function RadarChart({ data, animKey }) {
 }
 
 // ── 메인 컴포넌트 ──
-export default function TQResultPreview() {
+export default function TQResultPreview({ grade }) {
+  const tqUrl = (grade === "고1" || grade === "고2" || grade === "고3")
+    ? "https://studyforce.co.kr"
+    : "https://mother.sfcenter.co.kr/tq-test";
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fading, setFading] = useState(false);
@@ -186,15 +194,22 @@ export default function TQResultPreview() {
   const c = CASES[active];
 
   return (
-    <div style={{ margin: "32px 0 0", borderRadius: 16, overflow: "hidden" }}>
-      <div style={{ background: "linear-gradient(135deg, #1a1025 0%, #0f172a 100%)", padding: "28px 20px 0", textAlign: "center" }}>
-        <p style={{ color: "#c4b5fd", fontSize: 13, margin: "0 0 6px", letterSpacing: "2px" }}>TQ TEST</p>
-        <p style={{ color: "#fff", fontSize: 17, fontWeight: 700, margin: "0 0 20px", lineHeight: 1.5 }}>
-          이번엔 진짜 공부 실력인,<br />당신의 독해력을 확인해보세요.
+    <div style={{ margin: "32px 0 0" }}>
+      {/* 헤더 문구 — 카드 밖 */}
+      <div style={{ textAlign: "center", padding: "24px 16px 20px", marginBottom: 0 }}>
+        <p style={{ color: "#7c3aed", fontSize: 11, margin: "0 0 8px", letterSpacing: "2px", fontWeight: 600 }}>TQ TEST</p>
+        <p style={{ color: "#1a1a1a", fontSize: 20, fontWeight: 800, margin: "0 0 6px", lineHeight: 1.5 }}>
+          이번에는 진짜 공부역량,<br />독해력을 확인해보세요!
+        </p>
+        <p style={{ color: "#888", fontSize: 16, margin: 0, fontWeight: 500 }}>
+          <span style={{ color: "#d4d0e0", fontSize: 28, fontWeight: 300, verticalAlign: "middle", marginRight: 2 }}>&lsquo;</span>
+          {grade === "학부모" ? "우리 아이는 어떤 유형에 속할까?" : "나는 어떤 유형에 속할까?"}
+          <span style={{ color: "#d4d0e0", fontSize: 28, fontWeight: 300, verticalAlign: "middle", marginLeft: 2 }}>&rsquo;</span>
         </p>
       </div>
-      <div style={{ background: "linear-gradient(180deg, #0f172a 0%, #1e1b3a 100%)", padding: "0 16px 24px" }}>
-        <div style={{ display: "flex", justifyContent: "center", gap: 4, padding: "12px 0 16px", flexWrap: "wrap" }}>
+      <div style={{ background: "linear-gradient(180deg, #0f172a 0%, #1e1b3a 100%)", borderRadius: 16, padding: "0 16px 24px" }}>
+        {/* 유형 탭 — 배경색 구분 */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 4, padding: "12px 0 16px", flexWrap: "wrap", background: "rgba(255,255,255,0.05)", borderRadius: "16px 16px 0 0", margin: "0 -16px", paddingLeft: 16, paddingRight: 16 }}>
           {CASES.map((cs, i) => (
             <button
               key={cs.id}
@@ -207,46 +222,49 @@ export default function TQResultPreview() {
                 borderBottom: active === i ? "2px solid #c084fc" : "2px solid transparent",
               }}
             >
-              Case #{cs.id}
+              {cs.tab}
             </button>
           ))}
         </div>
         <div style={{ opacity: fading ? 0 : 1, transition: "opacity 0.3s ease-in-out" }}>
-          <div style={{ padding: "0 4px", marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+          {/* 타이틀 — 중앙정렬 + 충분한 상하 여백 */}
+          <div style={{ textAlign: "center", marginTop: 26, marginBottom: 20 }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
               <span style={{ color: "#fff", fontSize: 22, fontWeight: 800 }}>{c.title}</span>
               <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 13 }}>({c.badge})</span>
             </div>
             <p style={{ color: "#c084fc", fontSize: 12, margin: "4px 0 0", fontWeight: 600 }}>{c.subtitle}</p>
           </div>
-          <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          {/* 레이더 그래프 — 85% 축소 */}
+          <div style={{ display: "flex", justifyContent: "center", width: "100%", transform: "scale(0.85)", transformOrigin: "center top", marginBottom: -16 }}>
             <RadarChart data={c.radar} animKey={active} />
           </div>
-          {/* 독해 정확도 / 속도 — 좌우 배치 */}
+          {/* 독해 정확도 / 속도 — 좌우 배치, 수치 85% 축소 */}
           <div style={{ display: "flex", gap: 0, width: "100%", margin: "8px 0 12px" }}>
             <div style={{ flex: 1, textAlign: "center", borderRight: "1px solid rgba(255,255,255,0.1)", padding: "8px 0" }}>
               <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 11 }}>독해 정확도</span>
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 2, marginTop: 4 }}>
-                <span style={{ color: "#fff", fontSize: 36, fontWeight: 800 }}>{c.accuracy}</span>
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 15 }}>%</span>
+                <span style={{ color: "#fff", fontSize: 30, fontWeight: 800 }}>{c.accuracy}</span>
+                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>%</span>
               </div>
             </div>
             <div style={{ flex: 1, textAlign: "center", padding: "8px 0" }}>
               <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 11 }}>독해 속도</span>
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 4, marginTop: 4 }}>
-                <span style={{ color: "#fff", fontSize: 36, fontWeight: 800 }}>{c.speed.toLocaleString()}</span>
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>자/분</span>
+                <span style={{ color: "#fff", fontSize: 30, fontWeight: 800 }}>{c.speed.toLocaleString()}</span>
+                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>자/분</span>
               </div>
             </div>
           </div>
-          {/* Core Insight */}
+          {/* Core Insight — 1.5줄 + ...... */}
           <div style={{ background: "rgba(255,255,255,0.06)", borderRadius: 10, padding: "14px 16px" }}>
             <span style={{ color: "#c084fc", fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase" }}>Core Insight</span>
-            <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 13, lineHeight: 1.7, margin: "10px 0 0" }}>{c.insight}</p>
+            <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 13, lineHeight: 1.7, margin: "10px 0 0", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>{c.insight}</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, margin: "2px 0 0", letterSpacing: "2px" }}>......</p>
           </div>
         </div>
         <a
-          href="https://mother.sfcenter.co.kr/tq-test"
+          href={tqUrl}
           target="_blank"
           rel="noopener noreferrer"
           style={{ display: "block", marginTop: 20, padding: "14px 0", background: "linear-gradient(135deg, #7c3aed, #9333ea)", color: "#fff", textAlign: "center", borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: "none", letterSpacing: "0.5px" }}
