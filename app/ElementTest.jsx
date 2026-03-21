@@ -2621,7 +2621,7 @@ export default function TQPhase1() {
 
           {/* TQ테스트 결과 예시 */}
           <div data-capture-hide>
-            <TQResultPreview grade={result?.grade} />
+            <TQResultPreview grade={result?.grade} onTQClick={() => setPhase("tq_intro")} />
           </div>
 
           {/* 하단 출처 */}

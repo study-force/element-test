@@ -154,10 +154,7 @@ function RadarChart({ data, animKey }) {
 }
 
 // ── 메인 컴포넌트 ──
-export default function TQResultPreview({ grade }) {
-  const tqUrl = (grade === "고1" || grade === "고2" || grade === "고3")
-    ? "https://studyforce.co.kr"
-    : "https://mother.sfcenter.co.kr/tq-test";
+export default function TQResultPreview({ grade, onTQClick }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fading, setFading] = useState(false);
@@ -201,7 +198,7 @@ export default function TQResultPreview({ grade }) {
         <p style={{ color: "#1a1a1a", fontSize: 20, fontWeight: 800, margin: "0 0 6px", lineHeight: 1.5 }}>
           이번에는 진짜 공부역량,<br />독해력을 확인해보세요!
         </p>
-        <p style={{ fontSize: 20, margin: 0, fontWeight: 800, background: "linear-gradient(135deg, #7c3aed, #c026d3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+        <p style={{ fontSize: 20, margin: 0, fontWeight: 600, color: "#7c3aed", fontFamily: "'Nanum Myeongjo', serif" }}>
           <span style={{ fontSize: 30, fontWeight: 300, verticalAlign: "middle", marginRight: 2 }}>&lsquo;</span>
           {grade === "학부모" ? "우리 아이는 어떤 유형일까?" : "나는 어떤 유형일까?"}
           <span style={{ fontSize: 30, fontWeight: 300, verticalAlign: "middle", marginLeft: 2 }}>&rsquo;</span>
@@ -263,14 +260,12 @@ export default function TQResultPreview({ grade }) {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, margin: "2px 0 0", letterSpacing: "2px" }}>......</p>
           </div>
         </div>
-        <a
-          href={tqUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "block", marginTop: 20, padding: "14px 0", background: "linear-gradient(135deg, #7c3aed, #9333ea)", color: "#fff", textAlign: "center", borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: "none", letterSpacing: "0.5px" }}
+        <button
+          onClick={onTQClick}
+          style={{ display: "block", width: "100%", marginTop: 20, padding: "14px 0", background: "linear-gradient(135deg, #7c3aed, #9333ea)", color: "#fff", textAlign: "center", borderRadius: 10, fontSize: 15, fontWeight: 700, border: "none", cursor: "pointer", letterSpacing: "0.5px" }}
         >
           TQ테스트 알아보기 →
-        </a>
+        </button>
       </div>
     </div>
   );
