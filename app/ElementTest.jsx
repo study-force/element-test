@@ -1533,250 +1533,59 @@ export default function TQPhase1() {
 
   // ─── TQ INTRO (2단계 안내) ─────────────────────────────────────────
   if (phase === "tq_intro") return (
-    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
-      <style>{`
-        @keyframes stepPulse {
-          0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.6); }
-          60%  { box-shadow: 0 0 0 8px rgba(59,130,246,0); }
-          100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
-        }
-      `}</style>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0, minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "stretch" } : {}) }}>
       <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
 
-        {/* ── 검정 헤더: 스텝 인디케이터 + 돌아가기 ── */}
-        <div style={{
-          background: "#000",
-          margin: "-36px -32px 0",
-          borderRadius: "16px 16px 0 0",
-          padding: "24px 32px 28px",
-          ...(isMobile ? { margin: "-36px -24px 0", padding: "24px 24px 28px" } : {})
-        }}>
-          {/* 돌아가기 */}
+        {/* ── TQ 로고 (작게 중앙) ── */}
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <img src={TQ_LOGO} alt="TQ TEST" style={{ height: 48, objectFit: "contain" }} />
+        </div>
+
+        {/* ── 본문 텍스트 ── */}
+        <div style={{ textAlign: "center", padding: "0 8px", marginBottom: 40 }}>
+          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: "0 0 28px", wordBreak: "keep-all" }}>
+            TQ TEST는<br />
+            <strong style={{ color: "#1A1A1A" }}>스터디포스 언어과학연구소</strong>에서<br />
+            제공하는 독해력 진단 검사입니다.
+          </p>
+          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: 0, wordBreak: "keep-all" }}>
+            테스트 완료 직후,<br />
+            <strong style={{ color: "#1A1A1A" }}>어휘력, 추론력 등 공부 전반에 대한<br />
+            상세 분석서가 제공됩니다.</strong>
+          </p>
+        </div>
+
+        {/* ── CTA 버튼 ── */}
+        <div style={{ textAlign: "center", marginBottom: 16 }}>
+          <a
+            href={(result?.grade === "고1" || result?.grade === "고2" || result?.grade === "고3")
+              ? "https://studyforce.co.kr"
+              : "https://mother.sfcenter.co.kr"}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              fontSize: 13, fontWeight: 600, color: "#333",
+              textDecoration: "none",
+              letterSpacing: "0.02em",
+              padding: "12px 28px",
+              border: "1.5px solid #D0D0D0",
+              borderRadius: 8,
+              background: "#FAFAFA",
+            }}
+          >
+            스터디포스 언어과학연구소 →
+          </a>
+        </div>
+
+        {/* ── 돌아가기 (하단) ── */}
+        <div style={{ textAlign: "center", marginTop: 32 }}>
           <button onClick={() => setPhase("result")} style={{
-
-            background: "none", border: "none", color: "#666",
-            fontSize: 12, cursor: "pointer", marginBottom: 20, padding: 0
-          }}>← 돌아가기</button>
-
-          {/* 스텝 인디케이터 */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0 }}>
-            {[
-              { step: 1, label: "학습 성향", done: true,  color: "#22C55E", dimColor: "rgba(34,197,94,0.2)",  pulse: false },
-              { step: 2, label: "학습 역량", done: false, color: "#3B82F6", dimColor: "rgba(59,130,246,0.2)", pulse: true  },
-              { step: 3, label: "처방",   done: false, color: "#A855F7", dimColor: "rgba(168,85,247,0.2)", pulse: false },
-            ].map((s, i) => (
-              <div key={s.step} style={{ display: "flex", alignItems: "center" }}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: "50%",
-                    background: s.done ? s.color : s.dimColor,
-                    border: `2px solid ${s.color}`,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 12, fontWeight: 800,
-                    color: s.done ? "#fff" : s.color,
-                    animation: s.pulse ? "stepPulse 1.4s ease-in-out infinite" : "none",
-                  }}>
-                    {s.done ? "✓" : s.step}
-                  </div>
-                  <span style={{ fontSize: 10, fontWeight: 600, whiteSpace: "nowrap", color: "#FFFFFF", letterSpacing: "0.02em" }}>
-                    {s.label}
-                  </span>
-                </div>
-                {i < 2 && <div style={{ width: 44, height: 1, margin: "0 6px", marginBottom: 18, background: "rgba(255,255,255,0.15)" }} />}
-              </div>
-            ))}
-          </div>
+            background: "none", border: "none", color: "#BBB",
+            fontSize: 12, cursor: "pointer", padding: 0
+          }}>← 결과로 돌아가기</button>
         </div>
 
-        {/* ── 흰 배경: TQ 로고 + 타이틀 ── */}
-        <div style={{ padding: "28px 0 24px", textAlign: "center" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-            <img src={TQ_LOGO} alt="TQ TEST" style={{ height: 72, objectFit: "contain" }} />
-          </div>
-          <p style={{ fontSize: 13, color: "#888", margin: 0, letterSpacing: "0.04em" }}>
-            독해력과 5가지 세부 요인 검사
-          </p>
-        </div>
-
-        {/* ── 본문 ── */}
-        <div style={{ paddingTop: 28 }}>
-
-          {/* 캐릭터 아이콘 + 유형 설명 - 흰 배경 */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: "50%",
-              background: "#0D0D0D", flexShrink: 0,
-              overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center"
-            }}>
-              <img src={t?.img} alt={t?.char} style={{ width: 40, height: 40, objectFit: "contain" }} />
-            </div>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#1A1A1A" }}>
-              {t?.char} 유형의 학습자는
-            </span>
-          </div>
-          <p style={{ fontSize: 13, color: "#555", lineHeight: 1.9, margin: "0 0 24px" }}>
-            {t?.tq}
-          </p>
-
-          {/* ── 상단 20주년 배너 - 풀배너 ── */}
-          <div style={{
-            background: "linear-gradient(135deg, #0A1628 0%, #0D1F3C 50%, #0A1628 100%)",
-            margin: "0 -32px",
-            padding: "16px 24px",
-            marginBottom: 20,
-            position: "relative", overflow: "hidden",
-            borderTop: "1px solid rgba(212,175,55,0.2)",
-            borderBottom: "1px solid rgba(212,175,55,0.2)",
-            ...(isMobile ? { margin: "0 -24px" } : {})
-          }}>
-            {/* 배경 광택 */}
-            <div style={{
-              position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)", pointerEvents: "none"
-            }} />
-            <div style={{
-              position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%)", pointerEvents: "none"
-            }} />
-
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", textAlign: "center", gap: 8 }}>
-              <img
-                src={ANNIVERSARY_BADGE}
-                alt="20th Anniversary"
-                style={{ width: 88, height: 88, objectFit: "contain" }}
-              />
-              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.16em", color: "#D4AF37" }}>
-                스터디포스 프로그램 20주년 기념
-              </div>
-              <div style={{ fontSize: 18, fontWeight: 900, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
-                무료 진단 이벤트 중
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 12, color: "rgba(212,175,55,0.6)", textDecoration: "line-through" }}>정가 100,000원</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: "#0A1628", background: "#D4AF37", padding: "2px 8px", borderRadius: 999 }}>
-                  선착순 1,000명
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* ── TQ 통합 안내 - 서술형 ── */}
-          <div style={{ marginBottom: 20 }}>
-
-            {/* 섹션 타이틀 */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
-              <div style={{ width: 3, height: 16, background: "#1A1A1A", borderRadius: 2 }} />
-              <span style={{ fontSize: 14, fontWeight: 700, color: "#1A1A1A" }}>독해력 진단 상세 과정</span>
-            </div>
-
-            {/* 5가지 항목 설명 */}
-            <div style={{ marginBottom: 24 }}>
-              {[
-                { num: "1", label: "독해유창성",      desc: "지문독해 속도와 정확도를 통해 독해유창성 측정",                      color: "#374151" },
-                { num: "2", label: "어휘능력",        desc: "어휘의 인지 및 활용에 대한 어휘처리 정교도 점검",                    color: "#374151" },
-                { num: "3", label: "워킹메모리",      desc: "정보의 동시처리 용량인 두뇌의 작업기억 폭 측정",                     color: "#374151" },
-                { num: "4", label: "추론능력",        desc: "수학·과학적 소양을 나타내는 논리적 사고역량 측정",                   color: "#374151" },
-                { num: "5", label: "독해습관·효율성", desc: "독해습관과 독해효율성에 따른 효능감 자가진단", color: "#374151" },
-              ].map((item, i, arr) => (
-                <div key={i} style={{
-                  display: "flex", alignItems: "flex-start", gap: 14,
-                  padding: "12px 0",
-                  borderBottom: i < arr.length - 1 ? "1px solid #F5F5F5" : "none"
-                }}>
-                  <span style={{
-                    width: 24, height: 24, borderRadius: "50%",
-                    background: item.color, color: "#fff",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 11, fontWeight: 600, flexShrink: 0, marginTop: 1
-                  }}>{item.num}</span>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", marginBottom: 3 }}>{item.label}</div>
-                    <div style={{ fontSize: 12, color: "#888", lineHeight: 1.6 }}>{item.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* 부가 정보 - 4가지 중요하게 */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {[
-                { label: "대상",    value: "초등3~고3 · 성인" },
-                { label: "소요시간", value: "약 30분" },
-                { label: "환경설정", value: "PC로 진행" },
-                { label: "비용",    value: null, custom: true },
-              ].map((item, i) => (
-                <div key={i} style={{
-                  flex: "1 0 44%", display: "flex", flexDirection: "column", gap: 4,
-                  background: item.custom ? "#0A1628" : "#F8F8F6",
-                  borderRadius: 10, padding: "10px 14px",
-                  border: item.custom ? "1px solid rgba(212,175,55,0.3)" : "1px solid #EFEFEF",
-                  position: "relative", overflow: "hidden"
-                }}>
-                  {/* 비용 카드 상단 이벤트 라벨 */}
-                  {item.custom && (
-                    <span style={{
-                      position: "absolute", top: 8, right: 8,
-                      fontSize: 9, fontWeight: 700, color: "#D4AF37",
-                      letterSpacing: "0.04em"
-                    }}>20주년 무료 이벤트 중</span>
-                  )}
-                  {/* 비용 카드 우측 하단 20주년 배지 */}
-                  {item.custom && (
-                    <img
-                      src={ANNIVERSARY_BADGE}
-                      alt="20th"
-                      style={{
-                        position: "absolute", bottom: -6, right: -6,
-                        width: 52, height: 52, objectFit: "contain", opacity: 0.55
-                      }}
-                    />
-                  )}
-                  <span style={{ fontSize: 10, fontWeight: 700, color: item.custom ? "rgba(255,255,255,0.4)" : "#AAA", letterSpacing: "0.06em" }}>{item.label}</span>
-                  {item.custom ? (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                      <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", textDecoration: "line-through" }}>100,000원</span>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontSize: 18, fontWeight: 900, color: "#FFFFFF", letterSpacing: "-0.5px" }}>무료</span>
-                        <span style={{
-                          fontSize: 9, fontWeight: 700, color: "#0A1628",
-                          background: "#D4AF37", padding: "2px 6px", borderRadius: 999,
-                          whiteSpace: "nowrap"
-                        }}>선착순 1,000명</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <span style={{ fontSize: 13, fontWeight: 700, color: "#333" }}>{item.value}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-          </div>
-
-          {/* CTA 버튼 */}
-          <button
-            style={{ width: "100%", padding: "16px", background: "#1A1A1A", color: "#fff", border: "none", borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: "pointer", marginBottom: 12 }}
-            onClick={() => {
-              const url = (result?.grade === "고1" || result?.grade === "고2" || result?.grade === "고3")
-                ? "https://studyforce.co.kr"
-                : "https://mother.sfcenter.co.kr";
-              window.open(url, "_blank");
-            }}
-          >
-            TQ테스트 바로가기 →
-          </button>
-          <button
-            style={{ width: "100%", padding: "14px", background: "#F5F5F0", color: "#1A1A1A", border: "1.5px solid #E8E8E8", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-            onClick={() => {
-              const url = (result?.grade === "고1" || result?.grade === "고2" || result?.grade === "고3")
-                ? "https://studyforce.co.kr"
-                : "https://mother.sfcenter.co.kr";
-              window.open(url, "_blank");
-            }}
-          >
-            📞 상담 문의하기
-          </button>
-        </div>
       </div>
     </div>
   );
