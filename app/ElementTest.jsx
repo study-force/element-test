@@ -1558,7 +1558,7 @@ export default function TQPhase1() {
         {/* ── CTA 버튼 ── */}
         <div style={{ textAlign: "center", marginBottom: 16 }}>
           <a
-            href={(result?.grade === "고1" || result?.grade === "고2" || result?.grade === "고3")
+            href={["고1","고2","고3","성인","N수생","일반"].includes(result?.grade)
               ? "https://studyforce.co.kr"
               : "https://mother.sfcenter.co.kr"}
             target="_blank"
