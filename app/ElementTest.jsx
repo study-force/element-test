@@ -1565,13 +1565,13 @@ export default function TQPhase1() {
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
-              fontSize: 13, fontWeight: 600, color: "#333",
+              fontSize: 13, fontWeight: 600, color: "#fff",
               textDecoration: "none",
               letterSpacing: "0.02em",
               padding: "12px 28px",
-              border: "1.5px solid #D0D0D0",
+              border: "none",
               borderRadius: 8,
-              background: "#FAFAFA",
+              background: "#1A1A1A",
             }}
           >
             스터디포스 언어과학연구소 →
