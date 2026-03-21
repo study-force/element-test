@@ -1156,7 +1156,7 @@ export default function TQPhase1() {
 
         </div>
 
-        <p style={{ ...styles.footer, fontFamily: "'Nanum Myeongjo', serif" }}>© 2025 스터디포스 언어학연구소</p>
+        <p style={{ ...styles.footer, fontFamily: "inherit" }}>© 2025 스터디포스 언어학연구소</p>
       </div>
     </div>
   );
@@ -2626,7 +2626,7 @@ export default function TQPhase1() {
 
           {/* 하단 출처 */}
           <div data-capture-hide style={{ textAlign: "center", marginTop: 20 }}>
-            <span style={{ fontSize: 11, color: "#BBBBBB", fontFamily: "'Nanum Myeongjo', serif" }}>© 2025 스터디포스 언어학연구소</span>
+            <span style={{ fontSize: 11, color: "#BBBBBB", fontFamily: "inherit" }}>© 2025 스터디포스 언어학연구소</span>
           </div>
 
         </div>
