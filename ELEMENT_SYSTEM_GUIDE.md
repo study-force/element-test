@@ -53,7 +53,7 @@
 <img src="./images/result_fire_full.png" width="360" />
 
 ### 4가지 유형 카드
-| 🔥 불의 정복자 | 🌪️ 바람의 전령 | 🪨 땅의 수호자 | 💧 물의 정령 |
+| 🔥 불의 정복자 | 🪨 땅의 수호자 | 💧 물의 정령 | 🌪️ 바람의 전령 |
 |:---:|:---:|:---:|:---:|
 | <img src="./images/result_fire_card.png" width="180" /> | <img src="./images/result_wind_card.png" width="180" /> | <img src="./images/result_earth_card.png" width="180" /> | <img src="./images/result_water_card.png" width="180" /> |
 
