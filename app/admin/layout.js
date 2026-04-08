@@ -14,8 +14,8 @@ const NAV_ITEMS = [
 ];
 
 const s = {
-  layout: { display: "flex", minHeight: "100vh", background: "#F8F9FA", fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif" },
-  sidebar: { width: 240, background: "#1E293B", color: "#fff", display: "flex", flexDirection: "column", flexShrink: 0 },
+  layout: { display: "flex", height: "100vh", overflow: "hidden", background: "#F8F9FA", fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif" },
+  sidebar: { width: 240, background: "#1E293B", color: "#fff", display: "flex", flexDirection: "column", flexShrink: 0, height: "100vh", overflowY: "auto" },
   logo: { padding: "24px 20px", fontSize: 18, fontWeight: 700, borderBottom: "1px solid #334155", letterSpacing: -0.5 },
   navGroup: { padding: "16px 20px 6px", fontSize: 10, fontWeight: 600, color: "#64748B", letterSpacing: 1, textTransform: "uppercase" },
   nav: { padding: "12px 0", flex: 1 },
@@ -30,7 +30,7 @@ const s = {
     margin: "12px 16px 20px", padding: "10px 0", background: "transparent", border: "1px solid #475569",
     color: "#94A3B8", borderRadius: 8, cursor: "pointer", fontSize: 13, textAlign: "center",
   },
-  main: { flex: 1, padding: "32px 40px", overflowY: "auto", maxWidth: 1200 },
+  main: { flex: 1, padding: "32px 40px", overflowY: "auto", height: "100vh" },
   loading: { display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", fontSize: 16, color: "#64748B" },
 };
 
