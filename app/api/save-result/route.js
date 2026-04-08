@@ -33,6 +33,8 @@ export async function POST(request) {
       answers: body.answers || null,
       compare_type: safeStr(body.compareType),
       raw_scores: body.rawScores || null,
+      channel: safeStr(body.channel),
+      ref_code: safeStr(body.refCode),
     };
 
     const { data, error } = await supabase

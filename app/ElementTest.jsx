@@ -135,7 +135,7 @@ const FRAMES = [
 // Stage 1: 유형별 원시 점수 집계 (Normative — 문항별 독립 1~6점)
 // 혼합 블록(F1~F6): 선지 key = 유형 key, 점수 직접 합산
 // 순수 축 블록(F7 θ1, F8 θ2): 같은 극성(pole) 유형 쌍에 점수를 1/2씩 배분
-function calcRawScores(answers) {
+function calcRawScores(answers, frames) {
   const raw = { 이론실행: 0, 경험실행: 0, 이론사고: 0, 경험사고: 0 };
 
   const applyAxisScore = (axisType, pole, score) => {
@@ -148,7 +148,7 @@ function calcRawScores(answers) {
     }
   };
 
-  FRAMES.forEach(f => {
+  (frames || FRAMES).forEach(f => {
     const a = answers[f.id];
     if (!a) return;
     f.stmts.forEach(stmt => {
@@ -221,8 +221,8 @@ function getClassification(probs) {
 }
 
 // 통합 calcResult (기존 인터페이스 유지)
-function calcResult(answers) {
-  const raw = calcRawScores(answers);
+function calcResult(answers, frames) {
+  const raw = calcRawScores(answers, frames);
   const { θ1, θ2 } = calcAxisScores(raw);
   const probs = calcTypeProbabilities(θ1, θ2);
   const cls = getClassification(probs);
@@ -649,6 +649,10 @@ export default function TQPhase1() {
     const params = new URLSearchParams(window.location.search);
     const type = params.get("type");
     const compare = params.get("compare"); // 친구 유형
+    // 채널 파라미터: ch=m(마더클럽) / ch=s(스터디포스) / ch=a(학원)
+    const ch = params.get("ch") || null;
+    const ac = params.get("ac") || null; // 학원명
+    const tel = params.get("tel") || null; // 학원 전화번호
     if (type && ["이론실행","경험실행","이론사고","경험사고"].includes(type)) {
       return {
         phase: "result",
@@ -659,19 +663,24 @@ export default function TQPhase1() {
           실행Pct: parseInt(params.get("실행") || 50),
           사고Pct: parseInt(params.get("사고") || 50),
         },
-        compareType: null
+        compareType: null,
+        channel: ch, academyName: ac, academyTel: tel
       };
     }
     return {
       phase: "intro",
       result: null,
-      compareType: compare && ["이론실행","경험실행","이론사고","경험사고"].includes(compare) ? compare : null
+      compareType: compare && ["이론실행","경험실행","이론사고","경험사고"].includes(compare) ? compare : null,
+      channel: ch, academyName: ac, academyTel: tel
     };
   };
 
   const initial = getInitialState();
   const [phase, setPhaseRaw] = useState(initial.phase);
   const [compareType, setCompareType] = useState(initial.compareType); // 친구가 공유한 유형
+  const [channel] = useState(initial.channel); // m=마더클럽 s=스터디포스 a=학원
+  const [academyName] = useState(initial.academyName);
+  const [academyTel] = useState(initial.academyTel);
   const [showCompare, setShowCompare] = useState(!!initial.compareType && initial.compareType !== null); // 비교 결과 페이지
   const [devFriendType, setDevFriendType] = useState(null); // 개발용: 선택된 친구 유형
   const setPhase = (p) => {
@@ -703,11 +712,28 @@ export default function TQPhase1() {
   const [bodyAns, setBodyAns] = useState(null); // null | true | false
   const [rateBlocked, setRateBlocked] = useState(false); // 모바일 터치 중복 방지
 
+  // DB에서 문항/유형 데이터 로드
+  const [dbFrames, setDbFrames] = useState(null);
+  const [dbTypes, setDbTypes] = useState(null);
+  useEffect(() => {
+    fetch("/api/quiz-data")
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.frames && data.types) {
+          setDbFrames(data.frames);
+          setDbTypes(data.types);
+        }
+      })
+      .catch(() => {}); // 실패 시 하드코딩 폴백
+  }, []);
+  const activeFrames = dbFrames || FRAMES;
+  const activeTypes = dbTypes || TYPES;
+
   // normative: 프레임별 { [stmtKey]: 1~6 } 리커트 응답
-  const total = FRAMES.length;
+  const total = activeFrames.length;
   const makeEmptyRating = (frame) => Object.fromEntries(frame.stmts.map(s => [s.key, null]));
   // 프레임별 선지 순서 고정 (랜덤 셔플 제거)
-  const shuffledFrames = FRAMES;
+  const shuffledFrames = activeFrames;
   const [frameRating, setFrameRating] = useState(() => makeEmptyRating(shuffledFrames[0]));
   const [stmtIndex, setStmtIndex] = useState(0); // 현재 프레임 내 몇 번째 문항
   const currentFrame = shuffledFrames[current];
@@ -740,8 +766,8 @@ export default function TQPhase1() {
 
   // ── 유형 비교 로직 (A안: 축 기반 자동 생성) ──
   const getCompareData = (typeA, typeB) => {
-    const A = TYPES[typeA];
-    const B = TYPES[typeB];
+    const A = activeTypes[typeA];
+    const B = activeTypes[typeB];
     // 축1: 이론실행·이론사고 = 이론(AC), 경험실행·경험사고 = 경험(CE)
     const axisA1 = ["이론실행","이론사고"].includes(typeA) ? "이론" : "경험";
     const axisB1 = ["이론실행","이론사고"].includes(typeB) ? "이론" : "경험";
@@ -797,9 +823,9 @@ export default function TQPhase1() {
   };
 
   const handleCopy = () => {
-    const t = TYPES[result?.type];
+    const t = activeTypes[result?.type];
     const shareUrl = typeof window !== "undefined"
-      ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}`
+      ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}${channel ? "&ch="+channel : ""}${academyName ? "&ac="+encodeURIComponent(academyName) : ""}${academyTel ? "&tel="+academyTel : ""}`
       : "";
     copyToClipboard(
       `나의 학습성향 유형은 ${t.emoji} ${t.name}!\n강점: ${t.strengths.join(", ")}\n주의: ${t.weaknesses.join(", ")}${userCode ? "\n검사코드: "+userCode : ""}\n\n${shareUrl}\n#엘리먼트학습성향검사 #${t.name}`
@@ -940,7 +966,7 @@ export default function TQPhase1() {
     setBodyAns(null);
   };
 
-  const t = result ? TYPES[result?.type] : null;
+  const t = result ? activeTypes[result?.type] : null;
   const specialMatch = result?.specialMatch ?? false;
 
   // ─── INTRO ───────────────────────────────────────────────
@@ -1101,7 +1127,7 @@ export default function TQPhase1() {
             </div>
             {devFriendType && (
               <p style={{ fontSize: 10, color: "#EAB308", marginTop: 4 }}>
-                {TYPES[devFriendType]?.char} 선택됨 — 나의결과 선택 시 비교 플로우
+                {activeTypes[devFriendType]?.char} 선택됨 — 나의결과 선택 시 비교 플로우
               </p>
             )}
           </div>
@@ -1123,7 +1149,7 @@ export default function TQPhase1() {
                 const isTae = type.startsWith("이론");
                 const isYang = ["이론실행","경험실행"].includes(type);
                 const auto = {};
-                FRAMES.forEach(f => {
+                activeFrames.forEach(f => {
                   if (f.axisType === "θ1") {
                     auto[f.id] = Object.fromEntries(f.stmts.map(s => [s.key, (isTae ? SCORE_MAP_AXIS1_이론 : SCORE_MAP_AXIS1_경험)[s.key] || 3]));
                   } else if (f.axisType === "θ2") {
@@ -1134,7 +1160,7 @@ export default function TQPhase1() {
                     auto[f.id] = Object.fromEntries(f.stmts.map(s => [s.key, typeScores[type][s.key] || 3]));
                   }
                 });
-                const r = calcResult(auto);
+                const r = calcResult(auto, activeFrames);
                 setAnswers(auto);
                 if (devFriendType) {
                   setGrade("고2"); setNickname("테스터");
@@ -1149,7 +1175,7 @@ export default function TQPhase1() {
                   setPhase("result");
                 }
               }}>
-                {TYPES[type]?.char || type} →
+                {activeTypes[type]?.char || type} →
               </button>
             ))}
           </div>
@@ -1173,7 +1199,7 @@ export default function TQPhase1() {
 
         {/* 친구 비교 도전장 배너 */}
         {compareType && !["성인","N수생","일반","학부모"].includes(result?.grade) && (() => {
-          const friend = TYPES[compareType];
+          const friend = activeTypes[compareType];
           return (
             <div style={{
               width: "100%", background: "#0D0D0D", borderRadius: 14,
@@ -1209,7 +1235,7 @@ export default function TQPhase1() {
             <img
               key={key}
               src={CHAR_IMAGES_WHITE[key]}
-              alt={TYPES[key]?.char}
+              alt={activeTypes[key]?.char}
               style={{
                 width: 64,
                 height: 64,
@@ -1292,8 +1318,8 @@ export default function TQPhase1() {
   if (phase === "quiz") {
     const frame = currentFrame;
     // 전체 진행: 프레임 × 문항 단위
-    const totalSteps = FRAMES.reduce((s, f) => s + f.stmts.length, 0);
-    const doneSteps  = FRAMES.slice(0, current).reduce((s, f) => s + f.stmts.length, 0) + stmtIndex;
+    const totalSteps = activeFrames.reduce((s, f) => s + f.stmts.length, 0);
+    const doneSteps  = activeFrames.slice(0, current).reduce((s, f) => s + f.stmts.length, 0) + stmtIndex;
     const stepProgress = Math.round((doneSteps / totalSteps) * 100);
 
     const LIKERT_LABELS = ["전혀\n아니다", "아니다", "보통", "그렇다", "매우\n그렇다"];
@@ -1320,7 +1346,7 @@ export default function TQPhase1() {
           const newAnswers = { ...answers, [frame.id]: newRating };
           setAnswers(newAnswers);
           if (current + 1 >= total) {
-            const r = calcResult(newAnswers);
+            const r = calcResult(newAnswers, activeFrames);
             setResult({ ...r, grade });
             // ── Supabase 저장 ──
             fetch("/api/save-result", {
@@ -1342,6 +1368,8 @@ export default function TQPhase1() {
                 answers: newAnswers,
                 compareType: compareType || null,
                 rawScores: r.raw || null,
+                channel: channel || null,
+                refCode: academyName || null,
               }),
             }).then(res => res.json()).then(data => {
               if (data.error) console.error("결과 저장 에러:", data.error, data.detail);
@@ -1531,12 +1559,25 @@ export default function TQPhase1() {
     );
   }
 
-  // ─── TQ INTRO (2단계 안내) ─────────────────────────────────────────
-  if (phase === "tq_intro") return (
+  // ─── TQ INTRO (2단계 안내) — 3그룹 분기 ─────────────────────────────
+  if (phase === "tq_intro") {
+    // 채널 결정: 파라미터 > 학년 기반 자동 분기
+    const ch = channel || (["고1","고2","고3","성인","N수생","일반"].includes(result?.grade) ? "s" : "m");
+    const isAcademy = ch === "a";
+    const isMother = ch === "m";
+
+    // 그룹별 텍스트/링크
+    const groupInfo = isAcademy
+      ? { desc: `본 검사는 스터디포스 ${academyName || "제휴센터"}에서\n받아보실 수 있습니다.`, ask: "예약하시겠습니까?", btnText: "예약하기 →", href: academyTel ? `tel:${academyTel.replace(/[^0-9]/g,"")}` : null, target: "_self" }
+      : isMother
+      ? { desc: "본 검사는 마더클럽에서\n받아보실 수 있습니다.", ask: null, btnText: "마더클럽 바로가기 →", href: "https://mother.sfcenter.co.kr", target: "_blank" }
+      : { desc: "본 검사는 스터디포스에서\n받아보실 수 있습니다.", ask: null, btnText: "스터디포스 바로가기 →", href: "https://studyforce.co.kr", target: "_blank" };
+
+    return (
     <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0, minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "stretch" } : {}) }}>
       <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
 
-        {/* ── TQ 로고 (작게 중앙) ── */}
+        {/* ── TQ 로고 ── */}
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <img src={TQ_LOGO} alt="TQ TEST" style={{ height: 48, objectFit: "contain" }} />
         </div>
@@ -1548,20 +1589,27 @@ export default function TQPhase1() {
             <strong style={{ color: "#1A1A1A" }}>스터디포스 언어과학연구소</strong>에서<br />
             제공하는 독해력 진단 검사입니다.
           </p>
-          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: 0, wordBreak: "keep-all" }}>
+          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: "0 0 28px", wordBreak: "keep-all" }}>
             테스트 완료 직후,<br />
             <strong style={{ color: "#1A1A1A" }}>어휘력, 추론력 등 공부 전반에 대한<br />
-            상세 분석서가 제공됩니다.</strong>
+            상세 분석서가 제공되며</strong>
           </p>
+          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: 0, wordBreak: "keep-all", whiteSpace: "pre-line" }}>
+            {groupInfo.desc}
+          </p>
+          {groupInfo.ask && (
+            <p style={{ fontSize: 15, color: "#1A1A1A", fontWeight: 600, lineHeight: 2.2, margin: "20px 0 0" }}>
+              {groupInfo.ask}
+            </p>
+          )}
         </div>
 
         {/* ── CTA 버튼 ── */}
+        {groupInfo.href && (
         <div style={{ textAlign: "center", marginBottom: 16 }}>
           <a
-            href={["고1","고2","고3","성인","N수생","일반"].includes(result?.grade)
-              ? "https://studyforce.co.kr"
-              : "https://mother.sfcenter.co.kr"}
-            target="_blank"
+            href={groupInfo.href}
+            target={groupInfo.target}
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
@@ -1574,11 +1622,12 @@ export default function TQPhase1() {
               background: "#1A1A1A",
             }}
           >
-            스터디포스 언어과학연구소 →
+            {groupInfo.btnText}
           </a>
         </div>
+        )}
 
-        {/* ── 돌아가기 (하단) ── */}
+        {/* ── 돌아가기 ── */}
         <div style={{ textAlign: "center", marginTop: 32 }}>
           <button onClick={() => setPhase("result")} style={{
             background: "none", border: "none", color: "#BBB",
@@ -1588,7 +1637,8 @@ export default function TQPhase1() {
 
       </div>
     </div>
-  );
+    );
+  }
 
   // ─── RESULT ──────────────────────────────────────────────
 
@@ -2191,9 +2241,9 @@ export default function TQPhase1() {
 
           {/* 친구 공유 모달 */}
           {friendModal && (() => {
-            const t2 = TYPES[result?.type];
+            const t2 = activeTypes[result?.type];
             const shareUrl = typeof window !== "undefined"
-              ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}`
+              ? `${window.location.origin}${window.location.pathname}?type=${result?.type}${userCode ? "&ref="+userCode : ""}${channel ? "&ch="+channel : ""}${academyName ? "&ac="+encodeURIComponent(academyName) : ""}${academyTel ? "&tel="+academyTel : ""}`
               : "https://studyforce.co.kr/tq";
             const shareText = `나는 ${t2?.emoji} ${t2?.name}이 나왔어!\n너도 엘리먼트 학습성향 검사 해봐 👇\n${shareUrl}`;
 
