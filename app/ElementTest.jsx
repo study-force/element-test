@@ -642,17 +642,18 @@ const styles = {
 };
 
 
-export default function TQPhase1() {
+export default function TQPhase1({ academy = null }) {
   // URL 파라미터에서 결과 복원
   const getInitialState = () => {
     if (typeof window === "undefined") return { phase: "intro", result: null, compareType: null };
     const params = new URLSearchParams(window.location.search);
     const type = params.get("type");
     const compare = params.get("compare"); // 친구 유형
-    // 채널 파라미터: ch=m(마더클럽) / ch=s(스터디포스) / ch=a(학원)
-    const ch = params.get("ch") || null;
-    const ac = params.get("ac") || null; // 학원명
-    const tel = params.get("tel") || null; // 학원 전화번호
+    // 채널: academy prop 우선 → URL 파라미터 fallback
+    const ch = academy ? "a" : (params.get("ch") || null);
+    const ac = academy ? academy.name : (params.get("ac") || null);
+    const tel = academy ? academy.tel : (params.get("tel") || null);
+    const academySlug = academy ? academy.slug : null;
     if (type && ["이론실행","경험실행","이론사고","경험사고"].includes(type)) {
       return {
         phase: "result",
@@ -664,14 +665,14 @@ export default function TQPhase1() {
           사고Pct: parseInt(params.get("사고") || 50),
         },
         compareType: null,
-        channel: ch, academyName: ac, academyTel: tel
+        channel: ch, academyName: ac, academyTel: tel, academySlug
       };
     }
     return {
       phase: "intro",
       result: null,
       compareType: compare && ["이론실행","경험실행","이론사고","경험사고"].includes(compare) ? compare : null,
-      channel: ch, academyName: ac, academyTel: tel
+      channel: ch, academyName: ac, academyTel: tel, academySlug
     };
   };
 
@@ -681,6 +682,7 @@ export default function TQPhase1() {
   const [channel] = useState(initial.channel); // m=마더클럽 s=스터디포스 a=학원
   const [academyName] = useState(initial.academyName);
   const [academyTel] = useState(initial.academyTel);
+  const [academySlug] = useState(initial.academySlug);
   const [showCompare, setShowCompare] = useState(!!initial.compareType && initial.compareType !== null); // 비교 결과 페이지
   const [devFriendType, setDevFriendType] = useState(null); // 개발용: 선택된 친구 유형
   const setPhase = (p) => {
@@ -1369,7 +1371,7 @@ export default function TQPhase1() {
                 compareType: compareType || null,
                 rawScores: r.raw || null,
                 channel: channel || null,
-                refCode: academyName || null,
+                refCode: academySlug || academyName || null,
               }),
             }).then(res => res.json()).then(data => {
               if (data.error) console.error("결과 저장 에러:", data.error, data.detail);
