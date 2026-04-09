@@ -677,6 +677,7 @@ export default function TQPhase1({ academy = null }) {
   };
 
   const initial = getInitialState();
+  const [isAdmin] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("admin") === "1");
   const [phase, setPhaseRaw] = useState(initial.phase);
   const [compareType, setCompareType] = useState(initial.compareType); // 친구가 공유한 유형
   const [channel] = useState(initial.channel); // m=마더클럽 s=스터디포스 a=학원
@@ -1103,8 +1104,8 @@ export default function TQPhase1({ academy = null }) {
 
         </div> {/* 80% wrapper 끝 */}
 
-        {/* 개발용 빠른 테스트 */}
-        <div style={{ marginTop: 24, borderTop: "1px dashed #ddd", paddingTop: 16 }}>
+        {/* 개발용 빠른 테스트 (admin=1 파라미터 필요) */}
+        {isAdmin && <div style={{ marginTop: 24, borderTop: "1px dashed #ddd", paddingTop: 16 }}>
 
           {/* 친구결과 선택 */}
           <div style={{ marginBottom: 10, textAlign: "center" }}>
@@ -1182,7 +1183,7 @@ export default function TQPhase1({ academy = null }) {
             ))}
           </div>
 
-        </div>
+        </div>}
 
         <p style={{ ...styles.footer, fontFamily: "inherit" }}>© 2025 스터디포스 언어학연구소</p>
       </div>
@@ -1988,12 +1989,12 @@ export default function TQPhase1({ academy = null }) {
             </div>
           </div>
 
-          {/* 다시하기 */}
-          <div data-capture-hide style={{ borderTop: "1px dashed #E8E8E8", paddingTop: 12, textAlign: "center" }}>
+          {/* 다시하기 (admin=1 파라미터 필요) */}
+          {isAdmin && <div data-capture-hide style={{ borderTop: "1px dashed #E8E8E8", paddingTop: 12, textAlign: "center" }}>
             <button style={{ fontSize: 12, color: "#BBBBBB", background: "none", border: "none", cursor: "pointer" }} onClick={restart}>
               ↺ 다시하기 (테스트용)
             </button>
-          </div>
+          </div>}
 
           {/* ── 유형 비교 모달 ── */}
           {showCompare && (() => {
