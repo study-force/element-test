@@ -52,6 +52,18 @@ export default function AdminLayout({ children }) {
       .catch(() => { setAuth(false); router.replace("/admin/login"); });
   }, [pathname, router]);
 
+  // 어드민 페이지에서 body 스크롤 제거 (이중 스크롤 방지)
+  useEffect(() => {
+    if (pathname === "/admin/login") return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+      document.documentElement.style.overflow = "";
+    };
+  }, [pathname]);
+
   const handleLogout = async () => {
     await fetch("/api/admin/auth", { method: "DELETE" });
     router.replace("/admin/login");
