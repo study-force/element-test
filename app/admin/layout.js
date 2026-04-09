@@ -30,7 +30,7 @@ const s = {
     margin: "12px 16px 20px", padding: "10px 0", background: "transparent", border: "1px solid #475569",
     color: "#94A3B8", borderRadius: 8, cursor: "pointer", fontSize: 13, textAlign: "center",
   },
-  main: { flex: 1, padding: "32px 40px", overflowY: "auto", height: "100vh" },
+  main: { flex: 1, padding: "32px 40px", overflowY: "auto", overflowX: "hidden", height: "100vh" },
   loading: { display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", fontSize: 16, color: "#64748B" },
 };
 
