@@ -33,7 +33,7 @@ export default function AdminLogin() {
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
-        router.replace("/admin/dashboard");
+        router.replace("/admin");
       } else {
         const d = await res.json();
         setError(d.error || "로그인 실패");
