@@ -84,6 +84,25 @@ export default function SettingPage({ params }) {
             <input value={tel} onChange={e => setTel(e.target.value)}
               placeholder="예: 031-719-1300" style={inputStyle} />
 
+            {/* 실시간 미리보기 */}
+            <div style={{ marginBottom: 20, padding: 20, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12 }}>
+              <p style={{ fontSize: 11, color: "#94A3B8", fontWeight: 600, marginBottom: 12, letterSpacing: 1 }}>미리보기 — 학생에게 보이는 화면</p>
+              <div style={{ background: "#fff", borderRadius: 8, padding: "24px 16px", textAlign: "center", border: "1px solid #F1F5F9" }}>
+                <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: "0 0 20px", whiteSpace: "pre-line" }}>
+                  {`본 검사는 스터디포스 ${name || "제휴센터"}에서\n받아보실 수 있습니다.`}
+                </p>
+                <p style={{ fontSize: 15, color: "#1A1A1A", fontWeight: 600, margin: "0 0 20px" }}>
+                  예약하시겠습니까?
+                </p>
+                <span style={{
+                  display: "inline-block", fontSize: 13, fontWeight: 600, color: "#fff",
+                  padding: "10px 24px", borderRadius: 8, background: tel ? "#1A1A1A" : "#CBD5E1",
+                }}>
+                  {tel ? `예약하기 → ${tel}` : "예약하기 → (전화번호 미입력)"}
+                </span>
+              </div>
+            </div>
+
             <button onClick={handleSave} style={btnStyle}>저장</button>
 
             {saved && (
