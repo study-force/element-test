@@ -1,7 +1,7 @@
 "use client";
 export default function AcademyPage() {
   return (
-    <div style={{ margin: "-32px -40px", height: "calc(100vh - 0px)" }}>
+    <div style={{ height: "100%", overflow: "hidden" }}>
       <iframe
         src="/setup"
         style={{ width: "100%", height: "100%", border: "none" }}
