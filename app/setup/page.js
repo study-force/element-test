@@ -9,6 +9,7 @@ export default function SetupPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [academies, setAcademies] = useState([]);
+  const [expandedSlug, setExpandedSlug] = useState(null);
 
   useEffect(() => {
     fetch("/api/academy").then(r => r.json()).then(d => {
@@ -83,15 +84,44 @@ export default function SetupPage() {
           <div style={{ marginTop: 40 }}>
             <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1E293B", marginBottom: 12 }}>등록된 학원 ({academies.length})</h2>
             <div style={{ border: "1px solid #E2E8F0", borderRadius: 8, overflow: "hidden" }}>
-              {academies.map((a, i) => (
-                <div key={a.slug} style={{ padding: "10px 14px", borderBottom: i < academies.length - 1 ? "1px solid #F1F5F9" : "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#1E293B" }}>{a.slug}</span>
-                    {a.name && <span style={{ fontSize: 11, color: "#64748B", marginLeft: 8 }}>{a.name}</span>}
+              {academies.map((a, i) => {
+                const isOpen = expandedSlug === a.slug;
+                return (
+                <div key={a.slug} style={{ borderBottom: i < academies.length - 1 ? "1px solid #F1F5F9" : "none" }}>
+                  <div onClick={() => setExpandedSlug(isOpen ? null : a.slug)}
+                    style={{ padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", background: isOpen ? "#F8FAFC" : "transparent" }}>
+                    <div>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "#1E293B" }}>{a.slug}</span>
+                      {a.name && <span style={{ fontSize: 11, color: "#64748B", marginLeft: 8 }}>{a.name}</span>}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 11, color: a.name ? "#059669" : "#D97706" }}>{a.name ? "설정완료" : "미설정"}</span>
+                      <span style={{ fontSize: 12, color: "#94A3B8" }}>{isOpen ? "▾" : "▸"}</span>
+                    </div>
                   </div>
-                  <span style={{ fontSize: 11, color: a.name ? "#059669" : "#D97706" }}>{a.name ? "설정완료" : "미설정"}</span>
+                  {isOpen && (
+                    <div style={{ padding: "12px 14px 16px", background: "#F8FAFC", fontSize: 12, lineHeight: 2 }}>
+                      {a.name && <div style={{ color: "#475569" }}>센터명: <strong>{a.name}</strong></div>}
+                      {a.tel && <div style={{ color: "#475569" }}>전화번호: <strong>{a.tel}</strong></div>}
+                      <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ color: "#94A3B8", width: 70, flexShrink: 0 }}>검사 링크</span>
+                          <code style={{ fontSize: 11, color: "#1E293B", background: "#fff", padding: "4px 8px", borderRadius: 4, border: "1px solid #E2E8F0", flex: 1, wordBreak: "break-all" }}>{baseUrl}/{a.slug}</code>
+                          <button onClick={(e) => { e.stopPropagation(); navigator.clipboard?.writeText(`${baseUrl}/${a.slug}`); }}
+                            style={{ fontSize: 10, padding: "4px 10px", background: "#1E293B", color: "#fff", border: "none", borderRadius: 4, cursor: "pointer", whiteSpace: "nowrap" }}>복사</button>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ color: "#94A3B8", width: 70, flexShrink: 0 }}>설정 페이지</span>
+                          <code style={{ fontSize: 11, color: "#1E293B", background: "#fff", padding: "4px 8px", borderRadius: 4, border: "1px solid #E2E8F0", flex: 1, wordBreak: "break-all" }}>{baseUrl}/{a.slug}/setting</code>
+                          <button onClick={(e) => { e.stopPropagation(); navigator.clipboard?.writeText(`${baseUrl}/${a.slug}/setting`); }}
+                            style={{ fontSize: 10, padding: "4px 10px", background: "#1E293B", color: "#fff", border: "none", borderRadius: 4, cursor: "pointer", whiteSpace: "nowrap" }}>복사</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
