@@ -1797,17 +1797,50 @@ nav {
     <div class="pick-modal-title">리포트 샘플</div>
     <div class="pick-modal-sub">학생 유형을 선택하세요</div>
     <div class="pick-btns">
-      <a href="/report-sample-top.pdf" target="_blank" class="pick-btn top">
+      <button onclick="openReportViewer('top','김OO · 초6 — 최상위권')" class="pick-btn top" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>김OO · 초6</span><span class="pick-badge">최상위권</span>
-      </a>
-      <a href="/report-sample-mid.pdf" target="_blank" class="pick-btn mid">
+      </button>
+      <button onclick="openReportViewer('mid','김OO · 초4 — 중위권')" class="pick-btn mid" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>김OO · 초4</span><span class="pick-badge">중위권</span>
-      </a>
-      <a href="/report-sample-low.pdf" target="_blank" class="pick-btn low">
+      </button>
+      <button onclick="openReportViewer('low','윤OO · 초5 — 집중관리')" class="pick-btn low" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>윤OO · 초5</span><span class="pick-badge">집중관리</span>
-      </a>
+      </button>
     </div>
   </div>
 </div>
+
+<!-- 리포트 이미지 뷰어 모달 -->
+<div id="reportViewerModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);overflow-y:auto;-webkit-overflow-scrolling:touch">
+  <div style="position:sticky;top:0;z-index:10;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1)">
+    <span id="reportViewerTitle" style="font-size:14px;font-weight:700;color:#fff"></span>
+    <button onclick="closeReportViewer()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:13px;padding:6px 16px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600">닫기 ✕</button>
+  </div>
+  <div id="reportViewerContent" style="max-width:800px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:4px"></div>
+</div>
+
+<script>
+function openReportViewer(type, title) {
+  document.getElementById('pickReportModal').classList.remove('open');
+  var modal = document.getElementById('reportViewerModal');
+  document.getElementById('reportViewerTitle').textContent = title;
+  var content = document.getElementById('reportViewerContent');
+  content.innerHTML = '';
+  for (var i = 1; i <= 5; i++) {
+    var img = document.createElement('img');
+    img.src = '/report-sample-' + type + '-' + i + '.jpg';
+    img.alt = title + ' 페이지 ' + i;
+    img.style.cssText = 'width:100%;display:block;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.3)';
+    content.appendChild(img);
+  }
+  modal.style.display = 'block';
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeReportViewer() {
+  document.getElementById('reportViewerModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>
 </body>
 </html>
