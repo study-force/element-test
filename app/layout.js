@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "엘리먼트 학습성향 검사",
+  title: { default: "엘리먼트 학습성향 검사", template: "%s" },
   description: "나의 공부 스타일은 어떤 유형일까? 엘리먼트 학습성향 검사로 알아보세요.",
   openGraph: {
     title: "엘리먼트 학습성향 검사",

@@ -46,15 +46,6 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const [auth, setAuth] = useState(null);
 
-  // 페이지 타이틀 + 파비콘 설정
-  useEffect(() => {
-    document.title = "SF Admin";
-    let link = document.querySelector("link[rel='icon']");
-    if (!link) { link = document.createElement("link"); link.rel = "icon"; document.head.appendChild(link); }
-    link.href = "/favicon-admin.svg";
-    link.type = "image/svg+xml";
-  }, []);
-
   useEffect(() => {
     fetch("/api/admin/auth")
       .then(r => r.json())
@@ -84,9 +75,16 @@ export default function AdminLayout({ children }) {
     router.replace("/admin/login");
   };
 
-  if (pathname === "/admin/login") return <>{children}</>;
-  if (auth === null) return <div style={s.loading}>인증 확인 중...</div>;
-  if (!auth) return null;
+  const adminHead = (
+    <>
+      <title>SF Admin</title>
+      <link rel="icon" type="image/svg+xml" href="/favicon-admin.svg" />
+    </>
+  );
+
+  if (pathname === "/admin/login") return <>{adminHead}{children}</>;
+  if (auth === null) return <>{adminHead}<div style={s.loading}>인증 확인 중...</div></>;
+  if (!auth) return <>{adminHead}</>;
 
   const isSidebar = SIDEBAR_PATHS.some(p => pathname.startsWith(p));
   const isFullscreen = FULLSCREEN_PATHS.some(p => pathname.startsWith(p));
