@@ -1571,71 +1571,113 @@ export default function TQPhase1({ academy = null }) {
 
     // 그룹별 텍스트/링크
     const groupInfo = isAcademy
-      ? { desc: `본 검사는 스터디포스 ${academyName || "제휴센터"}에서\n받아보실 수 있습니다.`, ask: "예약하시겠습니까?", btnText: "예약하기 →", href: academyTel ? `tel:${academyTel.replace(/[^0-9]/g,"")}` : null, target: "_self" }
+      ? { desc: <>본 검사는 <span style={{ color: "#DC2626" }}>【</span><strong style={{ color: "#1E293B" }}>{academyName || "제휴센터"}</strong><span style={{ color: "#DC2626" }}>】</span>에서<br />받아보실 수 있습니다.</>, ask: "예약하시겠습니까?", btnText: "예약하기 →", href: academyTel ? `tel:${academyTel.replace(/[^0-9]/g,"")}` : null, target: "_self" }
       : isMother
-      ? { desc: "본 검사는 마더클럽에서\n받아보실 수 있습니다.", ask: null, btnText: "마더클럽 바로가기 →", href: "https://mother.sfcenter.co.kr", target: "_blank" }
-      : { desc: "본 검사는 스터디포스에서\n받아보실 수 있습니다.", ask: null, btnText: "스터디포스 바로가기 →", href: "https://studyforce.co.kr", target: "_blank" };
+      ? { desc: <>본 검사는 <strong>마더클럽</strong>에서<br />받아보실 수 있습니다.</>, ask: null, btnText: "마더클럽 바로가기 →", href: "https://mother.sfcenter.co.kr", target: "_blank" }
+      : { desc: <>본 검사는 <strong>스터디포스</strong>에서<br />받아보실 수 있습니다.</>, ask: null, btnText: "스터디포스 바로가기 →", href: "https://studyforce.co.kr", target: "_blank" };
+
+    const tqFeatures = [
+      { icon: "📊", title: "독해력 정밀 분석", desc: "어휘력·추론력·독해습관 등 학습 역량 진단" },
+      { icon: "📋", title: "상세 분석서 제공", desc: "테스트 직후 즉시 결과 리포트 확인" },
+      { icon: "🎯", title: "맞춤 학습 처방", desc: "AI 기반 개인 맞춤 학습 전략 제시" },
+    ];
 
     return (
-    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0, minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "stretch" } : {}) }}>
-      <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#F8FAFC", padding: 0, minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "stretch" } : {}) }}>
+      <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "0" } : { padding: 0, overflow: "hidden" }) }}>
 
-        {/* ── TQ 로고 ── */}
-        <div style={{ textAlign: "center", marginBottom: 36 }}>
-          <img src={TQ_LOGO} alt="TQ TEST" style={{ height: 48, objectFit: "contain" }} />
-        </div>
-
-        {/* ── 본문 텍스트 ── */}
-        <div style={{ textAlign: "center", padding: "0 8px", marginBottom: 40 }}>
-          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: "0 0 28px", wordBreak: "keep-all" }}>
-            TQ TEST는<br />
-            <strong style={{ color: "#1A1A1A" }}>스터디포스 언어과학연구소</strong>에서<br />
-            제공하는 독해력 진단 검사입니다.
-          </p>
-          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: "0 0 28px", wordBreak: "keep-all" }}>
-            테스트 완료 직후,<br />
-            <strong style={{ color: "#1A1A1A" }}>어휘력, 추론력 등 공부 전반에 대한<br />
-            상세 분석서가 제공되며</strong>
-          </p>
-          <p style={{ fontSize: 14, color: "#444", lineHeight: 2.2, margin: 0, wordBreak: "keep-all", whiteSpace: "pre-line" }}>
-            {groupInfo.desc}
-          </p>
-          {groupInfo.ask && (
-            <p style={{ fontSize: 15, color: "#1A1A1A", fontWeight: 600, lineHeight: 2.2, margin: "20px 0 0" }}>
-              {groupInfo.ask}
+        {/* ── 로고 + 특장점 (흰 배경) ── */}
+        <div style={{ background: "#fff", padding: isMobile ? "32px 20px 28px" : "36px 36px 32px" }}>
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <img src={TQ_LOGO} alt="TQ TEST" style={{ height: 56, objectFit: "contain", marginBottom: 12 }} />
+            <p style={{ fontSize: 13, color: "#64748B", lineHeight: 1.8, wordBreak: "keep-all" }}>
+              TQ테스트는 <strong style={{ color: "#1E293B" }}>스터디포스 언어과학연구소</strong>에서<br />제공하는 독해력 정밀 진단 검사입니다.
             </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {tqFeatures.map((f, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", background: "#F8FAFC", borderRadius: 10, border: "1px solid #F1F5F9" }}>
+                <span style={{ fontSize: 22, flexShrink: 0 }}>{f.icon}</span>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#1E293B", marginBottom: 2 }}>{f.title}</div>
+                  <div style={{ fontSize: 11.5, color: "#64748B", lineHeight: 1.4 }}>{f.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── 안내 + CTA (짙은 배경) ── */}
+        <div style={{ background: "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)", padding: isMobile ? "32px 24px" : "36px 40px", textAlign: "center" }}>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", lineHeight: 2, margin: "0 0 6px", wordBreak: "keep-all" }}>
+            {isAcademy
+              ? <>본 검사는 <span style={{ color: "#F87171" }}>【</span><strong style={{ color: "#fff" }}>{academyName || "제휴센터"}</strong><span style={{ color: "#F87171" }}>】</span>에서<br />받아보실 수 있습니다.</>
+              : groupInfo.desc
+            }
+          </p>
+
+          {isAcademy && academyTel ? (
+            <>
+              <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 20 }}>
+                <a
+                  href={`sms:${academyTel.replace(/[^0-9]/g,"")}`}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    fontSize: 13, fontWeight: 700, color: "#fff",
+                    textDecoration: "none", padding: "12px 24px", borderRadius: 10,
+                    background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)",
+                  }}
+                >
+                  💬 문자문의
+                </a>
+                <a
+                  href={`tel:${academyTel.replace(/[^0-9]/g,"")}`}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    fontSize: 13, fontWeight: 700, color: "#1E293B",
+                    textDecoration: "none", padding: "12px 24px", borderRadius: 10,
+                    background: "#fff",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  📞 전화문의
+                </a>
+              </div>
+            </>
+          ) : (
+            <>
+              {groupInfo.ask && (
+                <p style={{ fontSize: 15, color: "#fff", fontWeight: 700, margin: "12px 0 0" }}>
+                  {groupInfo.ask}
+                </p>
+              )}
+              {groupInfo.href && (
+                <a
+                  href={groupInfo.href}
+                  target={groupInfo.target}
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-block", marginTop: 20,
+                    fontSize: 14, fontWeight: 700, color: "#1E293B",
+                    textDecoration: "none", letterSpacing: "0.02em",
+                    padding: "14px 40px", border: "none", borderRadius: 10,
+                    background: "#fff",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  {groupInfo.btnText}
+                </a>
+              )}
+            </>
           )}
-        </div>
 
-        {/* ── CTA 버튼 ── */}
-        {groupInfo.href && (
-        <div style={{ textAlign: "center", marginBottom: 16 }}>
-          <a
-            href={groupInfo.href}
-            target={groupInfo.target}
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-block",
-              fontSize: 13, fontWeight: 600, color: "#fff",
-              textDecoration: "none",
-              letterSpacing: "0.02em",
-              padding: "12px 28px",
-              border: "none",
-              borderRadius: 8,
-              background: "#1A1A1A",
-            }}
-          >
-            {groupInfo.btnText}
-          </a>
-        </div>
-        )}
-
-        {/* ── 돌아가기 ── */}
-        <div style={{ textAlign: "center", marginTop: 32 }}>
-          <button onClick={() => setPhase("result")} style={{
-            background: "none", border: "none", color: "#BBB",
-            fontSize: 12, cursor: "pointer", padding: 0
-          }}>← 결과로 돌아가기</button>
+          {/* ── 돌아가기 ── */}
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <button onClick={() => setPhase("result")} style={{
+              background: "none", border: "none", color: "rgba(255,255,255,0.3)",
+              fontSize: 12, cursor: "pointer", padding: 0
+            }}>← 결과로 돌아가기</button>
+          </div>
         </div>
 
       </div>
