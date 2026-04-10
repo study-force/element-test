@@ -46,6 +46,15 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const [auth, setAuth] = useState(null);
 
+  // 페이지 타이틀 + 파비콘 설정
+  useEffect(() => {
+    document.title = "SF Admin";
+    let link = document.querySelector("link[rel='icon']");
+    if (!link) { link = document.createElement("link"); link.rel = "icon"; document.head.appendChild(link); }
+    link.href = "/favicon-admin.svg";
+    link.type = "image/svg+xml";
+  }, []);
+
   useEffect(() => {
     fetch("/api/admin/auth")
       .then(r => r.json())
@@ -100,7 +109,7 @@ export default function AdminLayout({ children }) {
     return (
       <div style={s.layout}>
         <aside style={s.sidebar}>
-          <a style={s.logo} href="/admin">🔧 SF Admin</a>
+          <a style={s.logo} href="/admin">⭐ SF Admin</a>
           <nav style={s.nav}>
             {ELEMENT_NAV.map(item => (
               <a key={item.href} href={item.href} style={s.navItem(pathname === item.href)}>
@@ -120,7 +129,7 @@ export default function AdminLayout({ children }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
       <div style={s.topBar}>
-        <span style={{ ...s.topLogo, cursor: "default" }}>🔧 SF Admin</span>
+        <span style={{ ...s.topLogo, cursor: "default" }}>⭐ SF Admin</span>
         <button style={s.topLogout} onClick={handleLogout}>로그아웃</button>
       </div>
       <div style={{ flex: 1, overflowY: "auto" }}>{children}</div>
