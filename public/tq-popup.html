@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TQ 컨설턴트 도입 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.popup {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 420px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* 상단 배너 */
+.popup-banner {
+  background: linear-gradient(135deg, #E11D48, #F43F5E);
+  color: #fff;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* 닫기 버튼 */
+.popup-close {
+  position: absolute;
+  top: 42px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  font-size: 14px;
+  color: #94A3B8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* 헤더 */
+.popup-header {
+  padding: 28px 28px 20px;
+  text-align: center;
+}
+.popup-sub {
+  font-size: 13px;
+  color: #64748B;
+  margin-bottom: 6px;
+}
+.popup-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0D1E35;
+  line-height: 1.4;
+}
+
+/* 3단계 */
+.popup-steps {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 28px 20px;
+}
+.popup-step {
+  text-align: center;
+  flex: 1;
+}
+.popup-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 8px;
+}
+.popup-step-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+}
+.popup-step-arrow {
+  display: flex;
+  align-items: center;
+  color: #CBD5E1;
+  font-size: 16px;
+  padding-bottom: 20px;
+}
+
+/* 혜택 목록 */
+.popup-benefits {
+  padding: 0 28px 20px;
+}
+.popup-benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #F5F5F5;
+}
+.popup-benefit:last-child { border-bottom: none; }
+.popup-benefit-chk {
+  color: #10B981;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* 가격 영역 */
+.popup-pricing {
+  background: linear-gradient(135deg, #1E293B, #0F172A);
+  padding: 22px 28px;
+  text-align: center;
+}
+.popup-pricing-free {
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.popup-pricing-main {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 10px;
+}
+.popup-pricing-main .old {
+  text-decoration: line-through;
+  color: rgba(255,255,255,0.35);
+}
+.popup-pricing-main .new {
+  color: #fff;
+  font-weight: 900;
+  font-size: 20px;
+}
+.popup-pricing-limit {
+  display: inline-block;
+  background: rgba(244,63,94,0.2);
+  border: 1px solid rgba(244,63,94,0.4);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FB7185;
+}
+
+/* CTA 버튼 */
+.popup-cta {
+  padding: 20px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.popup-btn-primary {
+  display: block;
+  text-align: center;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #E11D48, #F43F5E);
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.popup-btn-secondary {
+  display: block;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748B;
+  background: #F8FAFC;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 1px solid #E2E8F0;
+}
+</style>
+</head>
+<body>
+
+<div class="popup">
+  <!-- 상단 배너 -->
+  <div class="popup-banner">
+    🎉 오픈 기념 — 1개월간 전 학원 무제한 무료
+  </div>
+
+  <!-- 닫기 -->
+  <button class="popup-close" onclick="window.close()">✕</button>
+
+  <!-- 헤더 -->
+  <div class="popup-header">
+    <div class="popup-sub">학습성향 검사 + TQ 컨설턴트</div>
+    <div class="popup-title">학습력 컨설턴트가<br>되세요!</div>
+  </div>
+
+  <!-- 3단계 -->
+  <div class="popup-steps">
+    <div class="popup-step">
+      <div class="popup-step-icon" style="background:#EFF6FF;">📱</div>
+      <div class="popup-step-label">마케팅</div>
+    </div>
+    <div class="popup-step-arrow">→</div>
+    <div class="popup-step">
+      <div class="popup-step-icon" style="background:#F0FDF4;">🔬</div>
+      <div class="popup-step-label">상담</div>
+    </div>
+    <div class="popup-step-arrow">→</div>
+    <div class="popup-step">
+      <div class="popup-step-icon" style="background:#FFF1F2;">📋</div>
+      <div class="popup-step-label">판독 리포트</div>
+    </div>
+  </div>
+
+  <!-- 혜택 목록 -->
+  <div class="popup-benefits">
+    <div class="popup-benefit">
+      <span class="popup-benefit-chk">✓</span> AI 자동 판독 시스템 전체 이용
+    </div>
+    <div class="popup-benefit">
+      <span class="popup-benefit-chk">✓</span> A4 인쇄용 학부모 상담 리포트
+    </div>
+    <div class="popup-benefit">
+      <span class="popup-benefit-chk">✓</span> 학원 전용 학습성향 검사 제공
+    </div>
+    <div class="popup-benefit">
+      <span class="popup-benefit-chk">✓</span> 기존 테스트 학생 결과 재열람 가능
+    </div>
+  </div>
+
+  <!-- 가격 -->
+  <div class="popup-pricing">
+    <div class="popup-pricing-free">1개월 무료 후</div>
+    <div class="popup-pricing-main">
+      <span class="old">건당 3,000원</span> → <span class="new">건당 1,000원</span>
+    </div>
+    <div class="popup-pricing-limit">선착순 20개 학원 한정</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="popup-cta">
+    <a href="/tq-offer.html" class="popup-btn-primary">자세히 보기 →</a>
+    <a href="tel:01042312279" class="popup-btn-secondary">도입 신청하기</a>
+  </div>
+</div>
+
+</body>
+</html>
