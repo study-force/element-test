@@ -1,11 +1,11 @@
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
 
 
-.popup { background:#fff; border-radius:0; width:100%; overflow:hidden; }
+
+.tq-popup-wrap .popup { background:#fff; border-radius:0; width:100%; overflow:hidden; }
 
 /* 상단 배너 */
-.popup-banner {
+.tq-popup-wrap .popup-banner {
   background: linear-gradient(135deg, #E11D48, #F43F5E);
   color: #fff;
   text-align: center;
@@ -18,16 +18,16 @@
 
 
 /* 헤더 */
-.popup-header {
+.tq-popup-wrap .popup-header {
   padding: 28px 28px 20px;
   text-align: center;
 }
-.popup-sub {
+.tq-popup-wrap .popup-sub {
   font-size: 13px;
   color: #64748B;
   margin-bottom: 6px;
 }
-.popup-title {
+.tq-popup-wrap .popup-title {
   font-size: 25px;
   font-weight: 800;
   color: #0D1E35;
@@ -35,17 +35,17 @@
 }
 
 /* 3단계 */
-.popup-steps {
+.tq-popup-wrap .popup-steps {
   display: flex;
   justify-content: center;
   gap: 12px;
   padding: 0 28px 20px;
 }
-.popup-step {
+.tq-popup-wrap .popup-step {
   text-align: center;
   flex: 1;
 }
-.popup-step-icon {
+.tq-popup-wrap .popup-step-icon {
   width: 48px;
   height: 48px;
   border-radius: 14px;
@@ -55,12 +55,12 @@
   font-size: 25px;
   margin: 0 auto 8px;
 }
-.popup-step-label {
+.tq-popup-wrap .popup-step-label {
   font-size: 12px;
   font-weight: 700;
   color: #374151;
 }
-.popup-step-arrow {
+.tq-popup-wrap .popup-step-arrow {
   display: flex;
   align-items: center;
   color: #CBD5E1;
@@ -69,12 +69,12 @@
 }
 
 /* 혜택 목록 */
-.popup-benefits {
+.tq-popup-wrap .popup-benefits {
   padding: 0 28px 20px;
 }
-.popup-benefit { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:16px; color:#374151; }
-.popup-benefit:last-child { border-bottom: none; }
-.popup-benefit-chk {
+.tq-popup-wrap .popup-benefit { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:16px; color:#374151; }
+.tq-popup-wrap .popup-benefit:last-child { border-bottom: none; }
+.tq-popup-wrap .popup-benefit-chk {
   color: #10B981;
   font-weight: 700;
   font-size: 14px;
@@ -82,33 +82,33 @@
 }
 
 /* 가격 영역 */
-.popup-pricing { border-radius: 0 0 20px 20px;
+.tq-popup-wrap .popup-pricing { border-radius: 0 0 20px 20px;
   background: linear-gradient(135deg, #1E293B, #0F172A);
   padding: 22px 28px;
   text-align: center;
 }
-.popup-pricing-free {
+.tq-popup-wrap .popup-pricing-free {
   font-size: 12px;
   color: #34D399;
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 4px;
 }
-.popup-pricing-main {
+.tq-popup-wrap .popup-pricing-main {
   font-size: 15px;
   color: rgba(255,255,255,0.6);
   margin-bottom: 10px;
 }
-.popup-pricing-main .old {
+.tq-popup-wrap .popup-pricing-main .old {
   text-decoration: line-through;
   color: rgba(255,255,255,0.35);
 }
-.popup-pricing-main .new {
+.tq-popup-wrap .popup-pricing-main .new {
   color: #fff;
   font-weight: 800;
   font-size: 20px;
 }
-.popup-pricing-limit {
+.tq-popup-wrap .popup-pricing-limit {
   display: inline-block;
   background: rgba(244,63,94,0.2);
   border: 1px solid rgba(244,63,94,0.4);
@@ -120,13 +120,13 @@
 }
 
 /* CTA 버튼 */
-.popup-cta {
+.tq-popup-wrap .popup-cta {
   padding: 20px 28px 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.popup-btn-primary {
+.tq-popup-wrap .popup-btn-primary {
   display: block;
   text-align: center;
   padding: 14px 0;
@@ -138,7 +138,7 @@
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
-.popup-btn-secondary {
+.tq-popup-wrap .popup-btn-secondary {
   display: block;
   text-align: center;
   padding: 12px 0;
@@ -150,7 +150,7 @@
   text-decoration: none;
   border: 1px solid #E2E8F0;
 }
-</style><div class="popup">
+</style><div class="tq-popup-wrap"><div class="popup">
   <!-- 상단 배너 -->
   <div class="popup-banner">
     🎉 오픈 기념 — 1개월간 전 학원 무제한 무료
@@ -192,4 +192,4 @@
     <div style="font-size:13px;color:#FB7185;font-weight:600;letter-spacing:1px;margin-bottom:8px;">선착순 20개 학원 한정</div><div style="margin-bottom:6px;font-size:16px;color:#fff;">도입비 <span style="text-decoration:line-through;">200만원</span> →</div><div style="font-size:48px;font-weight:900;color:#fff;letter-spacing:-2px;margin-bottom:24px;">100<span style="font-size:24px;">만원</span></div><div style="display:flex;gap:10px;justify-content:center;"><a href="https://tq.sfcenter.co.kr/tq-offer.html" onclick="event.preventDefault();window.open(this.href,'tq_offer','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#E11D48,#F43F5E);border-radius:10px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;">자세히 보기 →</a><a href="tel:01042312279" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;text-decoration:none;">도입 신청하기</a></div>
   </div>
   </div>
-</div>
+</div></div>
