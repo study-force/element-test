@@ -195,15 +195,11 @@
 </div></div>
 <script>
 function closePopup(){
-  var el=document.querySelector('.tq-popup-wrap');
-  if(el)el.closest('.popup_body').style.display='none';
-  var spans=document.querySelectorAll('[data-period="0"]');
-  if(spans.length)spans[0].click();
+  var spans=document.querySelectorAll('[data-period]');
+  for(var i=0;i<spans.length;i++){if(spans[i].getAttribute('data-period')==='0'){spans[i].click();return;}}
 }
 function closeTodayPopup(){
-  var el=document.querySelector('.tq-popup-wrap');
-  if(el)el.closest('.popup_body').style.display='none';
-  var spans=document.querySelectorAll('[data-period="1"]');
-  if(spans.length)spans[0].click();
+  var spans=document.querySelectorAll('[data-period]');
+  for(var i=0;i<spans.length;i++){if(spans[i].getAttribute('data-period')==='1'){spans[i].click();return;}}
 }
 </script>
