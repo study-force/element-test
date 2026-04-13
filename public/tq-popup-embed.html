@@ -1,205 +1,59 @@
 <style>
-
-
-
-.tq-popup-wrap .popup { background:#fff; border-radius:0; width:100%; overflow:hidden; }
-
-/* 상단 배너 */
-.tq-popup-wrap .popup-banner {
-  background: linear-gradient(135deg, #E11D48, #F43F5E);
-  color: #fff;
-  text-align: center;
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-
-
-/* 헤더 */
-.tq-popup-wrap .popup-header {
-  padding: 28px 28px 20px;
-  text-align: center;
-}
-.tq-popup-wrap .popup-sub {
-  font-size: 13px;
-  color: #64748B;
-  margin-bottom: 6px;
-}
-.tq-popup-wrap .popup-title {
-  font-size: 25px;
-  font-weight: 800;
-  color: #0D1E35;
-  line-height: 1.4;
-}
-
-/* 3단계 */
-.tq-popup-wrap .popup-steps {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 0 28px 20px;
-}
-.tq-popup-wrap .popup-step {
-  text-align: center;
-  flex: 1;
-}
-.tq-popup-wrap .popup-step-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-  margin: 0 auto 8px;
-}
-.tq-popup-wrap .popup-step-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #374151;
-}
-.tq-popup-wrap .popup-step-arrow {
-  display: flex;
-  align-items: center;
-  color: #CBD5E1;
-  font-size: 16px;
-  padding-bottom: 20px;
-}
-
-/* 혜택 목록 */
-.tq-popup-wrap .popup-benefits {
-  padding: 0 28px 20px;
-}
+.tq-popup-wrap .popup { background:#fff; width:100%; overflow:hidden; position:relative; }
+.tq-popup-wrap .popup-banner { background:linear-gradient(135deg,#E11D48,#F43F5E); color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:700; letter-spacing:0.5px; }
+.tq-popup-wrap .popup-header { padding:28px 28px 20px; text-align:center; }
+.tq-popup-wrap .popup-sub { font-size:13px; color:#64748B; margin-bottom:6px; }
+.tq-popup-wrap .popup-title { font-size:25px; font-weight:800; color:#0D1E35; line-height:1.4; }
+.tq-popup-wrap .popup-benefits { padding:0 28px 20px; }
 .tq-popup-wrap .popup-benefit { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:16px; color:#374151; }
-.tq-popup-wrap .popup-benefit:last-child { border-bottom: none; }
-.tq-popup-wrap .popup-benefit-chk {
-  color: #10B981;
-  font-weight: 700;
-  font-size: 14px;
-  flex-shrink: 0;
-}
+.tq-popup-wrap .popup-benefit-chk { color:#10B981; font-weight:700; font-size:14px; }
+.tq-popup-wrap .popup-pricing { background:linear-gradient(135deg,#1E293B,#0F172A); padding:22px 28px; text-align:center; }
+.tq-popup-wrap .popup-close-top { position:absolute; top:44px; right:8px; z-index:10; cursor:pointer; }
+.tq-popup-wrap .popup-close-bottom { background:#1E293B; padding:8px 16px; text-align:right; }
+.tq-popup-wrap .popup-close-bottom img { cursor:pointer; }
+</style>
 
-/* 가격 영역 */
-.tq-popup-wrap .popup-pricing { border-radius: 0;
-  background: linear-gradient(135deg, #1E293B, #0F172A);
-  padding: 22px 28px;
-  text-align: center;
-}
-.tq-popup-wrap .popup-pricing-free {
-  font-size: 12px;
-  color: #34D399;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-.tq-popup-wrap .popup-pricing-main {
-  font-size: 15px;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 10px;
-}
-.tq-popup-wrap .popup-pricing-main .old {
-  text-decoration: line-through;
-  color: rgba(255,255,255,0.35);
-}
-.tq-popup-wrap .popup-pricing-main .new {
-  color: #fff;
-  font-weight: 800;
-  font-size: 20px;
-}
-.tq-popup-wrap .popup-pricing-limit {
-  display: inline-block;
-  background: rgba(244,63,94,0.2);
-  border: 1px solid rgba(244,63,94,0.4);
-  border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #FB7185;
-}
+<div class="tq-popup-wrap"><div class="popup" style="border:solid 2px #221144;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
 
-/* CTA 버튼 */
-.tq-popup-wrap .popup-cta {
-  padding: 20px 28px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.tq-popup-wrap .popup-btn-primary {
-  display: block;
-  text-align: center;
-  padding: 14px 0;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, #E11D48, #F43F5E);
-  border-radius: 12px;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-}
-.tq-popup-wrap .popup-btn-secondary {
-  display: block;
-  text-align: center;
-  padding: 12px 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #64748B;
-  background: #F8FAFC;
-  border-radius: 12px;
-  text-decoration: none;
-  border: 1px solid #E2E8F0;
-}
-</style><div class="tq-popup-wrap"><div class="popup" style="border:solid 2px #221144;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.4);"><button onclick="closePopup()" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.3);border:none;color:#fff;font-size:16px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;">✕</button>
-  <!-- 상단 배너 -->
-  <div class="popup-banner">
-    🎉 오픈 기념 — 1개월간 전 학원 무제한 무료
+<!-- 우상단 닫기 -->
+<span class="popup-close-top" data-period="0"><img src="https://www.sfcenter.co.kr/images/popup/pop_resource/bt_close_now.png" width="28" height="29" /></span>
+
+<!-- 상단 배너 -->
+<div class="popup-banner">&#127881; 오픈 기념 &#8212; 1개월간 전 학원 무제한 무료</div>
+
+<!-- 헤더 -->
+<div class="popup-header">
+  <div class="popup-title">한 달 간 TQ컨설턴트를<br>무료로 이용하세요!</div>
+  <div class="popup-sub" style="margin-top:8px;">학생들의 결과 판독문이 바로 출력됩니다!</div>
+</div>
+
+<!-- 미리보기 이미지 -->
+<div style="padding:0 28px 16px;text-align:center;">
+  <div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 2px #CBD5E1,0 4px 16px rgba(0,0,0,0.15);display:inline-block;max-width:100%;">
+    <div style="background:#1E293B;padding:4px 8px;font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;text-align:center;">AI 판독 결과</div>
+    <img src="https://element-test-mauve.vercel.app/tq-screen-result.png" style="width:100%;display:block;" alt="판독 결과" />
   </div>
+</div>
 
-  <!-- 닫기 -->
-  
+<!-- 혜택 목록 -->
+<div class="popup-benefits">
+  <div class="popup-benefit"><span class="popup-benefit-chk">&#10003;</span> AI 자동 판독 시스템 전체 이용</div>
+  <div class="popup-benefit"><span class="popup-benefit-chk">&#10003;</span> A4 인쇄용 학부모 상담 리포트</div>
+  <div class="popup-benefit"><span class="popup-benefit-chk">&#10003;</span> 기존 테스트 학생 결과 재열람 가능</div>
+</div>
 
-  <!-- 헤더 -->
-  <div class="popup-header">
-    
-    <div class="popup-title">한 달 간 TQ컨설턴트를<br>무료로 이용하세요!</div><div class="popup-sub" style="margin-top:8px;">학생들의 결과 판독문이 바로 출력됩니다!</div>
+<!-- 가격 -->
+<div class="popup-pricing">
+  <div style="font-size:12px;color:#FB7185;font-weight:700;letter-spacing:1px;margin-bottom:12px;">선착순 20개 학원 한정</div>
+  <div style="margin-bottom:8px;font-size:14px;color:rgba(255,255,255,0.6);">도입비 <span style="text-decoration:line-through;">200만원</span> →</div>
+  <div style="font-size:40px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:20px;">100<span style="font-size:24px;">만원</span></div>
+  <div style="display:flex;gap:10px;justify-content:center;">
+    <a href="https://tq.sfcenter.co.kr/tq-offer.html" onclick="event.preventDefault();window.open(this.href,'tq_offer','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#E11D48,#F43F5E);border-radius:10px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;">자세히 보기 →</a>
+    <a href="tel:01042312279" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;text-decoration:none;">도입 신청하기</a>
   </div>
+</div>
 
-  
+<!-- 오늘 하루 닫기 -->
+<div class="popup-close-bottom"><span data-period="1"><img src="https://www.sfcenter.co.kr/images/event/today_x.png" /></span></div>
 
-  <!-- 미리보기 이미지 -->
-  <div style="padding:0 28px 16px;text-align:center;">
-    <div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 2px #CBD5E1,0 4px 16px rgba(0,0,0,0.15);outline:2px solid #D1D5DB;border-radius:12px;display:inline-block;max-width:100%;">
-      <div style="background:#1E293B;padding:4px 8px;font-size:9px;color:rgba(255,255,255,0.6);font-weight:600;text-align:center;">AI 판독 결과</div>
-      <img src="https://element-test-mauve.vercel.app/tq-screen-result.png" style="width:100%;display:block;" alt="판독 결과" />
-    </div>
-  </div>
-  <!-- 혜택 목록 -->
-  <div class="popup-benefits">
-    <div class="popup-benefit">
-      <span class="popup-benefit-chk">✓</span> AI 자동 판독 시스템 전체 이용
-    </div>
-    <div class="popup-benefit">
-      <span class="popup-benefit-chk">✓</span> A4 인쇄용 학부모 상담 리포트
-    </div>
-    <div class="popup-benefit">
-      <span class="popup-benefit-chk">✓</span> 기존 테스트 학생 결과 재열람 가능
-    </div>
-  </div>
-
-  <!-- 가격 -->
-  <div class="popup-pricing">
-    <div style="font-size:12px;color:#FB7185;font-weight:700;letter-spacing:1px;margin-bottom:12px;">선착순 20개 학원 한정</div><div style="margin-bottom:8px;font-size:14px;color:rgba(255,255,255,0.6);">도입비 <span style="text-decoration:line-through;">200만원</span> →</div><div style="font-size:40px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:20px;">100<span style="font-size:24px;">만원</span></div><div style="display:flex;gap:10px;justify-content:center;"><a href="https://tq.sfcenter.co.kr/tq-offer.html" onclick="event.preventDefault();window.open(this.href,'tq_offer','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#E11D48,#F43F5E);border-radius:10px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;">자세히 보기 →</a><a href="tel:01042312279" style="display:inline-block;padding:10px 24px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;text-decoration:none;">도입 신청하기</a></div>
-  <div style="text-align:right;padding:8px 16px 12px;"><button onclick="closeTodayPopup()" style="background:none;border:none;color:#94A3B8;font-size:11px;cursor:pointer;text-decoration:underline;">오늘 하루 이 창을 열지 않음</button></div></div>
-  </div>
 </div></div>
-<script>
-function closePopup(){
-  var spans=document.querySelectorAll('[data-period]');
-  for(var i=0;i<spans.length;i++){if(spans[i].getAttribute('data-period')==='0'){spans[i].click();return;}}
-}
-function closeTodayPopup(){
-  var spans=document.querySelectorAll('[data-period]');
-  for(var i=0;i<spans.length;i++){if(spans[i].getAttribute('data-period')==='1'){spans[i].click();return;}}
-}
-</script>
