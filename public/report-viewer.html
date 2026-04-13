@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TQ 리포트 샘플</title>
+<style>
+body{margin:0;padding:0;background:#1E293B;font-family:'Noto Sans KR',sans-serif;}
+.header{position:sticky;top:0;z-index:10;background:rgba(30,41,59,0.95);backdrop-filter:blur(8px);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);}
+.header span{font-size:14px;font-weight:700;color:#fff;}
+.header button{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:13px;padding:6px 16px;border-radius:6px;cursor:pointer;}
+.images{max-width:800px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:4px;}
+.images img{width:100%;display:block;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+.pick{display:flex;flex-direction:column;gap:8px;max-width:400px;margin:40px auto;padding:0 16px;}
+.pick-btn{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#334155;border:1px solid #475569;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border:none;}
+.pick-btn:hover{background:#475569;}
+.badge-top{font-size:11px;background:rgba(52,211,153,0.2);color:#34D399;padding:3px 10px;border-radius:12px;}
+.badge-mid{font-size:11px;background:rgba(251,191,36,0.2);color:#FBBF24;padding:3px 10px;border-radius:12px;}
+.badge-low{font-size:11px;background:rgba(239,68,68,0.2);color:#EF4444;padding:3px 10px;border-radius:12px;}
+.title{text-align:center;color:#fff;font-size:16px;font-weight:700;margin:40px 0 8px;}
+.sub{text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px;}
+</style>
+</head>
+<body>
+<div class="header">
+  <span>리포트 샘플</span>
+  <button onclick="window.close()">닫기 ✕</button>
+</div>
+<div id="pickScreen">
+  <div class="title">학생 유형을 선택하세요</div>
+  <div class="sub">리포트 샘플을 확인할 수 있습니다</div>
+  <div class="pick">
+    <button class="pick-btn" onclick="showReport('top','김OO · 초6 — 최상위권')"><span>김OO · 초6</span><span class="badge-top">최상위권</span></button>
+    <button class="pick-btn" onclick="showReport('mid','김OO · 초4 — 중위권')"><span>김OO · 초4</span><span class="badge-mid">중위권</span></button>
+    <button class="pick-btn" onclick="showReport('low','윤OO · 초5 — 집중관리')"><span>윤OO · 초5</span><span class="badge-low">집중관리</span></button>
+  </div>
+</div>
+<div id="reportScreen" style="display:none;">
+  <div class="images" id="reportImages"></div>
+</div>
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var type=params.get('type');
+  var titles={top:'김OO · 초6 — 최상위권',mid:'김OO · 초4 — 중위권',low:'윤OO · 초5 — 집중관리'};
+  if(type&&titles[type]) showReport(type,titles[type]);
+})();
+function showReport(type,title){
+  document.getElementById('pickScreen').style.display='none';
+  document.getElementById('reportScreen').style.display='block';
+  document.querySelector('.header span').textContent=title;
+  var c=document.getElementById('reportImages');c.innerHTML='';
+  for(var i=1;i<=5;i++){
+    var img=document.createElement('img');
+    img.src='https://element-test-mauve.vercel.app/report-sample-'+type+'-'+i+'.jpg';
+    c.appendChild(img);
+  }
+}
+</script>
+</body>
+</html>
