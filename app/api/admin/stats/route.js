@@ -23,19 +23,23 @@ export async function GET() {
 
     const { data: allResults } = await supabase
       .from("element_results")
-      .select("result_type, confidence, grade, created_at");
+      .select("result_type, confidence_label, grade, created_at, channel");
 
     const typeDistribution = { 이론실행: 0, 경험실행: 0, 이론사고: 0, 경험사고: 0 };
     const confidenceDistribution = { 명확: 0, 경향: 0, 미결정: 0 };
     const gradeBreakdown = {};
     const dailyMap = {};
+    const channelBreakdown = {};
 
     (allResults || []).forEach(r => {
       if (r.result_type && typeDistribution.hasOwnProperty(r.result_type)) {
         typeDistribution[r.result_type]++;
       }
-      if (r.confidence && confidenceDistribution.hasOwnProperty(r.confidence)) {
-        confidenceDistribution[r.confidence]++;
+      if (r.confidence_label && confidenceDistribution.hasOwnProperty(r.confidence_label)) {
+        confidenceDistribution[r.confidence_label]++;
+      }
+      if (r.channel) {
+        channelBreakdown[r.channel] = (channelBreakdown[r.channel] || 0) + 1;
       }
       if (r.grade) {
         gradeBreakdown[r.grade] = (gradeBreakdown[r.grade] || 0) + 1;
@@ -61,6 +65,7 @@ export async function GET() {
       confidenceDistribution,
       gradeBreakdown,
       dailyTrend,
+      channelBreakdown,
     });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
