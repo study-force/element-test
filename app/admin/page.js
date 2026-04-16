@@ -18,14 +18,6 @@ const SECTIONS = [
     color: "#8B5CF6",
     bg: "#F5F3FF",
   },
-  {
-    href: "/admin/academy",
-    icon: "🏫",
-    title: "학원 관리",
-    desc: "학원 계정 및 설정 관리",
-    color: "#059669",
-    bg: "#ECFDF5",
-  },
 ];
 
 const s = {
@@ -33,7 +25,7 @@ const s = {
   inner: { maxWidth: 700, width: "100%" },
   title: { fontSize: 28, fontWeight: 700, color: "#1E293B", marginBottom: 8, textAlign: "center" },
   subtitle: { fontSize: 15, color: "#64748B", marginBottom: 40, textAlign: "center" },
-  grid: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 },
+  grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 },
   card: (bg) => ({
     background: bg, borderRadius: 16, padding: "32px 24px", textDecoration: "none",
     display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center",
