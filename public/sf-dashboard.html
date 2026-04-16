@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SF 시스템 대시보드</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; background:#F1F5F9; color:#1E293B; min-height:100vh; padding:32px 24px; }
+
+.header-wrap { max-width:1100px; margin:0 auto 28px; }
+h1 { font-size:22px; font-weight:700; color:#0F172A; margin-bottom:4px; }
+.subtitle { font-size:13px; color:#94A3B8; }
+
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:1100px; margin:0 auto; }
+@media(max-width:760px){ .grid { grid-template-columns:1fr; } }
+
+.card { background:#fff; border-radius:12px; padding:22px; border:1px solid #E2E8F0; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+.card-full { grid-column:1/-1; }
+
+.card-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #F1F5F9; }
+.card-icon { font-size:18px; }
+.card-title { font-size:14px; font-weight:700; color:#0F172A; }
+
+.section-label { font-size:10px; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:1px; margin:14px 0 8px; }
+
+.links-grid { display:flex; flex-wrap:wrap; gap:6px; }
+
+.link-btn { display:inline-flex; align-items:center; gap:5px; background:#F8FAFC; color:#3B82F6; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:500; text-decoration:none; border:1px solid #E2E8F0; transition:all .15s; }
+.link-btn:hover { background:#EFF6FF; border-color:#BFDBFE; color:#1D4ED8; text-decoration:none; }
+.link-btn-green { color:#059669; }
+.link-btn-green:hover { background:#ECFDF5; border-color:#A7F3D0; color:#047857; }
+.link-btn-orange { color:#D97706; }
+.link-btn-orange:hover { background:#FFFBEB; border-color:#FDE68A; color:#B45309; }
+
+.divider { height:1px; background:#F1F5F9; margin:14px 0; }
+
+table { width:100%; border-collapse:collapse; }
+tr { border-bottom:1px solid #F8FAFC; }
+tr:last-child { border-bottom:none; }
+td { padding:8px 4px; font-size:13px; vertical-align:middle; }
+td:first-child { color:#64748B; width:130px; font-size:12px; white-space:nowrap; }
+
+.pw { font-family:'Courier New',monospace; background:#F8FAFC; color:#059669; padding:3px 10px; border-radius:4px; font-size:12px; letter-spacing:1px; cursor:pointer; border:1px solid #E2E8F0; transition:all .15s; }
+.pw:hover { background:#ECFDF5; border-color:#A7F3D0; }
+
+.rule-row td:first-child { color:#94A3B8; }
+.rule-row td:last-child { color:#475569; font-size:12px; line-height:1.6; }
+
+.copied { position:fixed; top:20px; right:20px; background:#059669; color:#fff; padding:10px 18px; border-radius:8px; font-size:13px; font-weight:500; opacity:0; transition:opacity .3s; pointer-events:none; box-shadow:0 4px 12px rgba(5,150,105,.3); }
+.copied.show { opacity:1; }
+
+.dns-note { display:inline-flex; align-items:center; gap:4px; font-size:10px; background:#FEF3C7; color:#B45309; padding:2px 7px; border-radius:3px; margin-left:6px; font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="header-wrap">
+  <h1>⭐ SF 시스템 대시보드</h1>
+  <div class="subtitle">업데이트 2026-04-17 · Element Test / TQ 통합 관리</div>
+</div>
+
+<div class="grid">
+
+  <!-- Element Test 서비스 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔷</span>
+      <span class="card-title">Element Test — 서비스 URL</span>
+    </div>
+
+    <div class="section-label">실서버</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://element.sfcenter.co.kr" target="_blank">🌐 서비스</a>
+      <a class="link-btn link-btn-green" href="https://element.sfcenter.co.kr/admin" target="_blank">🔒 어드민</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">개발서버</div>
+    <div class="links-grid">
+      <a class="link-btn" href="https://element-test-git-dev-enature0405-5319s-projects.vercel.app" target="_blank">🌐 서비스</a>
+      <a class="link-btn" href="https://element-test-git-dev-enature0405-5319s-projects.vercel.app/admin" target="_blank">🔒 어드민</a>
+    </div>
+
+    <div class="divider"></div>
+    <table>
+      <tr>
+        <td>어드민 비밀번호</td>
+        <td><span class="pw" onclick="copyText('asdf1234')">asdf1234</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TQ 서비스 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔶</span>
+      <span class="card-title">TQ — 서비스 URL</span>
+    </div>
+
+    <div class="section-label">실서버</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://tq.sfcenter.co.kr" target="_blank">🌐 서비스 <span class="dns-note">DNS 필요</span></a>
+      <a class="link-btn link-btn-green" href="https://element.sfcenter.co.kr/admin/tq-rules" target="_blank">📋 규칙 어드민</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">개발서버</div>
+    <div class="links-grid">
+      <a class="link-btn" href="https://tq-git-dev-enature0405-5319s-projects.vercel.app/tq_v5_prod.html" target="_blank">🌐 서비스</a>
+      <a class="link-btn" href="https://tq-git-dev-enature0405-5319s-projects.vercel.app/tq_admin_rules.html?standalone=1" target="_blank">📋 규칙 어드민</a>
+    </div>
+
+    <div class="divider"></div>
+    <table>
+      <tr>
+        <td>어드민 비밀번호</td>
+        <td><span class="pw" onclick="copyText('asdf1234')">asdf1234</span></td>
+      </tr>
+      <tr>
+        <td>동기화 비밀번호</td>
+        <td><span class="pw" onclick="copyText('asdf1234')">asdf1234</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Element Test 인프라 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔷</span>
+      <span class="card-title">Element Test — 인프라</span>
+    </div>
+
+    <div class="section-label">GitHub</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://github.com/study-force/element-test/tree/main" target="_blank">main (실서버)</a>
+      <a class="link-btn" href="https://github.com/study-force/element-test/tree/dev" target="_blank">dev (개발서버)</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">Vercel</div>
+    <div class="links-grid">
+      <a class="link-btn" href="https://vercel.com/studyforce/element-test" target="_blank">프로젝트 대시보드</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">Supabase</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://supabase.com/dashboard/project/lmoqtjkllgbcjdklybxo" target="_blank">element-test (실서버)</a>
+      <a class="link-btn" href="https://supabase.com/dashboard/project/svnwxutnrnczsxnfxpni" target="_blank">element-test-dev</a>
+    </div>
+  </div>
+
+  <!-- TQ 인프라 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🔶</span>
+      <span class="card-title">TQ — 인프라</span>
+    </div>
+
+    <div class="section-label">GitHub</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://github.com/study-force/tq/tree/main" target="_blank">main (실서버)</a>
+      <a class="link-btn" href="https://github.com/study-force/tq/tree/dev" target="_blank">dev (개발서버)</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">Vercel</div>
+    <div class="links-grid">
+      <a class="link-btn" href="https://vercel.com/studyforce/tq" target="_blank">프로젝트 대시보드</a>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">Supabase</div>
+    <div class="links-grid">
+      <a class="link-btn link-btn-green" href="https://supabase.com/dashboard/project/dtktaemqssvglwgvttqq" target="_blank">tq-engine (실서버)</a>
+      <a class="link-btn" href="https://supabase.com/dashboard/project/wkwtwlxlrgcozqtkleft" target="_blank">tq-engine-dev</a>
+    </div>
+  </div>
+
+  <!-- 운영 규칙 -->
+  <div class="card card-full">
+    <div class="card-header">
+      <span class="card-icon">📌</span>
+      <span class="card-title">운영 규칙</span>
+    </div>
+    <table>
+      <tr class="rule-row">
+        <td>개발/테스트</td>
+        <td>dev 브랜치에 push → 개발서버 자동 배포</td>
+      </tr>
+      <tr class="rule-row">
+        <td>실서버 반영</td>
+        <td>dev → main 병합 후 push → 실서버 자동 배포</td>
+      </tr>
+      <tr class="rule-row">
+        <td>환경 자동 감지</td>
+        <td>vercel.app 도메인 → 개발 DB / 그 외 → 실서버 DB</td>
+      </tr>
+      <tr class="rule-row">
+        <td>TQ 규칙 동기화</td>
+        <td>개발서버 규칙 어드민 → 🔄 Production 동기화 버튼 → 비밀번호 입력</td>
+      </tr>
+      <tr class="rule-row">
+        <td>커스텀 도메인</td>
+        <td>dev.element.sfcenter.co.kr / dev.tq.sfcenter.co.kr → 개발자 DNS 설정 필요</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<div id="copiedMsg" class="copied">클립보드에 복사됐습니다!</div>
+
+<script>
+function copyText(text) {
+  navigator.clipboard.writeText(text);
+  const msg = document.getElementById('copiedMsg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>
