@@ -1,58 +1,31 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-// 학원 정보 조회
+// 환경별 Legacy API URL
+const LEGACY_API_URL = process.env.LEGACY_API_URL ||
+  "https://www.futuretraining.co.kr:8143/service-back";
+
+// 학원 확인 (Legacy API 연동)
 export async function GET(request, { params }) {
   try {
-    const { slug } = await params;
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const { slug: academyId } = await params;
+
+    const res = await fetch(
+      `${LEGACY_API_URL}/api/public/academy/element-check?academyId=${encodeURIComponent(academyId)}`,
+      { next: { revalidate: 60 } } // 1분 캐시
     );
-    const { data, error } = await supabase
-      .from("academies")
-      .select("slug, name, tel")
-      .eq("slug", decodeURIComponent(slug))
-      .single();
 
-    if (error || !data) return NextResponse.json({ error: "학원을 찾을 수 없습니다." }, { status: 404 });
-    return NextResponse.json(data);
-  } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
-  }
-}
+    const data = await res.json();
 
-// 학원 정보 수정 (비밀번호 인증 후)
-export async function PUT(request, { params }) {
-  try {
-    const { slug } = await params;
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
-    const body = await request.json();
-    const { password, name, tel } = body;
+    if (!res.ok) {
+      const errorMsg = data.errors?.fieldName || data.message || "학원을 찾을 수 없습니다.";
+      return NextResponse.json({ error: errorMsg, _debug_url: LEGACY_API_URL }, { status: 404 });
+    }
 
-    // 비밀번호 확인
-    const { data: academy } = await supabase
-      .from("academies")
-      .select("password")
-      .eq("slug", decodeURIComponent(slug))
-      .single();
-
-    if (!academy) return NextResponse.json({ error: "학원을 찾을 수 없습니다." }, { status: 404 });
-    if (academy.password !== password) return NextResponse.json({ error: "비밀번호가 틀렸습니다." }, { status: 401 });
-
-    // 업데이트
-    const { data, error } = await supabase
-      .from("academies")
-      .update({ name, tel })
-      .eq("slug", decodeURIComponent(slug))
-      .select("slug, name, tel")
-      .single();
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true, ...data });
+    return NextResponse.json({
+      slug: academyId,
+      name: data.academyName,
+      tel: data.academyPhone,
+    });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
