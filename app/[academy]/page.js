@@ -30,19 +30,5 @@ export default function AcademyPage({ params }) {
     </div>
   );
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <div style={{ flex: 1 }}>
-        <ElementTest academy={academyData} />
-      </div>
-      <footer style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "10px 20px", background: "#F1EDE5",
-        borderTop: "1px solid #E2D9CE", fontSize: 12, color: "#94A3B8",
-      }}>
-        <span>© 2026 스터디포스 언어과학연구소</span>
-        <span style={{ fontWeight: 600, color: "#64748B" }}>{academyData.name}</span>
-      </footer>
-    </div>
-  );
+  return <ElementTest academy={academyData} />;
 }

@@ -1185,7 +1185,10 @@ export default function TQPhase1({ academy = null }) {
 
         </div>}
 
-        <p style={{ ...styles.footer, fontFamily: "inherit" }}>© 2025 스터디포스 언어학연구소</p>
+        <div style={{ ...styles.footer, fontFamily: "inherit", display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          <span>© 2026 스터디포스 언어과학연구소</span>
+          {academyName && <span style={{ fontWeight: 600 }}>{academyName}</span>}
+        </div>
       </div>
     </div>
   );
