@@ -18,7 +18,7 @@ export async function GET(request, { params }) {
 
     if (!res.ok) {
       const errorMsg = data.errors?.fieldName || data.message || "학원을 찾을 수 없습니다.";
-      return NextResponse.json({ error: errorMsg }, { status: 404 });
+      return NextResponse.json({ error: errorMsg, _debug_url: LEGACY_API_URL }, { status: 404 });
     }
 
     return NextResponse.json({
