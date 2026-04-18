@@ -2023,7 +2023,7 @@ export default function TQPhase1({ academy = null }) {
                     <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
                       <button style={glassBtn} onClick={() => setShowCompare(true)}>
                         <span style={{ fontSize: 20 }}>👥</span>
-                        <BtnLabel main="친구에게 추천" sub="친구와 유형 비교해보기" />
+                        <BtnLabel main="나의 공부 친구 찾기" sub="친구와 유형 비교해보기" />
                       </button>
                       <button style={glassBtn} onClick={() => handleSimpleShare()}>
                         <span style={{ fontSize: 20 }}>👨‍👩‍👧</span>
@@ -2038,11 +2038,11 @@ export default function TQPhase1({ academy = null }) {
                     <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
                       <button style={glassBtn} onClick={() => handleSimpleShare()}>
                         <span style={{ fontSize: 20 }}>👧</span>
-                        <BtnLabel main="자녀에게 추천" sub="아이에게 결과 링크 보내기" />
+                        <BtnLabel main="자녀에게 추천" sub="자녀의 학습성향도 알아보세요!" />
                       </button>
                       <button style={glassBtn} onClick={() => handleSimpleShare()}>
                         <span style={{ fontSize: 20 }}>👩‍👩‍👧</span>
-                        <BtnLabel main="다른 학부모 추천" sub="부모님도 해보세요!" />
+                        <BtnLabel main="다른 학부모 추천" sub="다른 학부모님들께도 추천하세요!" />
                       </button>
                     </div>
                   </>
