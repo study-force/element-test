@@ -894,14 +894,15 @@ export default function TQPhase1({ academy = null }) {
         // capture-full: 흰 배경 + 하단 패딩
         full.style.background = '#FFFFFF';
         full.style.paddingBottom = '0';
-        // 캡처 전용 푸터 표시
-        const capFooter = document.getElementById('capture-footer');
-        if (capFooter) capFooter.style.display = 'block';
         // 헤더: negative margin 제거 (카드 패딩 0이므로 불필요)
         header.style.margin = '0';
         header.style.borderRadius = '0';
         // 흰 배경 본문: 좌우 패딩 추가 (카드 패딩 0이므로 직접 적용)
         body.style.padding = '28px 24px 0';
+        // 캡처 전용 푸터 표시 + DOM 렌더링 대기
+        const capFooter = document.getElementById('capture-footer');
+        if (capFooter) capFooter.style.display = 'block';
+        await new Promise(r => setTimeout(r, 80));
         const canvas = await h2c(full, { backgroundColor: null, scale: 2, useCORS: true, logging: false });
         // 원복
         full.style.cssText = origFullStyle;
