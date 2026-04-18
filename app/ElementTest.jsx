@@ -714,6 +714,21 @@ export default function TQPhase1({ academy = null }) {
   const [nameError, setNameError] = useState(false);
   const [bodyAns, setBodyAns] = useState(null); // null | true | false
   const [rateBlocked, setRateBlocked] = useState(false); // 모바일 터치 중복 방지
+  const [prevResult, setPrevResult] = useState(null); // 같은 브라우저에서 이전에 완료한 결과 (localStorage)
+
+  // 이전 결과 localStorage 로드 (방안 C — 부드러운 안내 배너)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem("et_lastResult");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      // 최소 검증 — 필수 필드 존재 확인
+      if (parsed && parsed.result && parsed.result.type && parsed.nickname) {
+        setPrevResult(parsed);
+      }
+    } catch (e) { /* localStorage 비활성화/JSON 깨짐 무시 */ }
+  }, []);
 
   // DB에서 문항/유형 데이터 로드
   const [dbFrames, setDbFrames] = useState(null);
@@ -987,6 +1002,59 @@ export default function TQPhase1({ academy = null }) {
   if (phase === "intro") return (
     <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
       <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
+        {/* 이전 결과 배너 (방안 C) — 같은 브라우저에서 이전에 완료한 사용자에게만 표시 */}
+        {prevResult && (
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            background: "linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)",
+            border: "1px solid #C7D2FE",
+            borderRadius: 10, padding: "10px 12px 10px 14px",
+            marginBottom: 18, gap: 8,
+          }}>
+            <button
+              type="button"
+              onClick={() => {
+                setResult(prevResult.result);
+                setPhase("result");
+              }}
+              style={{
+                flex: 1, display: "flex", alignItems: "center", gap: 10,
+                background: "transparent", border: "none", padding: 0,
+                cursor: "pointer", textAlign: "left", fontFamily: "inherit",
+              }}
+            >
+              <span style={{ fontSize: 18 }}>📋</span>
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.35 }}>
+                <span style={{ fontSize: 12, color: "#6366F1", fontWeight: 700 }}>
+                  이전 결과 보기
+                </span>
+                <span style={{ fontSize: 11, color: "#64748B" }}>
+                  {prevResult.nickname}
+                  {prevResult.grade ? ` · ${prevResult.grade}` : ""}
+                  {" · "}
+                  <span style={{ color: "#475569", fontWeight: 600 }}>{prevResult.result.type}형</span>
+                </span>
+              </span>
+              <span style={{ fontSize: 12, color: "#A5B4FC", marginLeft: "auto" }}>›</span>
+            </button>
+            <button
+              type="button"
+              aria-label="이전 결과 배너 닫기"
+              onClick={() => {
+                try { window.localStorage.removeItem("et_lastResult"); } catch (e) {}
+                setPrevResult(null);
+              }}
+              style={{
+                background: "transparent", border: "none", cursor: "pointer",
+                color: "#94A3B8", fontSize: 14, padding: "2px 6px",
+                fontFamily: "inherit", lineHeight: 1,
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         {/* 뱃지 + 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={styles.badge}>엘리먼트 학습성향 검사</div>
@@ -1364,7 +1432,17 @@ export default function TQPhase1({ academy = null }) {
           setAnswers(newAnswers);
           if (current + 1 >= total) {
             const r = calcResult(newAnswers, activeFrames);
-            setResult({ ...r, grade });
+            const fullResult = { ...r, grade };
+            setResult(fullResult);
+            // ── localStorage 저장 (방안 C — 재방문 시 이전 결과 배너용) ──
+            try {
+              window.localStorage.setItem("et_lastResult", JSON.stringify({
+                nickname,
+                grade,
+                result: fullResult,
+                savedAt: Date.now(),
+              }));
+            } catch (e) { /* 저장 실패는 무시 — 메인 플로우에 영향 없음 */ }
             // ── Supabase 저장 ──
             fetch("/api/save-result", {
               method: "POST",
