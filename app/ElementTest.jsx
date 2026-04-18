@@ -716,16 +716,23 @@ export default function TQPhase1({ academy = null }) {
   const [rateBlocked, setRateBlocked] = useState(false); // 모바일 터치 중복 방지
   const [prevResult, setPrevResult] = useState(null); // 같은 브라우저에서 이전에 완료한 결과 (localStorage)
 
-  // 이전 결과 localStorage 로드 (방안 C — 부드러운 안내 배너)
+  // 이전 결과 localStorage 로드 → 있으면 welcome 화면으로 (이전 결과 보기 / 다시 하기)
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const raw = window.localStorage.getItem("et_lastResult");
       if (!raw) return;
       const parsed = JSON.parse(raw);
-      // 최소 검증 — 필수 필드 존재 확인
-      if (parsed && parsed.result && parsed.result.type && parsed.nickname) {
-        setPrevResult(parsed);
+      if (!parsed || !parsed.result || !parsed.result.type || !parsed.nickname) return;
+      setPrevResult(parsed);
+      // 일반 진입(인트로)일 때만 welcome 화면 표시
+      // - URL에 ?type=... 로 결과 직접 진입한 경우는 그대로 결과 표시
+      // - 친구 공유(?compare=...) 로 진입한 경우는 정상 플로우 유지
+      const params = new URLSearchParams(window.location.search);
+      const hasType = params.get("type");
+      const hasCompare = params.get("compare");
+      if (!hasType && !hasCompare) {
+        setPhaseRaw("welcome");
       }
     } catch (e) { /* localStorage 비활성화/JSON 깨짐 무시 */ }
   }, []);
@@ -998,63 +1005,88 @@ export default function TQPhase1({ academy = null }) {
   const t = result ? activeTypes[result?.type] : null;
   const specialMatch = result?.specialMatch ?? false;
 
+  // ─── WELCOME (이전 결과가 있는 재방문자 전용) ─────────────────
+  if (phase === "welcome" && prevResult) return (
+    <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
+      <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "60px 24px", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" } : { padding: "56px 40px" }) }}>
+
+        {/* 상단 브랜드 */}
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <div style={styles.badge}>엘리먼트 학습성향 검사</div>
+        </div>
+
+        {/* 이전 결과 정보 카드 */}
+        <div style={{
+          background: "linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)",
+          border: "1px solid #E2E8F0",
+          borderRadius: 14,
+          padding: "22px 20px",
+          textAlign: "center",
+          marginBottom: 28,
+          maxWidth: 360, marginLeft: "auto", marginRight: "auto", width: "100%",
+        }}>
+          <div style={{ fontSize: 11, color: "#94A3B8", letterSpacing: "0.05em", marginBottom: 8, fontWeight: 600 }}>
+            저장된 결과
+          </div>
+          <div style={{ fontSize: 17, color: "#0F172A", fontWeight: 700, marginBottom: 4 }}>
+            {prevResult.nickname}
+            {prevResult.grade ? <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginLeft: 8 }}>{prevResult.grade}</span> : null}
+          </div>
+          <div style={{ fontSize: 14, color: "#475569" }}>
+            <span style={{ fontWeight: 700, color: "#3B82F6" }}>{prevResult.result.type}</span>형
+          </div>
+        </div>
+
+        {/* 2개 버튼 */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 360, marginLeft: "auto", marginRight: "auto", width: "100%" }}>
+          <button
+            type="button"
+            onClick={() => {
+              setResult(prevResult.result);
+              setPhase("result");
+            }}
+            style={{
+              width: "100%", padding: "16px 0",
+              background: "#3B82F6", color: "#fff",
+              border: "none", borderRadius: 12,
+              fontSize: 15, fontWeight: 700, cursor: "pointer",
+              fontFamily: "inherit",
+              boxShadow: "0 2px 8px rgba(59,130,246,0.25)",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}
+          >
+            <span style={{ fontSize: 17 }}>📋</span>
+            <span>이전 결과 보기</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              // 이전 결과 유지 (새 테스트 완료 시 자동 덮어쓰기) → 사용자가 도중에 그만둘 경우 보호
+              setPhase("intro");
+            }}
+            style={{
+              width: "100%", padding: "16px 0",
+              background: "#fff", color: "#475569",
+              border: "1.5px solid #E2E8F0", borderRadius: 12,
+              fontSize: 15, fontWeight: 600, cursor: "pointer",
+              fontFamily: "inherit",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}
+          >
+            <span style={{ fontSize: 16 }}>↻</span>
+            <span>테스트 다시 하기</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+
   // ─── INTRO ───────────────────────────────────────────────
   if (phase === "intro") return (
     <div className="el-root" style={{ ...styles.root, ...(isMobile ? { background: "#FFFFFF", padding: 0 } : {}) }}>
       <div className="el-card" style={{ ...styles.card, ...(isMobile ? { maxWidth: "100%", borderRadius: 0, boxShadow: "none", padding: "36px 24px" } : {}) }}>
-        {/* 이전 결과 배너 (방안 C) — 같은 브라우저에서 이전에 완료한 사용자에게만 표시 */}
-        {prevResult && (
-          <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            background: "linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)",
-            border: "1px solid #C7D2FE",
-            borderRadius: 10, padding: "10px 12px 10px 14px",
-            marginBottom: 18, gap: 8,
-          }}>
-            <button
-              type="button"
-              onClick={() => {
-                setResult(prevResult.result);
-                setPhase("result");
-              }}
-              style={{
-                flex: 1, display: "flex", alignItems: "center", gap: 10,
-                background: "transparent", border: "none", padding: 0,
-                cursor: "pointer", textAlign: "left", fontFamily: "inherit",
-              }}
-            >
-              <span style={{ fontSize: 18 }}>📋</span>
-              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.35 }}>
-                <span style={{ fontSize: 12, color: "#6366F1", fontWeight: 700 }}>
-                  이전 결과 보기
-                </span>
-                <span style={{ fontSize: 11, color: "#64748B" }}>
-                  {prevResult.nickname}
-                  {prevResult.grade ? ` · ${prevResult.grade}` : ""}
-                  {" · "}
-                  <span style={{ color: "#475569", fontWeight: 600 }}>{prevResult.result.type}형</span>
-                </span>
-              </span>
-              <span style={{ fontSize: 12, color: "#A5B4FC", marginLeft: "auto" }}>›</span>
-            </button>
-            <button
-              type="button"
-              aria-label="이전 결과 배너 닫기"
-              onClick={() => {
-                try { window.localStorage.removeItem("et_lastResult"); } catch (e) {}
-                setPrevResult(null);
-              }}
-              style={{
-                background: "transparent", border: "none", cursor: "pointer",
-                color: "#94A3B8", fontSize: 14, padding: "2px 6px",
-                fontFamily: "inherit", lineHeight: 1,
-              }}
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
         {/* 뱃지 + 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={styles.badge}>엘리먼트 학습성향 검사</div>
