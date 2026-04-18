@@ -1072,7 +1072,7 @@ export default function TQPhase1({ academy = null }) {
                   { label: "초등학생", items: ["초3","초4","초5","초6"] },
                   { label: "중학생",   items: ["중1","중2","중3"] },
                   { label: "고등학생", items: ["고1","고2","고3"] },
-                  { label: "성인",     items: ["N수생","일반","학부모"] },
+                  { label: "성인",     items: ["N수생","성인","학부모"] },
                 ].map(group => (
                   <div key={group.label} style={{ marginBottom: 10 }}>
                     <div style={{ fontSize: 10, color: "#AAA", letterSpacing: "0.06em", marginBottom: 6 }}>
@@ -1972,9 +1972,10 @@ export default function TQPhase1({ academy = null }) {
               </p>
 
               {(() => {
-                const isHigh   = ["고1","고2","고3","성인","N수생"].includes(result?.grade);
+                const isHigh   = ["고1","고2","고3","N수생"].includes(result?.grade);
                 const isMid    = ["초3","초4","초5","초6","중1","중2","중3"].includes(result?.grade);
-                const isAdult  = ["일반","학부모"].includes(result?.grade);
+                const isAdult  = ["성인","일반"].includes(result?.grade);
+                const isParent = ["학부모"].includes(result?.grade);
 
                 // 공통 유리 버튼 스타일
                 const glassBtn = {
@@ -2034,6 +2035,15 @@ export default function TQPhase1({ academy = null }) {
                 );
 
                 if (isAdult) return (
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <button style={glassBtn} onClick={() => handleSimpleShare()}>
+                      <span style={{ fontSize: 20 }}>👥</span>
+                      <BtnLabel main="친구에게 추천하기" sub="친구도 해보세요!" />
+                    </button>
+                  </div>
+                );
+
+                if (isParent) return (
                   <>
                     <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
                       <button style={glassBtn} onClick={() => handleSimpleShare()}>
