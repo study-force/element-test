@@ -1971,9 +1971,9 @@ export default function TQPhase1({ academy = null }) {
               </p>
 
               {(() => {
-                const isHigh   = ["고1","고2","고3"].includes(result?.grade);
+                const isHigh   = ["고1","고2","고3","성인","N수생"].includes(result?.grade);
                 const isMid    = ["초3","초4","초5","초6","중1","중2","중3"].includes(result?.grade);
-                const isAdult  = ["성인","N수생","일반","학부모"].includes(result?.grade);
+                const isAdult  = ["일반","학부모"].includes(result?.grade);
 
                 // 공통 유리 버튼 스타일
                 const glassBtn = {
