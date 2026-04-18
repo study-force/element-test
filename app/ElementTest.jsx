@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 const TQResultPreview = dynamic(() => import("./TQResultPreview"), { ssr: false });
@@ -1930,12 +1930,12 @@ export default function TQPhase1({ academy = null }) {
         <div id="capture-footer" style={{ display: "none", background: "#0D0D0D", padding: "20px 28px", textAlign: "center" }}>
           {academyName && (
             <>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, margin: "0 0 6px", fontWeight: 400 }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, margin: "0 0 10px", fontWeight: 400 }}>
                 독해력 정밀 진단 검사, TQ테스트는<br />
-                <strong style={{ color: "#ffffff" }}>【{academyName}】</strong>에서 받아보실 수 있습니다.
+                <span style={{ color: "#E74C3C", fontWeight: 700 }}>【</span><span style={{ color: "#ffffff", fontWeight: 700 }}>{academyName}</span><span style={{ color: "#E74C3C", fontWeight: 700 }}>】</span>에서 받아보실 수 있습니다.
               </p>
               {academyTel && (
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", margin: 0 }}>문의) {academyTel}</p>
+                <p style={{ fontSize: 14, color: "#ffffff", margin: 0, fontWeight: 700, letterSpacing: "0.04em" }}><span style={{ color: "rgba(255,255,255,0.45)", fontWeight: 400, fontSize: 12 }}>문의) </span>{academyTel}</p>
               )}
             </>
           )}
