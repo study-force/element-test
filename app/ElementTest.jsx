@@ -724,7 +724,12 @@ export default function TQPhase1({ academy = null }) {
       .then(data => {
         if (data && data.frames && data.types) {
           setDbFrames(data.frames);
-          setDbTypes(data.types);
+          // DB 유형에 로컬 이미지(base64) 병합
+          const mergedTypes = {};
+          for (const [key, val] of Object.entries(data.types)) {
+            mergedTypes[key] = { ...val, img: CHAR_IMAGES[key] || null, imgWhite: CHAR_IMAGES_WHITE[key] || null };
+          }
+          setDbTypes(mergedTypes);
         }
       })
       .catch(() => {}); // 실패 시 하드코딩 폴백
