@@ -32,7 +32,7 @@ body{margin:0;padding:0;background:#1E293B;font-family:'Noto Sans KR',sans-serif
   <div class="pick">
     <button class="pick-btn" onclick="showReport('top','김OO · 초6 — 최상위권')"><span>김OO · 초6</span><span class="badge-top">최상위권</span></button>
     <button class="pick-btn" onclick="showReport('mid','김OO · 초4 — 중위권')"><span>김OO · 초4</span><span class="badge-mid">중위권</span></button>
-    <button class="pick-btn" onclick="showReport('low','윤OO · 초5 — 집중관리')"><span>윤OO · 초5</span><span class="badge-low">집중관리</span></button>
+    <button class="pick-btn" onclick="showReport('low','박OO · 초5 — 집중관리')"><span>박OO · 초5</span><span class="badge-low">집중관리</span></button>
   </div>
 </div>
 <div id="reportScreen" style="display:none;">
@@ -42,7 +42,7 @@ body{margin:0;padding:0;background:#1E293B;font-family:'Noto Sans KR',sans-serif
 (function(){
   var params=new URLSearchParams(window.location.search);
   var type=params.get('type');
-  var titles={top:'김OO · 초6 — 최상위권',mid:'김OO · 초4 — 중위권',low:'윤OO · 초5 — 집중관리'};
+  var titles={top:'김OO · 초6 — 최상위권',mid:'김OO · 초4 — 중위권',low:'박OO · 초5 — 집중관리'};
   if(type&&titles[type]) showReport(type,titles[type]);
 })();
 function showReport(type,title){
