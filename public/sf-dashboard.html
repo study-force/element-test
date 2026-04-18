@@ -210,6 +210,59 @@ td:first-child { color:#64748B; width:130px; font-size:12px; white-space:nowrap;
     </table>
   </div>
 
+  <!-- Element Test 결과 화면 버튼 규칙 -->
+  <div class="card card-full">
+    <div class="card-header">
+      <span class="card-icon">🔘</span>
+      <span class="card-title">Element Test — 결과 화면 버튼 표시 규칙</span>
+    </div>
+    <table>
+      <tr class="rule-row">
+        <td>초3~6, 중1~3<br><span style="color:#CBD5E1;font-size:10px">(isMid)</span></td>
+        <td>
+          <strong style="color:#0F172A">2개 버튼</strong>
+          <span style="color:#94A3B8;font-size:11px;margin-left:6px">— 👥 나의 공부 친구 찾기 · 👨‍👩‍👧 부모님께 추천</span>
+        </td>
+      </tr>
+      <tr class="rule-row">
+        <td>고1~3, N수생<br><span style="color:#CBD5E1;font-size:10px">(isHigh)</span></td>
+        <td>
+          <strong style="color:#0F172A">1개 버튼</strong>
+          <span style="color:#94A3B8;font-size:11px;margin-left:6px">— 👥 나의 공부 친구 찾기</span>
+        </td>
+      </tr>
+      <tr class="rule-row">
+        <td>성인, 일반<br><span style="color:#CBD5E1;font-size:10px">(isAdult)</span></td>
+        <td>
+          <strong style="color:#0F172A">1개 버튼</strong>
+          <span style="color:#94A3B8;font-size:11px;margin-left:6px">— 👥 친구에게 추천하기</span>
+        </td>
+      </tr>
+      <tr class="rule-row">
+        <td>학부모<br><span style="color:#CBD5E1;font-size:10px">(isParent)</span></td>
+        <td>
+          <strong style="color:#0F172A">2개 버튼</strong>
+          <span style="color:#94A3B8;font-size:11px;margin-left:6px">— 👧 자녀에게 추천 · 👩‍👩‍👧 다른 학부모 추천</span>
+        </td>
+      </tr>
+      <tr class="rule-row">
+        <td>학년 선택기 그룹</td>
+        <td style="font-size:11px;line-height:1.7">
+          <span style="color:#64748B">초등학생</span> 초3·초4·초5·초6 &nbsp;·&nbsp;
+          <span style="color:#64748B">중학생</span> 중1·중2·중3 &nbsp;·&nbsp;
+          <span style="color:#64748B">고등학생</span> 고1·고2·고3 &nbsp;·&nbsp;
+          <span style="color:#64748B">성인</span> N수생·성인·학부모
+        </td>
+      </tr>
+      <tr class="rule-row">
+        <td>구현 위치</td>
+        <td style="font-family:'Courier New',monospace;font-size:11px;color:#475569">
+          element-test/app/ElementTest.jsx (≈ line 1974)
+        </td>
+      </tr>
+    </table>
+  </div>
+
 </div>
 
 <div id="copiedMsg" class="copied">클립보드에 복사됐습니다!</div>
