@@ -893,7 +893,10 @@ export default function TQPhase1({ academy = null }) {
         card.style.setProperty('padding', '0', 'important');
         // capture-full: 흰 배경 + 하단 패딩
         full.style.background = '#FFFFFF';
-        full.style.paddingBottom = '36px';
+        full.style.paddingBottom = '0';
+        // 캡처 전용 푸터 표시
+        const capFooter = document.getElementById('capture-footer');
+        if (capFooter) capFooter.style.display = 'block';
         // 헤더: negative margin 제거 (카드 패딩 0이므로 불필요)
         header.style.margin = '0';
         header.style.borderRadius = '0';
@@ -907,6 +910,8 @@ export default function TQPhase1({ academy = null }) {
         header.style.borderRadius = origHeaderRadius;
         body.style.cssText = origBodyStyle;
         overlays.forEach(o => o.style.display = '');
+        // 캡처 전용 푸터 다시 숨김
+        if (capFooter) capFooter.style.display = 'none';
         el = canvas;
       }
       const dataUrl = el.toDataURL('image/png');
@@ -1919,6 +1924,21 @@ export default function TQPhase1({ academy = null }) {
               <p style={{ fontSize: 13, color: "#444", lineHeight: 1.9, margin: 0 }}>{t.caution}</p>
             </div>
           )}
+
+        {/* 이미지 저장 시에만 표시되는 푸터 */}
+        <div id="capture-footer" style={{ display: "none", background: "#0D0D0D", padding: "20px 28px", textAlign: "center" }}>
+          {academyName && (
+            <>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, margin: "0 0 6px", fontWeight: 400 }}>
+                독해력 정밀 진단 검사, TQ테스트는<br />
+                <strong style={{ color: "#ffffff" }}>【{academyName}】</strong>에서 받아보실 수 있습니다.
+              </p>
+              {academyTel && (
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", margin: 0 }}>문의) {academyTel}</p>
+              )}
+            </>
+          )}
+        </div>
 
         </div>{/* capture-full 끝 */}
 
