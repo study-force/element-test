@@ -714,6 +714,23 @@ export default function TQPhase1({ academy = null }) {
   const [nameError, setNameError] = useState(false);
   const [bodyAns, setBodyAns] = useState(null); // null | true | false
   const [rateBlocked, setRateBlocked] = useState(false); // 모바일 터치 중복 방지
+  const [prevResult, setPrevResult] = useState(null); // 같은 브라우저에서 이전에 완료한 결과 (localStorage)
+
+  // 이전 결과 localStorage 로드 — 인트로의 입력폼 자리에 2버튼 표시용
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // 결과 직접 진입(?type=) / 친구 공유(?compare=) 시에는 표시 안 함
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("type") || params.get("compare")) return;
+    try {
+      const raw = window.localStorage.getItem("et_lastResult");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.result && parsed.result.type && parsed.nickname) {
+        setPrevResult(parsed);
+      }
+    } catch (e) { /* localStorage 비활성화/JSON 깨짐 무시 */ }
+  }, []);
 
   // DB에서 문항/유형 데이터 로드
   const [dbFrames, setDbFrames] = useState(null);
@@ -1020,98 +1037,156 @@ export default function TQPhase1({ academy = null }) {
           </p>
         </div>
 
-        {/* 닉네임 + 학년 입력 */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ marginBottom: 12 }}>
-            <input
-              type="text"
-              placeholder="이름 또는 별명"
-              value={nickname}
-              onChange={e => { setNickname(e.target.value); setNameError(false); }}
-              maxLength={10}
-              style={{
-                width: "100%", padding: "13px 16px", fontSize: 15,
-                border: nameError && !nickname.trim() ? "1.5px solid #E74C3C" : "1.5px solid #E8E8E8",
-                borderRadius: 10, outline: "none", boxSizing: "border-box",
-                fontFamily: "inherit", color: "#1A1A1A", background: "#FAFAFA"
-              }}
-            />
-          </div>
-
-          {/* 학년 커스텀 드롭다운 */}
-          <div style={{ position: "relative" }}>
-            {/* 트리거 버튼 */}
-            <div
-              onClick={() => setGradeOpen(o => !o)}
-              style={{
-                width: "100%", padding: "13px 16px",
-                border: nameError && !grade ? "1.5px solid #E74C3C" : "1.5px solid #E8E8E8",
-                borderRadius: gradeOpen ? "10px 10px 0 0" : 10,
-                background: "#FAFAFA", cursor: "pointer",
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-                boxSizing: "border-box",
-              }}
-            >
-              <span style={{ fontSize: 15, color: grade ? "#1A1A1A" : "#999" }}>
-                {grade || "학년 선택"}
-              </span>
-              <span style={{ fontSize: 11, color: "#AAA", transition: "transform 0.2s", display: "inline-block", transform: gradeOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+        {prevResult ? (
+          /* 재방문자 — 입력폼+검사시작 자리에 2버튼 표시 */
+          <div>
+            <div style={{
+              background: "#F8FAFC", border: "1px solid #E2E8F0",
+              borderRadius: 10, padding: "14px 16px",
+              textAlign: "center", marginBottom: 14,
+            }}>
+              <div style={{ fontSize: 11, color: "#94A3B8", letterSpacing: "0.05em", marginBottom: 6, fontWeight: 600 }}>
+                저장된 결과
+              </div>
+              <div style={{ fontSize: 15, color: "#0F172A", fontWeight: 700 }}>
+                {prevResult.nickname}
+                {prevResult.grade ? <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginLeft: 8 }}>{prevResult.grade}</span> : null}
+                <span style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginLeft: 8 }}>·</span>
+                <span style={{ fontSize: 14, color: "#3B82F6", fontWeight: 700, marginLeft: 8 }}>{prevResult.result.type}형</span>
+              </div>
             </div>
 
-            {/* 드롭다운 패널 */}
-            {gradeOpen && (
-              <div style={{
-                position: "absolute", top: "100%", left: 0, right: 0, zIndex: 100,
-                background: "#FAFAFA",
-                border: "1.5px solid #E8E8E8", borderTop: "none",
-                borderRadius: "0 0 10px 10px",
-                padding: "12px 14px 10px",
-                boxShadow: "0 6px 20px rgba(0,0,0,0.08)"
-              }}>
-                {[
-                  { label: "초등학생", items: ["초3","초4","초5","초6"] },
-                  { label: "중학생",   items: ["중1","중2","중3"] },
-                  { label: "고등학생", items: ["고1","고2","고3"] },
-                  { label: "성인",     items: ["N수생","성인","학부모"] },
-                ].map(group => (
-                  <div key={group.label} style={{ marginBottom: 10 }}>
-                    <div style={{ fontSize: 10, color: "#AAA", letterSpacing: "0.06em", marginBottom: 6 }}>
-                      {group.label}
-                    </div>
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {group.items.map(g => (
-                        <button
-                          key={g}
-                          onClick={() => { setGrade(g); setGradeOpen(false); setNameError(false); }}
-                          style={{
-                            padding: "7px 14px", borderRadius: 8,
-                            fontSize: 13, fontWeight: 400, cursor: "pointer",
-                            transition: "all 0.15s", outline: "none",
-                            border: grade === g ? "1.5px solid #1A1A1A" : "1.5px solid #E5E5E5",
-                            background: grade === g ? "#1A1A1A" : "#FFFFFF",
-                            color: grade === g ? "#FFFFFF" : "#555",
-                          }}
-                        >
-                          {g}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => { setResult(prevResult.result); setPhase("result"); }}
+              style={{
+                width: "100%", padding: "16px 0",
+                background: "#1A1A1A", color: "#fff",
+                border: "none", borderRadius: 12,
+                fontSize: 15, fontWeight: 700, cursor: "pointer",
+                fontFamily: "inherit", marginBottom: 10,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              }}
+            >
+              <span style={{ fontSize: 16 }}>📋</span>
+              <span>이전 결과 보기</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                // 입력폼이 노출되도록 prevResult 만 비움 (localStorage 는 유지 — 새 결과 완료 시 덮어씀)
+                setPrevResult(null);
+              }}
+              style={{
+                width: "100%", padding: "16px 0",
+                background: "#fff", color: "#475569",
+                border: "1.5px solid #E2E8F0", borderRadius: 12,
+                fontSize: 15, fontWeight: 600, cursor: "pointer",
+                fontFamily: "inherit",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              }}
+            >
+              <span style={{ fontSize: 14 }}>↻</span>
+              <span>테스트 다시 하기</span>
+            </button>
           </div>
+        ) : (
+          <>
+            {/* 닉네임 + 학년 입력 */}
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ marginBottom: 12 }}>
+                <input
+                  type="text"
+                  placeholder="이름 또는 별명"
+                  value={nickname}
+                  onChange={e => { setNickname(e.target.value); setNameError(false); }}
+                  maxLength={10}
+                  style={{
+                    width: "100%", padding: "13px 16px", fontSize: 15,
+                    border: nameError && !nickname.trim() ? "1.5px solid #E74C3C" : "1.5px solid #E8E8E8",
+                    borderRadius: 10, outline: "none", boxSizing: "border-box",
+                    fontFamily: "inherit", color: "#1A1A1A", background: "#FAFAFA"
+                  }}
+                />
+              </div>
 
-          {nameError && (
-            <p style={{ fontSize: 12, color: "#E74C3C", marginTop: 8, textAlign: "center" }}>
-              이름과 학년을 입력해주세요
-            </p>
-          )}
-        </div>
+              {/* 학년 커스텀 드롭다운 */}
+              <div style={{ position: "relative" }}>
+                {/* 트리거 버튼 */}
+                <div
+                  onClick={() => setGradeOpen(o => !o)}
+                  style={{
+                    width: "100%", padding: "13px 16px",
+                    border: nameError && !grade ? "1.5px solid #E74C3C" : "1.5px solid #E8E8E8",
+                    borderRadius: gradeOpen ? "10px 10px 0 0" : 10,
+                    background: "#FAFAFA", cursor: "pointer",
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <span style={{ fontSize: 15, color: grade ? "#1A1A1A" : "#999" }}>
+                    {grade || "학년 선택"}
+                  </span>
+                  <span style={{ fontSize: 11, color: "#AAA", transition: "transform 0.2s", display: "inline-block", transform: gradeOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+                </div>
 
-        <button style={styles.startBtn} onClick={handleStart}>
-          검사 시작하기 →
-        </button>
+                {/* 드롭다운 패널 */}
+                {gradeOpen && (
+                  <div style={{
+                    position: "absolute", top: "100%", left: 0, right: 0, zIndex: 100,
+                    background: "#FAFAFA",
+                    border: "1.5px solid #E8E8E8", borderTop: "none",
+                    borderRadius: "0 0 10px 10px",
+                    padding: "12px 14px 10px",
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.08)"
+                  }}>
+                    {[
+                      { label: "초등학생", items: ["초3","초4","초5","초6"] },
+                      { label: "중학생",   items: ["중1","중2","중3"] },
+                      { label: "고등학생", items: ["고1","고2","고3"] },
+                      { label: "성인",     items: ["N수생","성인","학부모"] },
+                    ].map(group => (
+                      <div key={group.label} style={{ marginBottom: 10 }}>
+                        <div style={{ fontSize: 10, color: "#AAA", letterSpacing: "0.06em", marginBottom: 6 }}>
+                          {group.label}
+                        </div>
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          {group.items.map(g => (
+                            <button
+                              key={g}
+                              onClick={() => { setGrade(g); setGradeOpen(false); setNameError(false); }}
+                              style={{
+                                padding: "7px 14px", borderRadius: 8,
+                                fontSize: 13, fontWeight: 400, cursor: "pointer",
+                                transition: "all 0.15s", outline: "none",
+                                border: grade === g ? "1.5px solid #1A1A1A" : "1.5px solid #E5E5E5",
+                                background: grade === g ? "#1A1A1A" : "#FFFFFF",
+                                color: grade === g ? "#FFFFFF" : "#555",
+                              }}
+                            >
+                              {g}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {nameError && (
+                <p style={{ fontSize: 12, color: "#E74C3C", marginTop: 8, textAlign: "center" }}>
+                  이름과 학년을 입력해주세요
+                </p>
+              )}
+            </div>
+
+            <button style={styles.startBtn} onClick={handleStart}>
+              검사 시작하기 →
+            </button>
+          </>
+        )}
 
         </div> {/* 80% wrapper 끝 */}
 
@@ -1364,7 +1439,17 @@ export default function TQPhase1({ academy = null }) {
           setAnswers(newAnswers);
           if (current + 1 >= total) {
             const r = calcResult(newAnswers, activeFrames);
-            setResult({ ...r, grade });
+            const fullResult = { ...r, grade };
+            setResult(fullResult);
+            // ── localStorage 저장 (방안 C — 재방문 시 이전 결과 배너용) ──
+            try {
+              window.localStorage.setItem("et_lastResult", JSON.stringify({
+                nickname,
+                grade,
+                result: fullResult,
+                savedAt: Date.now(),
+              }));
+            } catch (e) { /* 저장 실패는 무시 — 메인 플로우에 영향 없음 */ }
             // ── Supabase 저장 ──
             fetch("/api/save-result", {
               method: "POST",
