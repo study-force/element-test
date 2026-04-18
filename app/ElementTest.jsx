@@ -1927,15 +1927,19 @@ export default function TQPhase1({ academy = null }) {
           )}
 
         {/* 이미지 저장 시에만 표시되는 푸터 */}
-        <div id="capture-footer" style={{ display: "none", background: "#0D0D0D", padding: "20px 28px", textAlign: "center" }}>
+        <div id="capture-footer" style={{ display: "none", background: "#0D0D0D", padding: "24px 28px", textAlign: "center" }}>
           {academyName && (
             <>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, margin: "0 0 10px", fontWeight: 400 }}>
-                독해력 정밀 진단 검사, TQ테스트는<br />
-                <span style={{ color: "#E74C3C", fontWeight: 700 }}>【</span><span style={{ color: "#ffffff", fontWeight: 700 }}>{academyName}</span><span style={{ color: "#E74C3C", fontWeight: 700 }}>】</span>에서 받아보실 수 있습니다.
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", margin: "0 0 4px", fontWeight: 400, letterSpacing: "0.05em" }}>다음 단계는</p>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", lineHeight: 1.8, margin: "0 0 4px", fontWeight: 400 }}>
+                독해력 정밀 진단 검사, TQ테스트입니다.<br />
+                TQ테스트는 <span style={{ color: "#E74C3C", fontWeight: 700 }}>【</span><span style={{ color: "#ffffff", fontWeight: 700 }}>{academyName}</span><span style={{ color: "#E74C3C", fontWeight: 700 }}>】</span>에서<br />받아보실 수 있습니다.
               </p>
               {academyTel && (
-                <p style={{ fontSize: 14, color: "#ffffff", margin: 0, fontWeight: 700, letterSpacing: "0.04em" }}><span style={{ color: "rgba(255,255,255,0.45)", fontWeight: 400, fontSize: 12 }}>문의) </span>{academyTel}</p>
+                <div style={{ display: "inline-block", marginTop: 12, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 8, padding: "8px 20px" }}>
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", fontWeight: 400 }}>문의) </span>
+                  <span style={{ fontSize: 15, color: "#ffffff", fontWeight: 700, letterSpacing: "0.05em" }}>{academyTel}</span>
+                </div>
               )}
             </>
           )}
