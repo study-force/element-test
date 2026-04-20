@@ -1473,6 +1473,100 @@ nav {
     border: 1px solid rgba(100,110,140,0.4);
   }
   .elem-col-num { white-space: nowrap; background: #10B981 !important; }
+
+/* ═══════════════════════════════════════
+   모바일 최적화 (768px 이하)
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* 공통 */
+  .container { padding: 0 16px; }
+  section { padding: 56px 0 !important; }
+  body { font-size: 14px; }
+
+  /* 긴급 배너 */
+  .urgency-bar { font-size: 11px; padding: 8px 12px; letter-spacing: 0; }
+  .urgency-bar strong { font-size: 13px !important; }
+
+  /* HERO */
+  .hero { padding: 40px 0 !important; }
+  .hero-sub-line { font-size: 12px !important; }
+  .hero h1 { font-size: 26px !important; line-height: 1.3 !important; }
+  .hero-desc { font-size: 13px !important; margin-top: 10px !important; }
+  .hero-top { margin-top: 0 !important; margin-bottom: 32px !important; }
+
+  /* 3단계 카드 (마케팅/상담/판독 리포트) */
+  .hero-three { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .h3-col { padding: 20px !important; }
+  .h3-num { font-size: 20px !important; }
+  .h3-label { font-size: 16px !important; }
+  .h3-desc { font-size: 12px !important; }
+  .h3-col img { max-width: 80% !important; }
+  .h3-arrow { display: none !important; }
+  .h3-btn { font-size: 13px !important; padding: 11px !important; }
+
+  /* 히어로 CTA 버튼 */
+  .hero a[href*="tel:"], .hero a[href*="docs.google.com"] { font-size: 15px !important; padding: 14px 32px !important; }
+
+  /* 섹션 타이틀 */
+  h2 { font-size: 22px !important; line-height: 1.4 !important; }
+  .badge { font-size: 10px !important; padding: 4px 10px !important; }
+
+  /* 엘리먼트 섹션 (STEP 1,2,3) */
+  .elem-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .elem-col { padding: 20px !important; }
+  .elem-col-arrow { display: none !important; }
+  .elem-col-label { font-size: 14px !important; }
+  .elem-col-desc { font-size: 12px !important; margin-bottom: 14px !important; }
+  .elem-col-num { font-size: 10px !important; padding: 3px 8px !important; }
+  .elem-mini-phone { width: 120px !important; margin: 0 auto; }
+  .elem-col:nth-child(3) .elem-mini-phone { width: 160px !important; }
+  .elem-chars-mini { justify-content: center !important; flex-wrap: wrap; gap: 12px !important; }
+  .elem-char-mini { width: 56px !important; }
+  .elem-char-mini img { width: 48px !important; height: 48px !important; }
+  .elem-char-mini span { font-size: 10px !important; }
+
+  /* TQ 섹션 */
+  .tq-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .tq-features { gap: 14px !important; }
+  .tq-feat { padding: 14px !important; gap: 12px !important; }
+  .tq-feat-title { font-size: 15px !important; }
+  .tq-feat-desc { font-size: 12px !important; line-height: 1.5 !important; }
+  .tq-feat-icon { font-size: 20px !important; min-width: 40px !important; height: 40px !important; }
+  .tq-screen { max-width: 100% !important; }
+
+  /* 가격 카드 (STEP 1, STEP 2) */
+  .offer-bg .container > div[style*="max-width:680px"] > div { padding: 28px 20px !important; }
+  .offer-title h2 { font-size: 22px !important; }
+  .offer-card h3, .offer-card .card-title { font-size: 18px !important; }
+  .card-items li { font-size: 13px !important; line-height: 1.5 !important; }
+  .pricing-label { font-size: 12px !important; }
+  .pricing-val { font-size: 13px !important; }
+  .pricing-val strong { font-size: 15px !important; }
+
+  /* 선착순 혜택 박스 */
+  .offer-bg div[style*="선착순"] { padding: 24px 20px 20px !important; }
+
+  /* 도입 신청하기 버튼 */
+  a[href*="docs.google.com/forms"] { font-size: 14px !important; padding: 12px 36px !important; }
+
+  /* 닫기 버튼/모달 */
+  .pick-modal { max-width: 92% !important; padding: 24px 16px !important; }
+  .pick-modal-title { font-size: 16px !important; }
+  .pick-btn { padding: 12px 16px !important; font-size: 13px !important; }
+  .pick-badge { font-size: 10px !important; padding: 2px 8px !important; }
+
+  /* iframe 으로 표시된 화면 캡처 */
+  .elem-booking-box { max-width: 90% !important; margin: 0 auto 14px !important; }
+}
+
+/* 초소형 화면 (480px 이하) */
+@media (max-width: 480px) {
+  .hero h1 { font-size: 22px !important; }
+  h2 { font-size: 20px !important; }
+  .h3-col img { max-width: 90% !important; }
+  .elem-char-mini { width: 48px !important; }
+  .elem-char-mini img { width: 40px !important; height: 40px !important; }
+}
 </style>
 </head>
 <body>
@@ -1515,7 +1609,7 @@ nav {
           <div class="h3-bar"></div>
         </div>
         <div class="h3-desc">3분 무료 검사 → SNS 공유 → 학원 유입</div>
-        <a href="https://element.sfcenter.kr" target="_blank" class="h3-btn btn-coral">
+        <a href="https://element.sfcenter.co.kr/ironman" onclick="event.preventDefault();window.open(this.href,'element_app','width=420,height=900,scrollbars=yes,resizable=yes');return false;" class="h3-btn btn-coral">
           검사 해보기 →
         </a>
       </div>
@@ -1542,7 +1636,7 @@ nav {
           </div>
         </div>
         <div class="h3-desc">TQ 테스트 입력 → AI 자동 판독 → 즉시 생성</div>
-        <button class="h3-btn btn-coral" onclick="document.getElementById('pickResultModal').classList.add('open')">
+        <button class="h3-btn btn-coral" onclick="event.preventDefault();document.getElementById('pickResultModal').classList.add('open')">
           판독 시스템 보기 →
         </button>
       </div>
@@ -1569,7 +1663,7 @@ nav {
           </div>
         </div>
         <div class="h3-desc">권장훈련 로드맵 → 부모 상담 → 학원 등록</div>
-        <button class="h3-btn btn-coral" onclick="document.getElementById('pickReportModal').classList.add('open')">
+        <button class="h3-btn btn-coral" onclick="event.preventDefault();document.getElementById('pickReportModal').classList.add('open')">
           리포트 미리보기 →
         </button>
       </div>
@@ -1611,10 +1705,10 @@ nav {
           </div>
         </div>
         <div class="elem-chars-mini">
-          <div class="elem-char-mini"><img src="/char-fire.png"  alt="불"><span>불의 정복자</span></div>
-          <div class="elem-char-mini"><img src="/char-earth.png" alt="땅"><span>땅의 수호자</span></div>
-          <div class="elem-char-mini"><img src="/char-water.png" alt="물"><span>물의 정령</span></div>
-          <div class="elem-char-mini"><img src="/char-wind.png"  alt="바람"><span>바람의 전령</span></div>
+          <div class="elem-char-mini"><img src="https://element-test-mauve.vercel.app/char-fire.png"  alt="불"><span>불의 정복자</span></div>
+          <div class="elem-char-mini"><img src="https://element-test-mauve.vercel.app/char-earth.png" alt="땅"><span>땅의 수호자</span></div>
+          <div class="elem-char-mini"><img src="https://element-test-mauve.vercel.app/char-water.png" alt="물"><span>물의 정령</span></div>
+          <div class="elem-char-mini"><img src="https://element-test-mauve.vercel.app/char-wind.png"  alt="바람"><span>바람의 전령</span></div>
         </div>
       </div>
 
@@ -1700,7 +1794,7 @@ nav {
       <div style="display:flex;flex-direction:column;gap:14px;">
         <div class="tq-screen">
           <div class="tq-screen-label">판독 결과 화면</div>
-          <img src="/tq-screen-result.png" alt="TQ 컨설턴트 화면" style="width:100%;display:block">
+          <img src="https://element-test-mauve.vercel.app/tq-screen-result.png" alt="TQ 컨설턴트 화면" style="width:100%;display:block">
         </div>
         <div class="tq-screen">
           <div class="tq-screen-label">권장 훈련 로드맵</div>
@@ -1809,13 +1903,13 @@ nav {
     <div class="pick-modal-title">판독 결과 샘플</div>
     <div class="pick-modal-sub">학생 유형을 선택하세요</div>
     <div class="pick-btns">
-      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EA%B9%80OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%206%2C%20%22fact_score%22%3A%20100%2C%20%22structure_score%22%3A%20100%2C%20%22reading_score%22%3A%20757%2C%20%22voca_score%22%3A%2075%2C%20%22wm_score%22%3A%2060%2C%20%22inference_score%22%3A%2080%2C%20%22kor_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22eng_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22reading_habit_checks%22%3A%20%5B0%2C%200%2C%200%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%5D%2C%20%22reading_effect_checks%22%3A%20%5B0%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%201%5D%2C%20%22reg_date%22%3A%20%222025-10-01%2000%3A00%3A00%22%7D" target="_blank" class="pick-btn top">
+      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EA%B9%80OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%206%2C%20%22fact_score%22%3A%20100%2C%20%22structure_score%22%3A%20100%2C%20%22reading_score%22%3A%20757%2C%20%22voca_score%22%3A%2075%2C%20%22wm_score%22%3A%2060%2C%20%22inference_score%22%3A%2080%2C%20%22kor_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22eng_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22reading_habit_checks%22%3A%20%5B0%2C%200%2C%200%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%5D%2C%20%22reading_effect_checks%22%3A%20%5B0%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%201%5D%2C%20%22reg_date%22%3A%20%222025-10-01%2000%3A00%3A00%22%7D" onclick="event.preventDefault();window.open(this.href,'tq_system','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" class="pick-btn top">
         <span>김OO · 초6</span><span class="pick-badge">최상위권</span>
       </a>
-      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EA%B9%80OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%204%2C%20%22fact_score%22%3A%2040%2C%20%22structure_score%22%3A%2040%2C%20%22reading_score%22%3A%20413%2C%20%22voca_score%22%3A%2065%2C%20%22wm_score%22%3A%2020%2C%20%22inference_score%22%3A%2050%2C%20%22kor_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22eng_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22reading_habit_checks%22%3A%20%5B1%2C%200%2C%201%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%201%5D%2C%20%22reading_effect_checks%22%3A%20%5B1%2C%200%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%5D%2C%20%22reg_date%22%3A%20%222025-12-23%2000%3A00%3A00%22%7D" target="_blank" class="pick-btn mid">
+      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EA%B9%80OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%204%2C%20%22fact_score%22%3A%2040%2C%20%22structure_score%22%3A%2040%2C%20%22reading_score%22%3A%20413%2C%20%22voca_score%22%3A%2065%2C%20%22wm_score%22%3A%2020%2C%20%22inference_score%22%3A%2050%2C%20%22kor_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22eng_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%A7%A4%EC%9A%B0%EC%9E%98%ED%95%A8%22%2C%20%22reading_habit_checks%22%3A%20%5B1%2C%200%2C%201%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%201%5D%2C%20%22reading_effect_checks%22%3A%20%5B1%2C%200%2C%201%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%2C%200%5D%2C%20%22reg_date%22%3A%20%222025-12-23%2000%3A00%3A00%22%7D" onclick="event.preventDefault();window.open(this.href,'tq_system','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" class="pick-btn mid">
         <span>김OO · 초4</span><span class="pick-badge">중위권</span>
       </a>
-      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EB%B0%95OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%205%2C%20%22fact_score%22%3A%2020%2C%20%22structure_score%22%3A%200%2C%20%22reading_score%22%3A%20276%2C%20%22voca_score%22%3A%2035%2C%20%22wm_score%22%3A%2030%2C%20%22inference_score%22%3A%2015%2C%20%22kor_score%22%3A%20%22%EB%B3%B4%ED%86%B5%22%2C%20%22eng_score%22%3A%20%22%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%B3%B4%ED%86%B5%22%2C%20%22reading_habit_checks%22%3A%20%5B0%2C%200%2C%201%2C%200%2C%201%2C%201%2C%200%2C%201%2C%200%2C%201%5D%2C%20%22reading_effect_checks%22%3A%20%5B1%2C%200%2C%200%2C%200%2C%201%2C%200%2C%200%2C%200%2C%201%2C%201%5D%2C%20%22reg_date%22%3A%20%222024-12-30%2000%3A00%3A00%22%7D" target="_blank" class="pick-btn low">
+      <a href="https://tq.sfcenter.co.kr/tq_v5_prod.html?tqdata=%7B%22name%22%3A%20%22%EB%B0%95OO%22%2C%20%22user_section%22%3A%20%22%EC%B4%88%EB%93%B1%22%2C%20%22user_school_grade%22%3A%205%2C%20%22fact_score%22%3A%2020%2C%20%22structure_score%22%3A%200%2C%20%22reading_score%22%3A%20276%2C%20%22voca_score%22%3A%2035%2C%20%22wm_score%22%3A%2030%2C%20%22inference_score%22%3A%2015%2C%20%22kor_score%22%3A%20%22%EB%B3%B4%ED%86%B5%22%2C%20%22eng_score%22%3A%20%22%EC%9E%98%ED%95%A8%22%2C%20%22math_score%22%3A%20%22%EB%B3%B4%ED%86%B5%22%2C%20%22reading_habit_checks%22%3A%20%5B0%2C%200%2C%201%2C%200%2C%201%2C%201%2C%200%2C%201%2C%200%2C%201%5D%2C%20%22reading_effect_checks%22%3A%20%5B1%2C%200%2C%200%2C%200%2C%201%2C%200%2C%200%2C%200%2C%201%2C%201%5D%2C%20%22reg_date%22%3A%20%222024-12-30%2000%3A00%3A00%22%7D" onclick="event.preventDefault();window.open(this.href,'tq_system','width='+screen.width+',height='+screen.height+',top=0,left=0,scrollbars=yes,resizable=yes');return false;" class="pick-btn low">
         <span>박OO · 초5</span><span class="pick-badge">집중관리</span>
       </a>
     </div>
@@ -1828,13 +1922,13 @@ nav {
     <div class="pick-modal-title">리포트 샘플</div>
     <div class="pick-modal-sub">학생 유형을 선택하세요</div>
     <div class="pick-btns">
-      <button onclick="openReportViewer('top','김OO · 초6 — 최상위권')" class="pick-btn top" style="border:none;width:100%;text-align:left;font-family:inherit">
+      <button onclick="window.open('https://element-test-mauve.vercel.app/report-viewer.html?type=top','report','width=860,height=900,scrollbars=yes,resizable=yes');document.getElementById('pickReportModal').classList.remove('open');" class="pick-btn top" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>김OO · 초6</span><span class="pick-badge">최상위권</span>
       </button>
-      <button onclick="openReportViewer('mid','김OO · 초4 — 중위권')" class="pick-btn mid" style="border:none;width:100%;text-align:left;font-family:inherit">
+      <button onclick="window.open('https://element-test-mauve.vercel.app/report-viewer.html?type=mid','report','width=860,height=900,scrollbars=yes,resizable=yes');document.getElementById('pickReportModal').classList.remove('open');" class="pick-btn mid" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>김OO · 초4</span><span class="pick-badge">중위권</span>
       </button>
-      <button onclick="openReportViewer('low','박OO · 초5 — 집중관리')" class="pick-btn low" style="border:none;width:100%;text-align:left;font-family:inherit">
+      <button onclick="window.open('https://element-test-mauve.vercel.app/report-viewer.html?type=low','report','width=860,height=900,scrollbars=yes,resizable=yes');document.getElementById('pickReportModal').classList.remove('open');" class="pick-btn low" style="border:none;width:100%;text-align:left;font-family:inherit">
         <span>박OO · 초5</span><span class="pick-badge">집중관리</span>
       </button>
     </div>
@@ -1859,7 +1953,7 @@ function openReportViewer(type, title) {
   content.innerHTML = '';
   for (var i = 1; i <= 5; i++) {
     var img = document.createElement('img');
-    img.src = '/report-sample-' + type + '-' + i + '.jpg';
+    img.src = 'https://element-test-mauve.vercel.app/report-sample-' + type + '-' + i + '.jpg';
     img.alt = title + ' 페이지 ' + i;
     img.style.cssText = 'width:100%;display:block;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.3)';
     content.appendChild(img);
