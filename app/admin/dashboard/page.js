@@ -7,7 +7,7 @@ const TYPE_META = {
   이론사고: { emoji: "🪨", name: "땅의 수호자", color: "#8B5CF6" },
   경험사고: { emoji: "💧", name: "물의 정령", color: "#06B6D4" },
 };
-const CONF_COLORS = { 명확: "#22C55E", 경향: "#F59E0B", 미결정: "#94A3B8" };
+const CONF_COLORS = { 명확: "#22C55E", 경향: "#F59E0B", 복합: "#94A3B8" };
 
 const s = {
   title: { fontSize: 24, fontWeight: 700, color: "#1E293B", marginBottom: 32 },
