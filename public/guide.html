@@ -2361,7 +2361,91 @@
   </div>
 </footer>
 
-<script src="./guide.js.다운로드"></script>
+<script>
+/* Element Guide — interactions (reveal · topnav · tabs)
+   원본 외부 스크립트(guide.js)를 인라인으로 대체. 의존성 없음. */
+(function () {
+  'use strict';
+
+  // 1) 스크롤 reveal — IntersectionObserver
+  var revealEls = document.querySelectorAll('[data-reveal]:not(.revealed)');
+  if (!('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('revealed'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  // 2) 상단 네비 — 스크롤 시 .scrolled 토글
+  var nav = document.querySelector('.topnav');
+  if (nav) {
+    var onScroll = function () {
+      if (window.scrollY > 24) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // 3) 유형 탭 전환 (#types 섹션)
+  var tabBtns = document.querySelectorAll('.tab-nav .tab-btn');
+  var panels = document.querySelectorAll('.detail-panel');
+  var indicator = document.querySelector('.tab-indicator');
+
+  function moveIndicator(btn) {
+    if (!indicator || !btn) return;
+    var nav = btn.parentElement;
+    var navRect = nav.getBoundingClientRect();
+    var btnRect = btn.getBoundingClientRect();
+    indicator.style.width = btnRect.width + 'px';
+    indicator.style.transform = 'translateX(' + (btnRect.left - navRect.left) + 'px)';
+  }
+
+  function activateTab(type) {
+    tabBtns.forEach(function (b) {
+      var on = b.getAttribute('data-type') === type;
+      b.classList.toggle('active', on);
+      if (on) moveIndicator(b);
+    });
+    panels.forEach(function (p) {
+      p.classList.toggle('active', p.getAttribute('data-type') === type);
+    });
+  }
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activateTab(btn.getAttribute('data-type'));
+    });
+  });
+
+  // 초기 인디케이터 위치 — 폰트 로드 후 보정
+  var initialActive = document.querySelector('.tab-btn.active');
+  if (initialActive) {
+    requestAnimationFrame(function () { moveIndicator(initialActive); });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { moveIndicator(initialActive); });
+    }
+    window.addEventListener('resize', function () {
+      var cur = document.querySelector('.tab-btn.active');
+      if (cur) moveIndicator(cur);
+    });
+  }
+
+  // 4) 안전망 — 1.5초 후에도 안 드러난 요소는 강제로 reveal (IO miss 대비)
+  setTimeout(function () {
+    document.querySelectorAll('[data-reveal]:not(.revealed)').forEach(function (el) {
+      el.classList.add('revealed');
+    });
+  }, 1500);
+})();
+</script>
 
 
 </body></html>
