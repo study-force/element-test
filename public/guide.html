@@ -1581,6 +1581,99 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition-duration: .01ms !important; }
   }
+
+  /* ─────────────────────────────────────────────────────────── */
+  /*  MOBILE OPTIMIZATION  (≤ 860 / 560 / 520 / 380)             */
+  /* ─────────────────────────────────────────────────────────── */
+
+  @media (max-width: 860px) {
+    /* Detail panel — undo sticky, normalize portrait when stacked */
+    .detail-portrait { position: static; padding: 22px 22px 24px; }
+    .portrait-img { aspect-ratio: 1 / .7; max-height: 220px; }
+    .portrait-name { font-size: 24px; }
+  }
+
+  @media (max-width: 560px) {
+    /* About grid — collapse earlier (was 500px) */
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 520px) {
+    /* ── Section padding ── */
+    section { padding: 56px 16px; }
+
+    /* ── Topnav ── */
+    .topnav-brand { font-size: 14px; gap: 8px; }
+
+    /* ── HERO ── */
+    .hero { padding: 110px 16px 48px; min-height: auto; }
+    .hero-stage { grid-template-columns: repeat(2, 1fr); gap: 36px 12px; }
+    .hero-char { aspect-ratio: 1 / 1.1; }
+    .hero-badge { font-size: 10px; letter-spacing: .12em; padding: 5px 12px 5px 6px; }
+    .hero-badge::before { width: 14px; height: 14px; }
+
+    /* ── Section title — disable forced <br> ── */
+    .section-title br { display: none; }
+
+    /* ── KOLB cycle ── */
+    .kolb-cycle { max-width: 280px; }
+    .kolb-node { width: 46%; }
+    .kolb-node .n-ko { font-size: 14px; }
+    .kolb-node .n-en { font-size: 9px; }
+    .kolb-axis-card .kax-pair { font-size: 11px; flex-wrap: wrap; }
+    .kolb-axis-card .kax-pair em { font-size: 10px; }
+
+    /* ── AXIS — quad diagram ── */
+    .quad { padding: 30px 22px; }
+    .quad::before, .quad-grid { inset: 30px 22px; }
+    .quad-axis-label { font-size: 10px; }
+    .quad-axis-label.left  { left: 8px; }
+    .quad-axis-label.right { right: 8px; }
+    .quad-axis-label.top   { top: 6px; }
+    .quad-axis-label.bottom{ bottom: 6px; }
+    .quad-center-label { font-size: 10px; padding: 5px 10px; }
+    .quad-cell-imgwrap { height: 80px; }
+    .quad-cell { padding: 14px 8px 16px; gap: 6px; }
+    .quad-cell-tag { font-size: 9px; letter-spacing: .08em; }
+
+    /* ── AXIS — spectrum cards ── */
+    .axis-card-meta { flex-wrap: wrap; }
+    .axis-card-sub  { white-space: normal; font-size: 12px; }
+    .axis-spectrum  { gap: 8px; }
+    .axis-pole      { padding: 12px 10px; }
+    .axis-pole-name { font-size: 14px; }
+    .axis-pole-desc { font-size: 11px; }
+
+    /* ── TYPES — tab nav (탭 터치영역 44px 보장) ── */
+    .tab-nav { padding: 4px; border-radius: 14px; width: 100%; }
+    .tab-btn { padding: 12px 16px; font-size: 13px; min-height: 44px; }
+
+    /* ── DETAIL — slogan/blocks ── */
+    .detail-slogan { padding-left: 14px; margin-bottom: 22px; }
+    .detail-slogan::before { top: 6px; bottom: 6px; }
+    .detail-block { margin-bottom: 26px; padding-bottom: 26px; }
+
+    /* ── RELIABILITY ── */
+    .reliability-card h3 { font-size: 19px; }
+
+    /* ── COMPARE ── */
+    .compare-row-val { font-size: 14px; }
+
+    /* ── USAGE ── */
+    .usage-card { padding: 24px 20px; }
+    .usage-card h3 { font-size: 18px; }
+
+    /* ── FAQ ── */
+    .faq-q { gap: 12px; padding: 18px 4px; }
+    .faq-q-text { font-size: 15px; }
+    .faq-a { padding: 0 4px 22px 36px; font-size: 14px; }
+  }
+
+  @media (max-width: 380px) {
+    /* 초소형 화면 — 브랜드 마크 축소 */
+    .topnav-brand { font-size: 13px; gap: 8px; }
+    .topnav-brand .brand-mark { width: 20px; height: 20px; }
+  }
 </style>
 <template id="__bundler_thumbnail"></template>
 </head>
