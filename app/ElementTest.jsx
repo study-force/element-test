@@ -1587,8 +1587,14 @@ export default function TQPhase1({ academy = null }) {
                   <div style={{ display: "flex", gap: 5 }}>
                     {[1,2,3,4,5,6].map(val => (
                       <button
-                        key={val}
-                        onClick={() => handleRate(val)}
+                        key={`${frame.id}-${stmtIndex}-${val}`}
+                        onClick={(e) => {
+                          // 클릭 즉시 인라인 스타일 초기화 (모바일 mouseLeave 미발동 대응)
+                          e.currentTarget.style.background = "#F9F9F9";
+                          e.currentTarget.style.color = "#888";
+                          e.currentTarget.style.border = "1.5px solid #E5E5E5";
+                          handleRate(val);
+                        }}
                         style={{
                           flex: 1,
                           height: 72,
