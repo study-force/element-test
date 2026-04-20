@@ -1640,31 +1640,67 @@
     .quad-card-head { gap: 12px; padding-bottom: 14px; margin-bottom: 18px; }
     .quad-card-head h3 { font-size: 17px; }
 
-    /* ── TYPES — 탭을 2x2 그리드로 전환 (가로 스크롤 제거) ── */
+    /* ── TYPES — 모바일은 세로 스택 버튼 (가로 시도 다 깨져서 단순화) ── */
     .tab-nav {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 6px;
-      border-radius: 16px;
-      width: 100%;
-      overflow: visible;
-      margin: 32px 0 28px;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      width: 100% !important;
+      overflow: visible !important;
+      margin: 28px 0 24px !important;
     }
-    .tab-indicator { display: none; }
+    .tab-indicator { display: none !important; }
     .tab-btn {
-      justify-content: center;
-      padding: 12px 8px;
-      font-size: 13px;
+      width: 100%;
+      justify-content: flex-start;
+      padding: 14px 18px;
+      font-size: 14px;
       min-height: 48px;
-      border-radius: 10px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--line);
       white-space: normal;
-      gap: 8px;
+      gap: 12px;
     }
     .tab-btn.active {
-      background: var(--ink);
-      color: var(--white);
+      background: var(--ink) !important;
+      color: var(--white) !important;
+      border-color: var(--ink) !important;
     }
+    .tab-btn .tab-dot { width: 10px; height: 10px; }
+
+    /* ── COMPARE — 캐릭터 작게 좌측, 요약 우측 가로 레이아웃 ── */
+    .compare-card {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .compare-card-portrait {
+      flex: 0 0 110px;
+      width: 110px;
+      aspect-ratio: auto;
+      align-self: stretch;
+    }
+    .compare-card-portrait img {
+      width: 88%;
+      height: 88%;
+    }
+    .compare-card-portrait .el-badge,
+    .compare-card-portrait .el-num { display: none; }
+    .compare-card-body {
+      padding: 16px 18px 18px;
+      flex: 1;
+      min-width: 0;
+    }
+    .compare-card-name { font-size: 17px; margin-bottom: 2px; }
+    .compare-card-type { font-size: 9px; margin-bottom: 12px; letter-spacing: .1em; }
+    .compare-row { padding: 8px 0; }
+    .compare-row:first-of-type { padding-top: 10px; }
+    .compare-row-label { font-size: 9px; margin-bottom: 2px; }
+    .compare-row-val { font-size: 12.5px; line-height: 1.5; }
 
     /* ── AXIS — spectrum cards ── */
     .axis-card-meta { flex-wrap: wrap; }
