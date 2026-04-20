@@ -27,7 +27,7 @@ export async function POST(request) {
       experience_pct: safeNum(body.experiencePct),
       action_pct: safeNum(body.actionPct),
       thinking_pct: safeNum(body.thinkingPct),
-      confidence: safeNum(body.confidence),
+      confidence: safeStr(body.confidence),
       confidence_label: safeStr(body.confidenceLabel),
       special_match: body.specialMatch === true,
       answers: body.answers || null,

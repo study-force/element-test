@@ -211,11 +211,11 @@ function getClassification(probs) {
   // 신뢰 등급
   let confidence, confidenceLabel, confidenceColor;
   if (topProb >= 0.70) {
-    confidence = "명확"; confidenceLabel = "명확한 유형"; confidenceColor = "#1A6A3A";
+    confidence = "명확"; confidenceLabel = "명확한 유형"; confidenceColor = "#4A8C5C";
   } else if (topProb >= 0.50) {
-    confidence = "경향"; confidenceLabel = "경향이 있는 유형"; confidenceColor = "#8A5A00";
+    confidence = "경향"; confidenceLabel = "경향 유형"; confidenceColor = "#C18A2A";
   } else {
-    confidence = "미결정"; confidenceLabel = "복합 유형 가능"; confidenceColor = "#6A2080";
+    confidence = "복합"; confidenceLabel = "복합 유형"; confidenceColor = "#7A6BA0";
   }
   return { type: topType, topProb, confidence, confidenceLabel, confidenceColor, sorted, probs };
 }
@@ -1903,6 +1903,26 @@ export default function TQPhase1({ academy = null }) {
             </div>
             {/* 셋째줄: 슬로건 1.5배(13→20) */}
             <div style={{ fontSize: 16, fontWeight: 400, color: "#BBB", lineHeight: 1.4 }}>{t.slogan}</div>
+
+            {/* 신뢰도 등급 배지 (명확/경향/복합) */}
+            {result.confidenceLabel && (
+              <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  fontSize: 12, fontWeight: 700,
+                  background: result.confidenceColor,
+                  color: "#FFFFFF",
+                  padding: "6px 14px",
+                  borderRadius: 999,
+                  letterSpacing: "0.04em",
+                  boxShadow: `0 0 0 1px ${result.confidenceColor}33, 0 4px 12px ${result.confidenceColor}44`,
+                }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FFFFFF", opacity: 0.9 }} />
+                  {result.confidenceLabel}
+                  <span style={{ opacity: 0.75, fontWeight: 500 }}>· {Math.round(result.topProb * 100)}%</span>
+                </span>
+              </div>
+            )}
           </div>
 
           {/* v3: 4유형 확률 게이지 */}

@@ -1,0 +1,125 @@
+// ── Tab switching with smooth fade ──────────────────────────────
+const tabs = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.detail-panel');
+const indicator = document.querySelector('.tab-indicator');
+
+function activateTab(type, btn) {
+  tabs.forEach(b => b.classList.remove('active'));
+  panels.forEach(p => {
+    if (p.id === `tab-${type}`) {
+      p.classList.add('active');
+    } else {
+      p.classList.remove('active');
+    }
+  });
+  btn.classList.add('active');
+  moveIndicator(btn);
+}
+
+function moveIndicator(btn) {
+  if (!indicator || !btn) return;
+  const parent = btn.parentElement;
+  const pRect = parent.getBoundingClientRect();
+  const bRect = btn.getBoundingClientRect();
+  indicator.style.width = bRect.width + 'px';
+  indicator.style.transform = `translateX(${bRect.left - pRect.left}px)`;
+}
+
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => activateTab(btn.dataset.type, btn));
+});
+
+window.addEventListener('load', () => {
+  const active = document.querySelector('.tab-btn.active');
+  if (active) moveIndicator(active);
+});
+window.addEventListener('resize', () => {
+  const active = document.querySelector('.tab-btn.active');
+  if (active) moveIndicator(active);
+});
+
+// ── Reveal on scroll ─────────────────────────────────────────────
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('revealed');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// ── Hero character parallax on mouse move ────────────────────────
+const heroStage = document.querySelector('.hero-stage');
+if (heroStage) {
+  const chars = heroStage.querySelectorAll('.hero-char');
+  heroStage.addEventListener('mousemove', (e) => {
+    const rect = heroStage.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    chars.forEach((c, i) => {
+      const depth = (i + 1) * 3;
+      c.style.setProperty('--mx', `${x * depth}px`);
+      c.style.setProperty('--my', `${y * depth}px`);
+    });
+  });
+  heroStage.addEventListener('mouseleave', () => {
+    chars.forEach(c => {
+      c.style.setProperty('--mx', '0px');
+      c.style.setProperty('--my', '0px');
+    });
+  });
+
+  // Hover → highlight one character, dim others
+  chars.forEach(c => {
+    c.addEventListener('mouseenter', () => {
+      heroStage.classList.add('has-hover');
+      chars.forEach(cc => cc.classList.toggle('is-hovered', cc === c));
+    });
+    c.addEventListener('mouseleave', () => {
+      heroStage.classList.remove('has-hover');
+      chars.forEach(cc => cc.classList.remove('is-hovered'));
+    });
+    c.addEventListener('click', () => {
+      const type = c.dataset.type;
+      const btn = document.querySelector(`.tab-btn[data-type="${type}"]`);
+      if (btn) {
+        activateTab(type, btn);
+        document.getElementById('types').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+// ── Quadrant interaction ─────────────────────────────────────────
+document.querySelectorAll('.quad-cell').forEach(cell => {
+  cell.addEventListener('click', () => {
+    const type = cell.dataset.type;
+    const btn = document.querySelector(`.tab-btn[data-type="${type}"]`);
+    if (btn) {
+      activateTab(type, btn);
+      document.getElementById('types').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ── Smooth anchor scrolling for top nav ──────────────────────────
+document.querySelectorAll('.topnav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ── Sticky topnav hide-on-scroll-down ────────────────────────────
+let lastY = 0;
+const topnav = document.querySelector('.topnav');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (topnav) {
+    topnav.classList.toggle('scrolled', y > 24);
+  }
+  lastY = y;
+});
