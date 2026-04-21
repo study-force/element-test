@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TQ 재분석 안내 팝업 미리보기</title>
+<style>
+body { margin:0; padding:40px 20px; background:rgba(0,0,0,0.6); font-family:'Pretendard','Noto Sans KR',sans-serif; display:flex; align-items:flex-start; justify-content:center; min-height:100vh; }
+.tq-reanalysis-wrap .popup { background:#fff; width:100%; overflow:hidden; position:relative; }
+.tq-reanalysis-wrap .popup-banner { background:linear-gradient(135deg,#0F766E,#14B8A6); color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:700; letter-spacing:0.5px; }
+.tq-reanalysis-wrap .popup-header { padding:28px 28px 20px; text-align:center; }
+.tq-reanalysis-wrap .popup-sub { font-size:13px; color:#64748B; margin-bottom:6px; line-height:1.6; }
+.tq-reanalysis-wrap .popup-title { font-size:22px; font-weight:800; color:#0D1E35; line-height:1.5; }
+.tq-reanalysis-wrap .popup-benefits { padding:0 28px 20px; }
+.tq-reanalysis-wrap .popup-benefit { display:flex; align-items:flex-start; gap:10px; padding:8px 0; font-size:14px; color:#374151; line-height:1.5; }
+.tq-reanalysis-wrap .popup-benefit-chk { color:#14B8A6; font-weight:700; font-size:14px; flex-shrink:0; margin-top:2px; }
+.tq-reanalysis-wrap .popup-benefit strong { color:#0D1E35; }
+.tq-reanalysis-wrap .popup-cta-box { background:linear-gradient(135deg,#1E293B,#0F172A); padding:24px 28px; text-align:center; }
+.tq-reanalysis-wrap .popup-close-bottom { background:#1E293B; padding:8px 16px; text-align:right; }
+.tq-reanalysis-wrap .popup-close-bottom img { cursor:pointer; }
+.tq-reanalysis-wrap .popup-privacy { background:#F8FAFC; padding:14px 28px; font-size:11px; color:#64748B; line-height:1.6; text-align:center; border-top:1px solid #E2E8F0; }
+.tq-reanalysis-wrap .popup-privacy strong { color:#0F766E; }
+.tq-reanalysis-wrap .phone-display { background:rgba(255,255,255,0.08); border:1px dashed rgba(255,255,255,0.3); border-radius:10px; padding:12px 16px; margin-bottom:16px; }
+.tq-reanalysis-wrap .phone-display-label { font-size:11px; color:rgba(255,255,255,0.6); margin-bottom:4px; }
+.tq-reanalysis-wrap .phone-display-number { font-size:20px; color:#fff; font-weight:800; letter-spacing:0.5px; }
+.popup_body { width:460px; background:#fff; }
+</style>
+</head>
+<body>
+
+<div class='popup_body'>
+
+<div class="tq-reanalysis-wrap"><div class="popup" style="border:solid 2px #0F766E;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
+
+<!-- 상단 배너 -->
+<div class="popup-banner">🔥 AI 판독 시스템 출시 — 무료 업그레이드 안내</div>
+
+<!-- 헤더 -->
+<div class="popup-header">
+  <div style="font-size:11px;color:#14B8A6;font-weight:700;letter-spacing:1.5px;margin-bottom:8px;">EXISTING MEMBERS ONLY</div>
+  <div class="popup-title">예전에 받으신 TQ 검사,<br>더 자세한 분석으로<br>다시 받아보세요</div>
+  <div class="popup-sub" style="margin-top:12px;">이전 데이터를 AI 판독 시스템으로 재분석한<br><strong style="color:#0D1E35;">상세 리포트를 무료로</strong> 보내드립니다</div>
+</div>
+
+<!-- 미리보기 이미지 -->
+<div style="padding:0 28px 16px;text-align:center;">
+  <div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 2px #CBD5E1,0 4px 16px rgba(0,0,0,0.15);display:inline-block;max-width:100%;">
+    <div style="background:#0F766E;padding:4px 8px;font-size:9px;color:rgba(255,255,255,0.9);font-weight:600;text-align:center;letter-spacing:1px;">NEW — AI 판독 결과</div>
+    <img src="https://element-test-mauve.vercel.app/tq-screen-result.png" style="width:100%;display:block;" alt="판독 결과" />
+  </div>
+</div>
+
+<!-- 혜택 목록 -->
+<div class="popup-benefits">
+  <div class="popup-benefit">
+    <span class="popup-benefit-chk">✓</span>
+    <span><strong>이전 검사 결과</strong>를 AI 판독으로 무료 재분석</span>
+  </div>
+  <div class="popup-benefit">
+    <span class="popup-benefit-chk">✓</span>
+    <span>어휘력·추론력·독해습관 등 <strong>8개 영역 상세 분석</strong></span>
+  </div>
+  <div class="popup-benefit">
+    <span class="popup-benefit-chk">✓</span>
+    <span>학부모 상담용 <strong>A4 리포트</strong>를 PDF로 전달</span>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="popup-cta-box">
+  <div style="font-size:12px;color:#5EEAD4;font-weight:700;letter-spacing:1px;margin-bottom:10px;">무료 서비스 · 별도 결제 없음</div>
+  <div style="font-size:16px;color:#fff;font-weight:700;margin-bottom:16px;line-height:1.5;">문자로 간편하게 신청하세요</div>
+
+  <!-- 학원 전화번호 표시 -->
+  <div class="phone-display">
+    <div class="phone-display-label">문자 또는 전화 문의</div>
+    <div class="phone-display-number">010-1234-5678</div>
+  </div>
+
+  <div style="display:flex;gap:10px;justify-content:center;">
+    <a href="sms:01012345678?body=%5BTQ%20%EB%A6%AC%ED%8F%AC%ED%8A%B8%20%EC%8B%A0%EC%B2%AD%5D%0A%EC%9E%90%EB%85%80%EB%AA%85%3A%20%0A%ED%95%99%EB%85%84%3A%20%0A%EC%9D%B4%EC%A0%84%20%EA%B2%80%EC%82%AC%20%EC%8B%9C%EA%B8%B0%3A%20" style="display:inline-block;padding:12px 22px;font-size:13px;font-weight:700;color:#0F766E;background:#fff;border-radius:10px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);">📱 문자 보내기</a>
+    <a href="tel:01012345678" style="display:inline-block;padding:12px 22px;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:10px;text-decoration:none;">📞 전화</a>
+  </div>
+
+  <div style="margin-top:14px;font-size:11px;color:rgba(255,255,255,0.5);line-height:1.6;">
+    버튼을 누르면 메시지 양식이 자동 입력됩니다.<br>
+    자녀명·학년을 확인 후 전송해주세요.
+  </div>
+</div>
+
+<!-- 개인정보 안내 -->
+<div class="popup-privacy">
+  이전 검사 데이터는 규정에 따라 안전하게 보관되어 왔습니다.<br>
+  원하지 않으시면 <strong>데이터 파기</strong>라고 회신 주시면 즉시 파기해드립니다.
+</div>
+
+<!-- 오늘 하루 닫기 -->
+<div class="popup-close-bottom" style="text-align:right;"><span style="color:#fff;font-size:11px;cursor:pointer;">× 오늘 하루 이 창을 열지 않음</span></div>
+
+</div></div>
+</div>
+
+</body>
+</html>
