@@ -9,6 +9,17 @@ const TYPE_META = {
 };
 // 유형 표시 순서 (고정): 불 → 땅 → 바람 → 물
 const TYPE_ORDER = ["이론실행", "이론사고", "경험실행", "경험사고"];
+const TYPE_RANK = Object.fromEntries(TYPE_ORDER.map((k, i) => [k, i]));
+// 극성 순서: 이론→경험, 실행→사고
+const POLE_RANK = { 이론: 0, 경험: 1, 실행: 0, 사고: 1 };
+
+function sortStatements(stmts) {
+  return [...stmts].sort((a, b) => {
+    const ra = TYPE_RANK[a.key] ?? (a.pole != null ? POLE_RANK[a.pole] : 999);
+    const rb = TYPE_RANK[b.key] ?? (b.pole != null ? POLE_RANK[b.pole] : 999);
+    return ra - rb;
+  });
+}
 const CONF_COLORS = { 명확: "#22C55E", 경향: "#F59E0B", 복합: "#94A3B8" };
 
 const s = {
@@ -207,7 +218,7 @@ export default function DashboardPage() {
                   </span>
                 )}
               </div>
-              {frame.statements.map(stmt => (
+              {sortStatements(frame.statements).map(stmt => (
                 <ItemRow key={stmt.key} stmt={stmt} />
               ))}
             </div>
