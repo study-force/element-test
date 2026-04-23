@@ -2,13 +2,16 @@ import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "../../../../lib/supabase-admin";
 import { isAdminAuthenticated } from "../../../../lib/admin-auth";
 
-export async function GET() {
+export async function GET(request) {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "인증 필요" }, { status: 401 });
   }
 
   try {
     const supabase = getSupabaseAdmin();
+    const { searchParams } = new URL(request.url);
+    const from = searchParams.get("from"); // YYYY-MM-DD
+    const to = searchParams.get("to");     // YYYY-MM-DD (inclusive)
 
     // 1) 프레임 + 문항 구조 로드 (순서 고정)
     const { data: frames, error: fErr } = await supabase
@@ -26,11 +29,14 @@ export async function GET() {
       .order("id", { ascending: true });
     if (sErr) throw sErr;
 
-    // 2) answers 전부 로드 (answers만)
-    const { data: results, error: rErr } = await supabase
+    // 2) answers 로드 (날짜 필터 적용)
+    let query = supabase
       .from("element_results")
-      .select("answers")
+      .select("answers, created_at")
       .not("answers", "is", null);
+    if (from) query = query.gte("created_at", `${from}T00:00:00`);
+    if (to)   query = query.lte("created_at", `${to}T23:59:59.999`);
+    const { data: results, error: rErr } = await query;
     if (rErr) throw rErr;
 
     // 3) 문항별 점수 분포 집계
