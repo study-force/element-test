@@ -34,8 +34,9 @@ export async function GET(request) {
       .from("element_results")
       .select("answers, created_at")
       .not("answers", "is", null);
-    if (from) query = query.gte("created_at", `${from}T00:00:00`);
-    if (to)   query = query.lte("created_at", `${to}T23:59:59.999`);
+    // KST(+09:00) 기준으로 필터 (DB는 UTC 저장, 사용자 "오늘"은 KST 기준)
+    if (from) query = query.gte("created_at", `${from}T00:00:00+09:00`);
+    if (to)   query = query.lte("created_at", `${to}T23:59:59.999+09:00`);
     const { data: results, error: rErr } = await query;
     if (rErr) throw rErr;
 
