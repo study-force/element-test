@@ -1,15 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { getSupabaseAdmin } from "../../../lib/supabase-admin";
 
 export async function GET() {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: "Supabase 환경변수 누락" }, { status: 500 });
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseAdmin();
 
     // 프레임 + 문항 조회
     const { data: frames, error: fErr } = await supabase
