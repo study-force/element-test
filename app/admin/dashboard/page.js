@@ -7,6 +7,8 @@ const TYPE_META = {
   이론사고: { emoji: "🪨", name: "땅의 수호자", color: "#8B5CF6" },
   경험사고: { emoji: "💧", name: "물의 정령", color: "#06B6D4" },
 };
+// 유형 표시 순서 (고정): 불 → 땅 → 바람 → 물
+const TYPE_ORDER = ["이론실행", "이론사고", "경험실행", "경험사고"];
 const CONF_COLORS = { 명확: "#22C55E", 경향: "#F59E0B", 복합: "#94A3B8" };
 
 const s = {
@@ -117,15 +119,18 @@ export default function DashboardPage() {
         {/* 유형 분포 */}
         <div style={s.section}>
           <div style={s.sectionTitle}>유형 분포</div>
-          {Object.entries(stats.typeDistribution).map(([key, count]) => (
-            <div key={key} style={s.barRow}>
-              <div style={s.barLabel}>{TYPE_META[key]?.emoji} {TYPE_META[key]?.name}</div>
-              <div style={s.barTrack}>
-                <div style={s.barFill((count / maxType) * 100, TYPE_META[key]?.color)} />
+          {TYPE_ORDER.map(key => {
+            const count = stats.typeDistribution[key] || 0;
+            return (
+              <div key={key} style={s.barRow}>
+                <div style={s.barLabel}>{TYPE_META[key]?.emoji} {TYPE_META[key]?.name}</div>
+                <div style={s.barTrack}>
+                  <div style={s.barFill((count / maxType) * 100, TYPE_META[key]?.color)} />
+                </div>
+                <div style={s.barCount}>{count}</div>
               </div>
-              <div style={s.barCount}>{count}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* 신뢰도 분포 */}
