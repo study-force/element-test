@@ -10,17 +10,20 @@ export async function GET() {
   try {
     const supabase = getSupabaseAdmin();
 
-    // 1) 프레임 + 문항 구조 로드
+    // 1) 프레임 + 문항 구조 로드 (순서 고정)
     const { data: frames, error: fErr } = await supabase
       .from("element_frames")
       .select("*")
-      .order("sort_order", { ascending: true });
+      .order("sort_order", { ascending: true })
+      .order("frame_id", { ascending: true });
     if (fErr) throw fErr;
 
     const { data: statements, error: sErr } = await supabase
       .from("element_statements")
       .select("*")
-      .order("sort_order", { ascending: true });
+      .order("frame_id", { ascending: true })
+      .order("sort_order", { ascending: true })
+      .order("id", { ascending: true });
     if (sErr) throw sErr;
 
     // 2) answers 전부 로드 (answers만)

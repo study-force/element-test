@@ -48,6 +48,14 @@ const KEY_COLOR = {
 };
 const SCORE_COLORS = ["#FEE2E2","#FECACA","#FDE68A","#BBF7D0","#86EFAC","#4ADE80"]; // 1~6
 
+// 학년 표시 순서 (고정)
+const GRADE_ORDER = [
+  "초1","초2","초3","초4","초5","초6",
+  "중1","중2","중3",
+  "고1","고2","고3",
+  "N수생","성인","학부모",
+];
+
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [items, setItems] = useState(null);
@@ -71,7 +79,10 @@ export default function DashboardPage() {
   const maxDaily = Math.max(...stats.dailyTrend.map(d => d.count), 1);
   const topType = Object.entries(stats.typeDistribution).sort((a, b) => b[1] - a[1])[0];
   const maxGrade = Math.max(...Object.values(stats.gradeBreakdown), 1);
-  const sortedGrades = Object.entries(stats.gradeBreakdown).sort((a, b) => b[1] - a[1]);
+  // 정해진 순서대로 배열하고, 누락된 기타 학년은 뒤에 붙임
+  const gradeKeysInOrder = GRADE_ORDER.filter(g => g in stats.gradeBreakdown);
+  const extraGrades = Object.keys(stats.gradeBreakdown).filter(g => !GRADE_ORDER.includes(g));
+  const sortedGrades = [...gradeKeysInOrder, ...extraGrades].map(g => [g, stats.gradeBreakdown[g]]);
   const totalConf = Object.values(stats.confidenceDistribution).reduce((a, b) => a + b, 0) || 1;
 
   return (
