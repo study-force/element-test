@@ -7,10 +7,11 @@ const ELEMENT_NAV = [
   { href: "/admin/questions", label: "문항 관리", icon: "📝" },
   { href: "/admin/types", label: "유형 관리", icon: "🔮" },
   { href: "/admin/history", label: "변경 이력", icon: "🕑" },
+  { href: "/admin/publish", label: "실서버 반영", icon: "🚀" },
 ];
 
 // 사이드바가 필요한 페이지 (Element 관리)
-const SIDEBAR_PATHS = ["/admin/dashboard", "/admin/questions", "/admin/types", "/admin/history"];
+const SIDEBAR_PATHS = ["/admin/dashboard", "/admin/questions", "/admin/types", "/admin/history", "/admin/publish"];
 // 사이드바 없이 풀 화면 (TQ, 학원 등)
 const FULLSCREEN_PATHS = ["/admin/tq-rules", "/admin/academy"];
 
