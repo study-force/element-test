@@ -1,16 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { getSupabaseAdmin } from "../../../lib/supabase-admin";
 
 export async function POST(request) {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: "Supabase 환경변수 누락" }, { status: 500 });
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = getSupabaseAdmin();
     const body = await request.json();
 
     // 데이터 정제 - 숫자 필드가 NaN이면 null로 변환
@@ -37,7 +30,7 @@ export async function POST(request) {
       ref_code: safeStr(body.refCode),
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("element_results")
       .insert([insertData]);
 
