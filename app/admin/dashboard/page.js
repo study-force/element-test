@@ -69,21 +69,55 @@ const GRADE_ORDER = [
   "N수생","성인","학부모",
 ];
 
+function todayStr() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [items, setItems] = useState(null);
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/stats")
       .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e)))
       .then(setStats)
       .catch(e => setError(e.error || "통계 로드 실패"));
-    fetch("/api/admin/item-stats")
-      .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e)))
-      .then(setItems)
-      .catch(e => console.error("항목 통계 로드 실패", e));
   }, []);
+
+  useEffect(() => {
+    setItemsLoading(true);
+    const params = new URLSearchParams();
+    if (from) params.set("from", from);
+    if (to)   params.set("to", to);
+    const qs = params.toString();
+    fetch("/api/admin/item-stats" + (qs ? "?" + qs : ""))
+      .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e)))
+      .then(d => { setItems(d); setItemsLoading(false); })
+      .catch(e => { console.error("항목 통계 로드 실패", e); setItemsLoading(false); });
+  }, [from, to]);
+
+  const applyPreset = (preset) => {
+    const t = todayStr();
+    if (preset === "all")        { setFrom(""); setTo(""); }
+    else if (preset === "today") { setFrom(t); setTo(t); }
+    else if (preset === "7d") {
+      const d = new Date(); d.setDate(d.getDate() - 6);
+      setFrom(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`);
+      setTo(t);
+    } else if (preset === "30d") {
+      const d = new Date(); d.setDate(d.getDate() - 29);
+      setFrom(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`);
+      setTo(t);
+    }
+  };
 
   if (error) return <div style={s.loading}>오류: {error}</div>;
   if (!stats) return <div style={s.loading}>통계 로딩 중...</div>;
@@ -193,14 +227,39 @@ export default function DashboardPage() {
       </div>
 
       {/* 항목별 응답 분포 */}
-      {items && items.frames && (
-        <div style={s.section}>
-          <div style={{ ...s.sectionTitle, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <span>항목별 응답 분포</span>
-            <span style={{ fontSize:12, color:"#94A3B8", fontWeight:400 }}>
-              총 응답 {items.totalResponses.toLocaleString()}건 · 점수 1(전혀 아님) ~ 6(매우 그렇다)
-            </span>
-          </div>
+      <div style={s.section}>
+        <div style={{ ...s.sectionTitle, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:8 }}>
+          <span>항목별 응답 분포</span>
+          <span style={{ fontSize:12, color:"#94A3B8", fontWeight:400 }}>
+            {items ? `총 응답 ${items.totalResponses.toLocaleString()}건` : "로딩 중"} · 점수 1(전혀 아님) ~ 6(매우 그렇다)
+          </span>
+        </div>
+
+        {/* 날짜 필터 */}
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:16, flexWrap:"wrap", fontSize:13 }}>
+          <button onClick={() => applyPreset("all")}
+            style={{ padding:"6px 12px", border:"1px solid #E2E8F0", borderRadius:6, background: (!from && !to) ? "#3B82F6" : "#fff", color: (!from && !to) ? "#fff" : "#475569", cursor:"pointer", fontSize:12 }}>전체</button>
+          <button onClick={() => applyPreset("today")}
+            style={{ padding:"6px 12px", border:"1px solid #E2E8F0", borderRadius:6, background:"#fff", color:"#475569", cursor:"pointer", fontSize:12 }}>오늘</button>
+          <button onClick={() => applyPreset("7d")}
+            style={{ padding:"6px 12px", border:"1px solid #E2E8F0", borderRadius:6, background:"#fff", color:"#475569", cursor:"pointer", fontSize:12 }}>7일</button>
+          <button onClick={() => applyPreset("30d")}
+            style={{ padding:"6px 12px", border:"1px solid #E2E8F0", borderRadius:6, background:"#fff", color:"#475569", cursor:"pointer", fontSize:12 }}>30일</button>
+          <span style={{ color:"#CBD5E1", margin:"0 4px" }}>|</span>
+          <label style={{ color:"#64748B" }}>시작</label>
+          <input type="date" value={from} onChange={e => setFrom(e.target.value)}
+            style={{ padding:"5px 8px", border:"1px solid #E2E8F0", borderRadius:6, fontSize:13, color:"#1E293B" }}/>
+          <label style={{ color:"#64748B" }}>종료</label>
+          <input type="date" value={to} onChange={e => setTo(e.target.value)}
+            style={{ padding:"5px 8px", border:"1px solid #E2E8F0", borderRadius:6, fontSize:13, color:"#1E293B" }}/>
+          {itemsLoading && <span style={{ color:"#94A3B8", fontSize:12 }}>업데이트 중…</span>}
+        </div>
+
+        {!items && <div style={{ color:"#94A3B8", fontSize:13, padding:"20px 0" }}>로딩 중…</div>}
+        {items && items.frames && (<>
+          {items.totalResponses === 0 && (
+            <div style={{ color:"#94A3B8", fontSize:13, padding:"20px 0", textAlign:"center" }}>해당 기간에 응답 없음</div>
+          )}
           {items.frames.map(frame => (
             <div key={frame.id} style={{ marginBottom: 24, paddingBottom: 16, borderBottom: "1px solid #F1F5F9" }}>
               <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
@@ -223,8 +282,8 @@ export default function DashboardPage() {
               ))}
             </div>
           ))}
-        </div>
-      )}
+        </>)}
+      </div>
     </div>
   );
 }
