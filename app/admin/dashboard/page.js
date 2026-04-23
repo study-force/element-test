@@ -37,8 +37,20 @@ const s = {
   doubleGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 24 },
 };
 
+// 극성/키 → 유형 매핑 (힌트 배지용)
+const POLE_COLOR = {
+  이론: "#8B5CF6", 경험: "#F59E0B",
+  실행: "#3B82F6", 사고: "#06B6D4",
+};
+const KEY_COLOR = {
+  이론실행: "#3B82F6", 경험실행: "#F59E0B",
+  이론사고: "#8B5CF6", 경험사고: "#06B6D4",
+};
+const SCORE_COLORS = ["#FEE2E2","#FECACA","#FDE68A","#BBF7D0","#86EFAC","#4ADE80"]; // 1~6
+
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
+  const [items, setItems] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -46,6 +58,10 @@ export default function DashboardPage() {
       .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e)))
       .then(setStats)
       .catch(e => setError(e.error || "통계 로드 실패"));
+    fetch("/api/admin/item-stats")
+      .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e)))
+      .then(setItems)
+      .catch(e => console.error("항목 통계 로드 실패", e));
   }, []);
 
   if (error) return <div style={s.loading}>오류: {error}</div>;
@@ -147,6 +163,86 @@ export default function DashboardPage() {
             <div style={s.barCount}>{count}</div>
           </div>
         ))}
+      </div>
+
+      {/* 항목별 응답 분포 */}
+      {items && items.frames && (
+        <div style={s.section}>
+          <div style={{ ...s.sectionTitle, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <span>항목별 응답 분포</span>
+            <span style={{ fontSize:12, color:"#94A3B8", fontWeight:400 }}>
+              총 응답 {items.totalResponses.toLocaleString()}건 · 점수 1(전혀 아님) ~ 6(매우 그렇다)
+            </span>
+          </div>
+          {items.frames.map(frame => (
+            <div key={frame.id} style={{ marginBottom: 24, paddingBottom: 16, borderBottom: "1px solid #F1F5F9" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
+                <span style={{ fontSize:13, fontWeight:600, color:"#1E293B" }}>
+                  {frame.id} · {frame.theme}
+                </span>
+                {frame.axisType && (
+                  <span style={{ fontSize:11, padding:"2px 8px", background:"#F1F5F9", color:"#475569", borderRadius:4 }}>
+                    축 {frame.axisType}
+                  </span>
+                )}
+                {frame.dimension && (
+                  <span style={{ fontSize:11, padding:"2px 8px", background:"#F1F5F9", color:"#475569", borderRadius:4 }}>
+                    {frame.dimension}
+                  </span>
+                )}
+              </div>
+              {frame.statements.map(stmt => (
+                <ItemRow key={stmt.key} stmt={stmt} />
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ItemRow({ stmt }) {
+  const badgeColor = stmt.pole ? POLE_COLOR[stmt.pole] : KEY_COLOR[stmt.key];
+  const badgeLabel = stmt.pole || stmt.key;
+  const total = stmt.total || 0;
+
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4, flexWrap:"wrap" }}>
+        <span style={{
+          fontSize:11, fontWeight:600, padding:"2px 8px", borderRadius:4,
+          background: badgeColor ? badgeColor+"22" : "#F1F5F9",
+          color: badgeColor || "#64748B",
+          flexShrink:0,
+        }}>{badgeLabel}</span>
+        <span style={{ fontSize:13, color:"#334155", flex:1 }}>{stmt.text}</span>
+        <span style={{ fontSize:12, color:"#64748B", flexShrink:0 }}>
+          평균 <strong style={{ color:"#1E293B" }}>{stmt.avg.toFixed(2)}</strong> · n={total}
+        </span>
+      </div>
+      <div style={{ display:"flex", height: 20, borderRadius: 4, overflow:"hidden", background:"#F8FAFC" }}>
+        {stmt.counts.map((cnt, i) => {
+          const pct = total > 0 ? (cnt / total) * 100 : 0;
+          return (
+            <div
+              key={i}
+              title={`${i+1}점: ${cnt}명 (${pct.toFixed(1)}%)`}
+              style={{
+                width: `${pct}%`,
+                background: SCORE_COLORS[i],
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:10, color:"#1E293B", fontWeight:600,
+                transition:"width 0.4s ease",
+              }}
+            >
+              {pct >= 8 ? cnt : ""}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ display:"flex", justifyContent:"space-between", fontSize:10, color:"#94A3B8", marginTop:2 }}>
+        <span>1점</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6점</span>
       </div>
     </div>
   );
