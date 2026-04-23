@@ -56,18 +56,22 @@ export async function GET(request) {
       gradeCount[g] = (gradeCount[g] || 0) + 1;
     }
 
-    // 컨설턴트별 (user_section)
+    // 학원별 (academy_token) — 실제 학원 vs 내부 토큰 구분
+    const academyCount = {};
+    let internalCount = 0;
+    let emptyCount = 0;
+    for (const r of all) {
+      const a = r.academy_token;
+      if (!a)                             emptyCount++;
+      else if (a.startsWith("sf_internal")) internalCount++;
+      else                                academyCount[a] = (academyCount[a] || 0) + 1;
+    }
+
+    // 레벨 분포 (user_section) — 참고용
     const sectionCount = {};
     for (const r of all) {
       const s = r.user_section || "(미입력)";
       sectionCount[s] = (sectionCount[s] || 0) + 1;
-    }
-
-    // 학원별 (academy_token)
-    const academyCount = {};
-    for (const r of all) {
-      const a = r.academy_token || "(없음)";
-      academyCount[a] = (academyCount[a] || 0) + 1;
     }
 
     // 최근 100건
@@ -90,6 +94,8 @@ export async function GET(request) {
       gradeCount,
       sectionCount,
       academyCount,
+      internalCount,
+      emptyCount,
       recent,
       filter: { from, to },
     });
