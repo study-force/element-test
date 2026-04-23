@@ -53,13 +53,20 @@ CREATE TABLE IF NOT EXISTS element_types_history (
   description_how     TEXT,
   description_caution TEXT,
   tq_desc             TEXT,
-  tq_detail           JSONB,
+  tq_detail           TEXT,
   sort_order          INT,
   op                  TEXT NOT NULL,
   changed_at          TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS idx_eth_changed_at
   ON element_types_history(changed_at DESC);
+
+-- 이전 실행에서 잘못된 타입으로 만들어졌을 경우 보정
+ALTER TABLE element_types_history
+  ALTER COLUMN strengths  TYPE text[] USING NULL,
+  ALTER COLUMN weaknesses TYPE text[] USING NULL;
+ALTER TABLE element_types_history
+  ALTER COLUMN tq_detail  TYPE text   USING NULL;
 
 -- 2) 트리거 함수 -------------------------------------------------
 CREATE OR REPLACE FUNCTION log_element_statements_change()
