@@ -17,12 +17,29 @@ function fmtDateTime(iso) {
   return `${kst.getFullYear()}-${pad(kst.getMonth()+1)}-${pad(kst.getDate())} ${pad(kst.getHours())}:${pad(kst.getMinutes())}`;
 }
 
+const DEFAULT_UNIT_COST = 50; // 원. 검사 1건당 예상 API 비용 (사용자 조정 가능)
+
 export default function TqUsagePage() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [from, setFrom] = useState("");
   const [to, setTo]     = useState("");
+  const [unitCost, setUnitCost] = useState(DEFAULT_UNIT_COST);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 100;
+
+  useEffect(() => { setPage(1); }, [from, to]);
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("tq_unit_cost") : null;
+    if (saved) setUnitCost(Number(saved) || DEFAULT_UNIT_COST);
+  }, []);
+
+  const saveUnitCost = (v) => {
+    setUnitCost(v);
+    if (typeof window !== "undefined") localStorage.setItem("tq_unit_cost", String(v));
+  };
 
   const load = () => {
     setLoading(true); setError(null);
@@ -135,20 +152,35 @@ export default function TqUsagePage() {
       </div>
 
       <div style={S.grid2}>
-        {/* 학원별 사용량 */}
+        {/* API 예상 금액 */}
         <div style={S.section}>
-          <div style={S.sectionTitle}>학원별 사용량 (academy_token)</div>
-          <div style={{ fontSize:12, color:"#94A3B8", marginBottom:12 }}>
-            sf_internal_* 내부 토큰과 미입력 건은 제외
+          <div style={S.sectionTitle}>API 예상 총 금액</div>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16, flexWrap:"wrap" }}>
+            <label style={{ fontSize:13, color:"#64748B" }}>검사 1건당 단가</label>
+            <input
+              type="number" min={0} step={1} value={unitCost}
+              onChange={e => saveUnitCost(Number(e.target.value) || 0)}
+              style={{ width:100, padding:"6px 10px", border:"1px solid #E2E8F0", borderRadius:6, fontSize:13, textAlign:"right" }}
+            />
+            <span style={{ fontSize:13, color:"#64748B" }}>원</span>
           </div>
-          {topAcademies.length === 0 && <div style={S.empty}>데이터 없음</div>}
-          {topAcademies.map(([token, cnt]) => (
-            <div key={token} style={S.barRow}>
-              <div style={S.barLabel} title={token}>{token.length > 18 ? token.slice(0, 16) + "…" : token}</div>
-              <div style={S.barTrack}><div style={S.barFill((cnt/maxAcademy)*100, "#8B5CF6")}/></div>
-              <div style={S.barCount}>{cnt}</div>
-            </div>
-          ))}
+          <div style={{ fontSize:13, color:"#64748B", marginBottom:4 }}>기간 내 검사 {data.totalCount.toLocaleString()}건</div>
+          <div style={{ fontSize:36, fontWeight:700, color:"#8B5CF6", letterSpacing:-0.5 }}>
+            ₩ {(data.totalCount * unitCost).toLocaleString()}
+          </div>
+          <div style={{ fontSize:12, color:"#94A3B8", marginTop:10, lineHeight:1.6 }}>
+            · 단가는 관리자가 조정 (브라우저에 저장)<br/>
+            · 내부(sf_internal_*)·미입력 건도 포함한 전체 호출 기준
+          </div>
+          <hr style={{ border:"none", borderTop:"1px dashed #E2E8F0", margin:"16px 0" }}/>
+          <div style={{ fontSize:12, color:"#64748B", display:"grid", gridTemplateColumns:"1fr auto", rowGap:4, columnGap:12 }}>
+            <span>오늘 ({data.todayCount.toLocaleString()}건)</span>
+            <span style={{ fontFamily:"monospace" }}>₩ {(data.todayCount * unitCost).toLocaleString()}</span>
+            <span>실학원 ({(topAcademies.reduce((s,[,c])=>s+c,0)).toLocaleString()}건)</span>
+            <span style={{ fontFamily:"monospace" }}>₩ {(topAcademies.reduce((s,[,c])=>s+c,0) * unitCost).toLocaleString()}</span>
+            <span>내부+미입력 ({((data.internalCount||0)+(data.emptyCount||0)).toLocaleString()}건)</span>
+            <span style={{ fontFamily:"monospace" }}>₩ {(((data.internalCount||0)+(data.emptyCount||0)) * unitCost).toLocaleString()}</span>
+          </div>
         </div>
 
         {/* 학년 분포 */}
@@ -166,42 +198,81 @@ export default function TqUsagePage() {
       </div>
 
       {/* 최근 검사 */}
-      <div style={S.section}>
-        <div style={S.sectionTitle}>최근 검사 (최대 100건)</div>
-        <div style={{ overflowX:"auto" }}>
-          <table style={S.table}>
-            <thead>
-              <tr>
-                <th style={S.th}>검사일</th>
-                <th style={S.th}>저장일시 (KST)</th>
-                <th style={S.th}>이름</th>
-                <th style={S.th}>학년</th>
-                <th style={S.th}>레벨</th>
-                <th style={S.th}>학원 토큰</th>
-                <th style={S.th}>독해력</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.recent.map(r => (
-                <tr key={r.id} style={S.tr}>
-                  <td style={S.td}>{r.reg_date || "-"}</td>
-                  <td style={{ ...S.td, color:"#64748B", fontSize:12 }}>{fmtDateTime(r.created_at)}</td>
-                  <td style={S.td}>{r.name}</td>
-                  <td style={S.td}>{r.grade}</td>
-                  <td style={S.td}>{r.section || "-"}</td>
-                  <td style={{ ...S.td, fontFamily:"monospace", fontSize:11, color:"#64748B" }}>
-                    {r.academy_token ? (r.academy_token.length > 16 ? r.academy_token.slice(0, 12) + "…" : r.academy_token) : "-"}
-                  </td>
-                  <td style={S.td}>{r.reading_score}</td>
-                </tr>
-              ))}
-              {data.recent.length === 0 && (
-                <tr><td colSpan={7} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {(() => {
+        const total = data.recent.length;
+        const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+        const curPage = Math.min(page, totalPages);
+        const start = (curPage - 1) * PAGE_SIZE;
+        const pageRows = data.recent.slice(start, start + PAGE_SIZE);
+        const goto = (p) => setPage(Math.max(1, Math.min(totalPages, p)));
+        return (
+          <div style={S.section}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+              <div style={{ fontSize:16, fontWeight:600, color:"#1E293B" }}>
+                검사 목록 <span style={{ fontSize:13, color:"#94A3B8", fontWeight:400, marginLeft:6 }}>총 {total.toLocaleString()}건</span>
+              </div>
+              <div style={{ fontSize:12, color:"#64748B" }}>
+                {total === 0 ? "0" : `${(start+1).toLocaleString()}–${Math.min(start+PAGE_SIZE, total).toLocaleString()}`} / {total.toLocaleString()}
+              </div>
+            </div>
+            <div style={{ overflowX:"auto" }}>
+              <table style={S.table}>
+                <thead>
+                  <tr>
+                    <th style={S.th}>검사일</th>
+                    <th style={S.th}>저장일시 (KST)</th>
+                    <th style={S.th}>이름</th>
+                    <th style={S.th}>학년</th>
+                    <th style={S.th}>레벨</th>
+                    <th style={S.th}>학원 토큰</th>
+                    <th style={S.th}>독해력</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pageRows.map(r => (
+                    <tr key={r.id} style={S.tr}>
+                      <td style={S.td}>{r.reg_date || "-"}</td>
+                      <td style={{ ...S.td, color:"#64748B", fontSize:12 }}>{fmtDateTime(r.created_at)}</td>
+                      <td style={S.td}>{r.name}</td>
+                      <td style={S.td}>{r.grade}</td>
+                      <td style={S.td}>{r.section || "-"}</td>
+                      <td style={{ ...S.td, fontFamily:"monospace", fontSize:11, color:"#64748B" }}>
+                        {r.academy_token ? (r.academy_token.length > 16 ? r.academy_token.slice(0, 12) + "…" : r.academy_token) : "-"}
+                      </td>
+                      <td style={S.td}>{r.reading_score}</td>
+                    </tr>
+                  ))}
+                  {pageRows.length === 0 && (
+                    <tr><td colSpan={7} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {totalPages > 1 && (
+              <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:6, marginTop:16 }}>
+                <button onClick={() => goto(1)}          disabled={curPage===1} style={S.pageBtn(false, curPage===1)}>«</button>
+                <button onClick={() => goto(curPage-1)}  disabled={curPage===1} style={S.pageBtn(false, curPage===1)}>‹</button>
+                {(() => {
+                  const nums = [];
+                  const win = 2;
+                  let s = Math.max(1, curPage - win);
+                  let e = Math.min(totalPages, curPage + win);
+                  if (s > 1) nums.push(1, s > 2 ? "…1" : null);
+                  for (let i = s; i <= e; i++) nums.push(i);
+                  if (e < totalPages) nums.push(e < totalPages - 1 ? "…2" : null, totalPages);
+                  return nums.filter(Boolean).map((n, i) =>
+                    typeof n === "number"
+                      ? <button key={i} onClick={() => goto(n)} style={S.pageBtn(n===curPage, false)}>{n}</button>
+                      : <span key={i} style={{ color:"#CBD5E1", padding:"0 4px" }}>…</span>
+                  );
+                })()}
+                <button onClick={() => goto(curPage+1)}  disabled={curPage===totalPages} style={S.pageBtn(false, curPage===totalPages)}>›</button>
+                <button onClick={() => goto(totalPages)} disabled={curPage===totalPages} style={S.pageBtn(false, curPage===totalPages)}>»</button>
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -238,4 +309,13 @@ const S = {
   th: { textAlign:"left", padding:"10px 12px", borderBottom:"1px solid #E2E8F0", color:"#64748B", fontWeight:600, background:"#F8FAFC", whiteSpace:"nowrap" },
   tr: { borderBottom:"1px solid #F1F5F9" },
   td: { padding:"10px 12px", color:"#1E293B", whiteSpace:"nowrap" },
+  pageBtn: (active, disabled) => ({
+    minWidth: 32, height: 32, padding: "0 10px",
+    border: "1px solid " + (active ? "#3B82F6" : "#E2E8F0"),
+    background: active ? "#3B82F6" : "#fff",
+    color: active ? "#fff" : (disabled ? "#CBD5E1" : "#475569"),
+    borderRadius: 6, fontSize: 13, fontWeight: active ? 600 : 400,
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.5 : 1,
+  }),
 };

@@ -49,11 +49,21 @@ export async function GET(request) {
     }
     const dailyTrend = Object.entries(daily).map(([date, count]) => ({ date, count }));
 
-    // 학년 분포
+    // 학년 분포 — user_section(초저/초고/중등 등) + user_school_grade(숫자) 조합
+    const SECTION_LABEL = {
+      "초저": "초등 저학년", "초고": "초등 고학년",
+      "초등": "초등", "중등": "중등", "고등": "고등",
+    };
     const gradeCount = {};
     for (const r of all) {
-      const g = r.user_school_grade || "(미입력)";
-      gradeCount[g] = (gradeCount[g] || 0) + 1;
+      const sec = r.user_section ? (SECTION_LABEL[r.user_section] || r.user_section) : null;
+      const g   = r.user_school_grade;
+      let label;
+      if (sec && g)      label = `${sec} ${g}학년`;
+      else if (sec)      label = sec;
+      else if (g)        label = `${g}학년`;
+      else               label = "(미입력)";
+      gradeCount[label] = (gradeCount[label] || 0) + 1;
     }
 
     // 학원별 (academy_token) — 실제 학원 vs 내부 토큰 구분
@@ -74,8 +84,8 @@ export async function GET(request) {
       sectionCount[s] = (sectionCount[s] || 0) + 1;
     }
 
-    // 최근 100건
-    const recent = all.slice(0, 100).map(r => ({
+    // 최근 검사 (페이징용 — 최대 5000건까지)
+    const recent = all.map(r => ({
       id: r.id,
       name: r.name,
       grade: r.user_school_grade,
