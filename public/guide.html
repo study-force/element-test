@@ -1419,13 +1419,28 @@
   }
 
   /* ── PRINT ──────────────────────────────────────────────────── */
+  @page { size: A4; margin: 8mm; }
   @media print {
+    html, body { width: 210mm; }
     .topnav, .tab-nav, .hero-scroll-hint { display: none !important; }
     .detail-panel { display: grid !important; page-break-after: always; }
     .detail-portrait { position: static; }
-    body { background: #fff; }
+    body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .hero, .axis, footer { background: #fff !important; color: #000 !important; }
     .hero::before, .hero::after { display: none; }
+    /* 인쇄 시 줄바꿈 방지 — 웹뷰와 동일하게 한 줄 유지 */
+    h1, h2, h3, h4,
+    .hero-title, .hero-subtitle, .hero-kicker,
+    .section-title, .section-kicker, .section-lead,
+    .axis-title, .axis-kicker,
+    .detail-title, .detail-kicker, .detail-lead,
+    .reliability-card h3, .reliability-card .kicker,
+    .footer-brand, .footer-meta dt, .footer-meta dd {
+      white-space: nowrap;
+      letter-spacing: -0.02em;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
   }
 
   /* ── RELIABILITY ──────────────────────────────────────────── */
