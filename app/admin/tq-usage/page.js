@@ -7,6 +7,15 @@ function todayStr() {
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
 
+function fmtGrade(section, grade) {
+  const SHORT = { "초저":"초", "초고":"초", "초등":"초", "중등":"중", "고등":"고" };
+  const s = section ? (SHORT[section] || section) : "";
+  if (s && grade) return `${s}${grade}`;
+  if (grade) return `${grade}`;
+  if (s) return s;
+  return "-";
+}
+
 function fmtDateTime(iso) {
   if (!iso) return "-";
   const d = new Date(iso);
@@ -240,7 +249,6 @@ export default function TqUsagePage() {
                     <th style={S.th}>저장일시 (KST)</th>
                     <th style={S.th}>이름</th>
                     <th style={S.th}>학년</th>
-                    <th style={S.th}>레벨</th>
                     <th style={S.th}>학원 토큰</th>
                     <th style={S.th}>독해력</th>
                   </tr>
@@ -252,8 +260,7 @@ export default function TqUsagePage() {
                       <td style={S.td}>{r.reg_date || "-"}</td>
                       <td style={{ ...S.td, color:"#64748B", fontSize:12 }}>{fmtDateTime(r.created_at)}</td>
                       <td style={S.td}>{r.name}</td>
-                      <td style={S.td}>{r.grade}</td>
-                      <td style={S.td}>{r.section || "-"}</td>
+                      <td style={S.td}>{fmtGrade(r.section, r.grade)}</td>
                       <td style={{ ...S.td, fontFamily:"monospace", fontSize:11, color:"#64748B" }}>
                         {r.academy_token ? (r.academy_token.length > 16 ? r.academy_token.slice(0, 12) + "…" : r.academy_token) : "-"}
                       </td>
@@ -261,7 +268,7 @@ export default function TqUsagePage() {
                     </tr>
                   ))}
                   {pageRows.length === 0 && (
-                    <tr><td colSpan={8} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
+                    <tr><td colSpan={7} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
                   )}
                 </tbody>
               </table>
