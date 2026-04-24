@@ -57,9 +57,10 @@ export async function GET(request) {
     const dailyTrend = Object.entries(daily).map(([date, count]) => ({ date, count }));
 
     // 학년 분포 — user_section(초저/초고/중등 등) + user_school_grade(숫자) 조합
+    // 초저/초고/초등은 모두 "초등"으로 통합 (학년 숫자로 구분됨)
     const SECTION_LABEL = {
-      "초저": "초등 저학년", "초고": "초등 고학년",
-      "초등": "초등", "중등": "중등", "고등": "고등",
+      "초저": "초등", "초고": "초등", "초등": "초등",
+      "중등": "중등", "고등": "고등",
     };
     const gradeCount = {};
     for (const r of all) {
