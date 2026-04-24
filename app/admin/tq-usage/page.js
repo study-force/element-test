@@ -89,7 +89,23 @@ export default function TqUsagePage() {
 
   const maxDaily = Math.max(...data.dailyTrend.map(d => d.count), 1);
   const topAcademies = Object.entries(data.academyCount).sort((a,b) => b[1]-a[1]);
-  const gradeRows = Object.entries(data.gradeCount).sort((a,b) => b[1]-a[1]);
+  // 학년 분포 정렬: 섹션 순서(초저→초고→초등→중등→고등→기타→미입력) + 학년 숫자 오름차순
+  const SECTION_ORDER = ["초등 저학년","초등 고학년","초등","중등","고등"];
+  const gradeSortKey = (label) => {
+    if (label === "(미입력)") return [999, 999];
+    const m = label.match(/^(.+?)\s*(\d+)학년$/);
+    if (m) {
+      const idx = SECTION_ORDER.indexOf(m[1]);
+      return [idx === -1 ? 500 : idx, Number(m[2])];
+    }
+    const idx = SECTION_ORDER.indexOf(label);
+    return [idx === -1 ? 500 : idx, 0];
+  };
+  const gradeRows = Object.entries(data.gradeCount).sort((a, b) => {
+    const [sa, ga] = gradeSortKey(a[0]);
+    const [sb, gb] = gradeSortKey(b[0]);
+    return sa - sb || ga - gb;
+  });
   const maxGrade = Math.max(...gradeRows.map(g => g[1]), 1);
   const maxAcademy = Math.max(...topAcademies.map(g => g[1]), 1);
 

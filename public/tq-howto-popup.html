@@ -6,21 +6,32 @@
 <title>TQ 컨설턴트 활용 가이드 팝업 미리보기</title>
 <style>
 body { margin:0; padding:40px 20px; background:rgba(0,0,0,0.6); font-family:'Pretendard','Noto Sans KR',sans-serif; display:flex; align-items:flex-start; justify-content:center; min-height:100vh; }
-.popup_body { width:860px; max-width:95vw; background:#fff; }
+.popup_body { width:1100px; max-width:95vw; background:#fff; }
 .tq-howto-wrap .popup { background:#fff; width:100%; overflow:hidden; position:relative; }
 .tq-howto-wrap .popup-banner { background:linear-gradient(135deg,#1E293B,#0F172A); color:#fff; text-align:center; padding:10px 16px; font-size:13px; font-weight:700; letter-spacing:0.5px; }
 .tq-howto-wrap .popup-header { padding:24px 28px 16px; text-align:center; }
 .tq-howto-wrap .popup-sub { font-size:13px; color:#64748B; margin-top:8px; line-height:1.6; }
 .tq-howto-wrap .popup-title { font-size:24px; font-weight:800; color:#0D1E35; line-height:1.4; }
 .tq-howto-wrap .popup-title span { color:#E11D48; }
-.tq-howto-wrap .use-cases { padding:8px 24px 16px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
-.tq-howto-wrap .use-case { background:#F8FAFC; border-top:3px solid #14B8A6; border-radius:0 0 10px 10px; padding:14px 14px; display:flex; flex-direction:column; }
-@media (max-width: 820px) { .tq-howto-wrap .use-cases { grid-template-columns:1fr; } .tq-howto-wrap .use-case { border-top:none; border-left:3px solid #14B8A6; border-radius:6px 10px 10px 6px; } }
-.tq-howto-wrap .use-case-num { display:inline-block; width:22px; height:22px; line-height:22px; text-align:center; background:#14B8A6; color:#fff; font-size:11px; font-weight:800; border-radius:50%; margin-right:8px; vertical-align:middle; }
-.tq-howto-wrap .use-case-title { display:inline-block; font-size:13px; font-weight:700; color:#0D1E35; vertical-align:middle; line-height:1.4; }
+.tq-howto-wrap .use-cases { padding:4px 24px 16px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.tq-howto-wrap .group { padding:14px 12px 12px; border-radius:12px; border:1px solid #E2E8F0; }
+.tq-howto-wrap .group.group-a { background:#F0FDFA; border-color:#99F6E4; }
+.tq-howto-wrap .group.group-b { background:#FEF3F2; border-color:#FECDD3; }
+.tq-howto-wrap .group-label { display:block; font-size:12px; font-weight:800; margin-bottom:10px; text-align:center; letter-spacing:0.2px; }
+.tq-howto-wrap .group-a .group-label { color:#0F766E; }
+.tq-howto-wrap .group-b .group-label { color:#BE123C; }
+.tq-howto-wrap .group-cards { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.tq-howto-wrap .pro-badge { display:inline-block; padding:3px 9px; background:linear-gradient(135deg,#E11D48,#F43F5E); color:#fff; font-size:9.5px; font-weight:800; border-radius:4px; letter-spacing:0.5px; margin-left:6px; vertical-align:middle; }
+.tq-howto-wrap .use-case { background:#fff; border-top:3px solid #14B8A6; border-radius:0 0 10px 10px; padding:12px 12px; display:flex; flex-direction:column; }
+.tq-howto-wrap .group-b .use-case { border-top-color:#F43F5E; }
+.tq-howto-wrap .group-b .use-case-num { background:#F43F5E; }
+@media (max-width: 820px) { .tq-howto-wrap .use-cases { grid-template-columns:1fr; } .tq-howto-wrap .group-cards { grid-template-columns:1fr; } .tq-howto-wrap .use-case { border-top:none; border-left:3px solid #14B8A6; border-radius:6px 10px 10px 6px; } .tq-howto-wrap .group-b .use-case { border-left-color:#F43F5E; } }
+.tq-howto-wrap .use-case-num { display:inline-block; padding:3px 10px; background:#14B8A6; color:#fff; font-size:10px; font-weight:800; border-radius:4px; letter-spacing:0.5px; margin-bottom:10px; }
+.tq-howto-wrap .use-case-title { display:block; font-size:14px; font-weight:700; color:#0D1E35; line-height:1.45; margin-bottom:2px; }
 .tq-howto-wrap .use-case-desc { font-size:12px; color:#475569; margin-top:8px; line-height:1.6; }
 .tq-howto-wrap .sms-example { margin-top:10px; padding:10px 12px; background:#fff; border:1px dashed #CBD5E1; border-radius:8px; font-size:11.5px; color:#475569; line-height:1.65; flex:1; }
-.tq-howto-wrap .sms-example-label { display:inline-block; font-size:9px; font-weight:800; color:#0F766E; background:#CCFBF1; padding:2px 8px; border-radius:4px; letter-spacing:0.5px; margin-bottom:6px; }
+.tq-howto-wrap .sms-example-label { display:block; font-size:9px; font-weight:800; color:#0F766E; background:#CCFBF1; padding:3px 8px; border-radius:4px; letter-spacing:0.5px; margin-bottom:8px; width:fit-content; }
+.tq-howto-wrap .sms-example-label + br { display:none; }
 .tq-howto-wrap .sms-example strong { color:#0D1E35; }
 .tq-howto-wrap .popup-cta-box { background:linear-gradient(135deg,#1E293B,#0F172A); padding:20px 28px; text-align:center; }
 .tq-howto-wrap .popup-close-bottom { background:#1E293B; padding:8px 16px; text-align:right; }
@@ -36,55 +47,90 @@ body { margin:0; padding:40px 20px; background:rgba(0,0,0,0.6); font-family:'Pre
 
 <!-- 헤더 -->
 <div class="popup-header">
-  <div style="font-size:11px;color:#14B8A6;font-weight:700;letter-spacing:1.5px;margin-bottom:8px;">HOW TO USE</div>
-  <div class="popup-title"><span>학부모와의 소통</span>,<br>이렇게 시작해보세요</div>
+  <div class="popup-title">TQ컨설턴트를 이용해<br><span>학부모와의 소통</span>을 시작하세요!</div>
   <div class="popup-sub">학생의 학습 상태를 함께 점검하는<br>문자 안내 예시를 소개합니다</div>
 </div>
 
 <!-- 활용 예시 -->
 <div class="use-cases">
 
+<!-- 그룹 A: TQ 테스트를 받은 학부모님 -->
+<div class="group group-a">
+  <div class="group-label">✓ TQ 테스트를 받은 학부모님</div>
+  <div class="group-cards">
+
   <!-- Case 1 -->
   <div class="use-case">
-    <span class="use-case-num">1</span>
-    <span class="use-case-title">최근 TQ 테스트를 받으신 학부모님께</span>
+    <div><span class="use-case-num">대상 1</span></div>
+    <div class="use-case-title">최근 TQ 테스트를<br>받은 학부모님</div>
     <div class="use-case-desc">
-      <strong>최근 6개월 이내</strong>에 자녀가 TQ 테스트를 받은 학부모님께 심화 판독 리포트를 무상으로 전해드리며, 자녀의 학습 상태를 함께 점검해주세요.
+      최근 6개월 이내에 자녀가 TQ 테스트를 받은 학부모님께 심화 판독 리포트를 무상으로 전해드리며, 자녀의 학습 상태를 함께 점검해주세요.
     </div>
     <div class="sms-example">
       <div class="sms-example-label">SMS 예시</div>
-      안녕하세요, ○○학원입니다. 지난번 받으셨던 자녀분의 <strong>TQ 독해력 검사</strong>에 대해 <strong>5만원 상당의 심화 판독 리포트를 무상으로</strong> 제공해드립니다. 원하시는 경우에만 판독이 진행되며, 신청 기간은 <strong>4월 30일까지</strong>입니다.<br>
-      ▶ 샘플 리포트: <strong>[샘플 리포트 URL]</strong>
+      ○○이의 독해력 심층분석 결과지를 신청하세요.<br><br>
+      지난번 받으셨던 자녀분의 TQ 테스트에 대해 신청자에 한 해, 5만원 상당의 심화 판독 리포트를 무상으로 제공해드립니다. 리포트는 학습력 전반에 관한 상세분석 내용이며 신청하신 분에 한해서만 리포트가 제공됩니다.<br><br>
+      ▶ 신청 기간: 4월 30일까지<br>
+      ▶ 샘플 리포트: [샘플 리포트 URL]
     </div>
   </div>
 
   <!-- Case 2 -->
   <div class="use-case">
-    <span class="use-case-num">2</span>
-    <span class="use-case-title">최근 입학한 재원생 학부모 안내</span>
+    <div><span class="use-case-num">대상 2</span></div>
+    <div class="use-case-title">최근 입학한<br>재원생 학부모님</div>
     <div class="use-case-desc">
-      상담 때 진행했던 TQ 테스트의 <strong>심화 판독 리포트</strong>를 선물처럼 전하고, <strong>주변 고민 학부모에게도 학습 원인 분석</strong>이 가능함을 자연스럽게 알려주세요.
+      상담 때 진행했던 TQ 테스트의 심화 판독 리포트를 선물처럼 전하고, 주변 고민 학부모에게도 학습 원인 분석이 가능함을 자연스럽게 알려주세요.
     </div>
     <div class="sms-example">
       <div class="sms-example-label">SMS 예시</div>
-      안녕하세요, ○○학원입니다. 일전에 상담 때 진행했던 자녀분의 <strong>TQ 테스트 심화 판독 리포트</strong>를 보내드립니다. 혹시 주변에도 <strong>자녀 학습 문제로 고민하고 계신 분</strong>이 계시다면, 이번 기간 동안 신청해주시면 <strong>원인을 분석해 드리겠습니다.</strong><br>
-      ▶ 리포트 확인: <strong>[리포트 URL]</strong>
+      ○○이의 독해력 심층분석 결과지를 보내드립니다.<br><br>
+      최근 도입된 심화 판독 시스템으로, 상담 때 진행했던 TQ 테스트의 학습력 상세 리포트가 새롭게 제공됩니다. 재원생 학부모님께 먼저 전해드리니, 궁금한 점이 있으시면 언제든 문의해주십시오.<br><br>
+      또한 주변에서 자녀 학습 문제로 고민하고 계신 분이 계시다면, 아래 기간 내에 신청해주시면 그 원인을 분석해 드리겠습니다.<br><br>
+      ▶ 신청 기간: 4월 30일까지<br>
+      ▶ 리포트 [이미지 파일 첨부]
     </div>
   </div>
 
+  </div>
+</div>
+
+<!-- 그룹 B: TQ 테스트를 받지 않은 학부모님 -->
+<div class="group group-b">
+  <div class="group-label">✨ TQ 테스트를 받지 않은 학부모님</div>
+  <div class="group-cards">
+
   <!-- Case 3 -->
   <div class="use-case">
-    <span class="use-case-num">3</span>
-    <span class="use-case-title">중간고사 직후, 중2 이상 학부모 대상</span>
+    <div><span class="use-case-num">대상 3</span></div>
+    <div class="use-case-title">중간고사 직후,<br>중2 이상 학부모님</div>
     <div class="use-case-desc">
-      시험 직후는 <strong>중등 이상 자녀를 둔 학부모님이 학습에 가장 민감한 시기</strong>입니다. 성적과 상관없이 안부로 시작해, 노력이 성과로 연결되지 않는 원인을 점검해보자는 제안을 자연스럽게 전하세요.
+      시험 직후는 중등 이상 자녀를 둔 학부모님이 학습에 가장 민감한 시기입니다. 성적과 상관없이 안부로 시작해, 노력이 성과로 연결되지 않는 원인을 점검해보자는 제안을 자연스럽게 전하세요.
     </div>
     <div class="sms-example">
       <div class="sms-example-label">SMS 예시 · 중2 이상 학부모</div>
-      안녕하세요, ○○학원입니다. 이번 중간고사 자녀분께서 시험은 잘 보셨는지요? 자녀가 <strong>열심히 했는데도 성과가 나지 않는다면, 그건 노력의 문제가 아닙니다.</strong> <strong>공부역량에 결손이 있는지</strong> 반드시 점검해봐야 합니다. 이번 기간 동안 신청해주시면 <strong>심화 판독 리포트로 원인을 분석</strong>해드리겠습니다.<br>
-      ▶ 샘플 리포트: <strong>[샘플 리포트 URL]</strong>
+      안녕하세요, ○○학원입니다. 이번 중간고사 자녀분께서 시험은 잘 보셨는지요? 자녀가 열심히 했는데도 성과가 나지 않는다면, 그건 노력의 문제가 아닙니다. 공부역량에 결손이 있는지 반드시 점검해봐야 합니다. 이번 기간 동안 신청해주시면 심화 판독 리포트로 원인을 분석해드리겠습니다.<br><br>
+      ▶ 샘플 리포트: [샘플 리포트 URL]
     </div>
   </div>
+
+  <!-- Case 4 -->
+  <div class="use-case">
+    <div><span class="use-case-num">대상 4</span><span class="pro-badge">도입학원 전용</span></div>
+    <div class="use-case-title">TQ 테스트를<br>받지 않은 학부모님</div>
+    <div class="use-case-desc">
+      아직 TQ 테스트를 경험하지 않은 학부모님께 학습성향검사와 TQ테스트를 함께 권해보세요. 자녀의 공부 스타일부터 독해역량까지 단계적으로 점검할 수 있습니다.
+    </div>
+    <div class="sms-example">
+      <div class="sms-example-label">SMS 예시</div>
+      안녕하세요, ○○학원입니다. 자녀의 공부 스타일과 독해역량을 정확히 파악하고 싶으시다면, 먼저 3분 학습성향검사로 시작하실 수 있습니다. 이어 TQ테스트로 독해역량을 정밀 진단하면 자녀에게 맞는 학습 방향이 보입니다.<br><br>
+      ▶ 학습성향검사: [학원 전용 URL]<br>
+      ▶ 샘플 리포트: [샘플 리포트 URL]
+    </div>
+  </div>
+
+  </div>
+</div>
 
 </div>
 
