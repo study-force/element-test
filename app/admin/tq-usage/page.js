@@ -235,6 +235,7 @@ export default function TqUsagePage() {
               <table style={S.table}>
                 <thead>
                   <tr>
+                    <th style={S.th}>#</th>
                     <th style={S.th}>검사일</th>
                     <th style={S.th}>저장일시 (KST)</th>
                     <th style={S.th}>이름</th>
@@ -245,8 +246,9 @@ export default function TqUsagePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {pageRows.map(r => (
+                  {pageRows.map((r, i) => (
                     <tr key={r.id} style={S.tr}>
+                      <td style={{ ...S.td, color:"#94A3B8", fontSize:12, fontVariantNumeric:"tabular-nums" }}>{(total - (start + i)).toLocaleString()}</td>
                       <td style={S.td}>{r.reg_date || "-"}</td>
                       <td style={{ ...S.td, color:"#64748B", fontSize:12 }}>{fmtDateTime(r.created_at)}</td>
                       <td style={S.td}>{r.name}</td>
@@ -259,7 +261,7 @@ export default function TqUsagePage() {
                     </tr>
                   ))}
                   {pageRows.length === 0 && (
-                    <tr><td colSpan={7} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
+                    <tr><td colSpan={8} style={{ ...S.td, textAlign:"center", color:"#94A3B8", padding:24 }}>데이터 없음</td></tr>
                   )}
                 </tbody>
               </table>
