@@ -20,10 +20,17 @@ function fmtDateTime(iso) {
   if (!iso) return "-";
   const d = new Date(iso);
   if (isNaN(d)) return iso;
-  const pad = (n) => String(n).padStart(2, "0");
-  // KST 표기
-  const kst = new Date(d.getTime() + (9 * 60 - d.getTimezoneOffset()) * 60000);
-  return `${kst.getFullYear()}-${pad(kst.getMonth()+1)}-${pad(kst.getDate())} ${pad(kst.getHours())}:${pad(kst.getMinutes())}`;
+  // KST(Asia/Seoul) 기준으로 YYYY-MM-DD HH:mm 출력
+  // sv-SE 로케일이 ISO 유사 포맷을 보장
+  try {
+    return new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "Asia/Seoul",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hour12: false,
+    }).format(d).replace("T", " ");
+  } catch {
+    return d.toISOString();
+  }
 }
 
 const DEFAULT_UNIT_COST = 50; // 원. 검사 1건당 예상 API 비용 (사용자 조정 가능)
