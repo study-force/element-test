@@ -12,8 +12,8 @@ const ELEMENT_NAV = [
 
 // 사이드바가 필요한 페이지 (Element 관리)
 const SIDEBAR_PATHS = ["/admin/dashboard", "/admin/questions", "/admin/types", "/admin/history", "/admin/publish"];
-// 사이드바 없이 풀 화면 (TQ, 학원 등)
-const FULLSCREEN_PATHS = ["/admin/tq-rules", "/admin/academy"];
+// 사이드바 없이 풀 화면 (학원 등). TQ 관련 메뉴는 tq 레포(tq.sfcenter.co.kr/admin)로 이전됨
+const FULLSCREEN_PATHS = ["/admin/academy"];
 
 const s = {
   layout: { display: "flex", height: "100vh", overflow: "hidden", background: "#F8F9FA", fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif" },
@@ -30,6 +30,12 @@ const s = {
   logoutBtn: {
     margin: "12px 16px 20px", padding: "10px 0", background: "transparent", border: "1px solid #475569",
     color: "#94A3B8", borderRadius: 8, cursor: "pointer", fontSize: 13, textAlign: "center",
+  },
+  tqNote: {
+    display: "block", margin: "0 16px 8px", padding: "10px 12px",
+    background: "rgba(139, 92, 246, 0.08)", border: "1px solid rgba(139, 92, 246, 0.25)",
+    borderRadius: 8, color: "#CBD5E1", textDecoration: "none", fontSize: 11, lineHeight: 1.6,
+    transition: "background 0.15s",
   },
   main: { flex: 1, padding: "32px 40px", overflowY: "auto", overflowX: "hidden", height: "100vh" },
   mainFull: { flex: 1, overflow: "hidden", height: "100vh" },
@@ -118,6 +124,10 @@ export default function AdminLayout({ children }) {
               </a>
             ))}
           </nav>
+          <a href="https://tq.sfcenter.co.kr/admin" target="_blank" rel="noopener noreferrer" style={s.tqNote}>
+            📘 TQ 관리는 별도 어드민<br/>
+            <span style={{ color: "#A78BFA", fontSize: 11 }}>tq.sfcenter.co.kr/admin →</span>
+          </a>
           <button style={s.logoutBtn} onClick={handleLogout}>로그아웃</button>
         </aside>
         <main style={s.main}>{children}</main>
