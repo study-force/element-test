@@ -12,8 +12,8 @@ const ELEMENT_NAV = [
 
 // 사이드바가 필요한 페이지 (Element 관리)
 const SIDEBAR_PATHS = ["/admin/dashboard", "/admin/questions", "/admin/types", "/admin/history", "/admin/publish"];
-// 사이드바 없이 풀 화면 (TQ, 학원 등)
-const FULLSCREEN_PATHS = ["/admin/tq-rules", "/admin/academy"];
+// 사이드바 없이 풀 화면 (학원 등). TQ 관련 메뉴는 tq 레포(tq.sfcenter.co.kr/admin)로 이전됨
+const FULLSCREEN_PATHS = ["/admin/academy"];
 
 const s = {
   layout: { display: "flex", height: "100vh", overflow: "hidden", background: "#F8F9FA", fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif" },
